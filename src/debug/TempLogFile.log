@@ -1,0 +1,4 @@
+Using path src, main, resources, courses, harvardx-2013-04-07, ER22x, sample-auth_user.sql
+shitList has length 45
+Opened connection to $databaseToUse.$collectionToUse
+Cleaning up MongoCollectionSource(ER22x_2013,sample-auth_user)

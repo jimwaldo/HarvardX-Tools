@@ -1,0 +1,67 @@
+<h1>MongoDB Database for Discussion Forums</h1>
+<p>Discussions in edX are stored in a MongoDB database as collections of JSON documents. The primary collection holding all posts and comments written by users is <code>contents</code>.</p>
+<h2><code>contents</code></h2>
+<p>This is the primary collection for forums data. There are two types of objects stored here, though they share much of the same structure. A <code>CommentThread</code> represents a comment that opens a new thread -- usually a student question of some sort. A <code>Comment</code> is a reply to a <code>CommentThread</code> (so an answer to the question), or a reply to another <code>Comment</code> (a comment about somebody's answer). It used to be the case that <code>Comment</code> replies could nest much more deeply, but we later capped it at just these three levels (question, answer, comment) much in the way that StackOverflow does.</p>
+<h3>Shared Attributes</h3>
+<p>The attributes that <code>Comment</code> and <code>CommentThread</code> objects share are listed below.</p>
+<h4><code>_id</code></h4>
+<p>The 12-byte MongoDB unique ID for this collection. Like all MongoDB IDs, they are monotonically increasing and the first four bytes are a timestamp. </p>
+<h4><code>_type</code></h4>
+<p><code>CommentThread</code> or <code>Comment</code> depending on the type of object.</p>
+<h4><code>anonymous</code></h4>
+<p>If true, this <code>Comment</code> or <code>CommentThread</code> will show up as written by anonymous, even to those who have moderator privileges in the forums.</p>
+<h4><code>anonymous_to_peers</code></h4>
+<p>The idea behind this field was that <code>anonymous_to_peers = true</code> would make the the comment appear anonymous to your fellow students, but would allow the course staff to see who you were. However, that was never implemented in the UI, and only <code>anonymous</code> is actually used. The <code>anonymous_to_peers</code> field is always false.</p>
+<h4><code>at_position_list</code></h4>
+<p>No longer used. Child comments (replies) are just sorted by their <code>created_at</code> timestamp instead. </p>
+<h4><code>author_id</code></h4>
+<p>The user who wrote this. Corresponds to the user IDs we store in our MySQL database as <code>auth_user.id</code></p>
+<h4><code>body</code></h4>
+<p>Text of the comment in Markdown. UTF-8 encoded.</p>
+<h4><code>course_id</code></h4>
+<p>The full course_id of the course that this comment was made in, including org and run. This value can be seen in the URL when browsing the courseware section. Example: <code>BerkeleyX/Stat2.1x/2013_Spring</code></p>
+<h4><code>created_at</code></h4>
+<p>Timestamp in UTC. Example: <code>ISODate("2013-02-21T03:03:04.587Z")</code></p>
+<h4><code>updated_at</code></h4>
+<p>Timestamp in UTC. Example: <code>ISODate("2013-02-21T03:03:04.587Z")</code></p>
+<h4><code>votes</code></h4>
+<p>Both <code>CommentThread</code> and <code>Comment</code> objects support voting. <code>Comment</code> objects that are replies to other comments still have this attribute, even though there is no way to actually vote on them in the UI. This attribute is a dictionary that has the following inside:</p>
+<ul>
+<li><code>up</code> = list of User IDs that up-voted this comment or thread.</li>
+<li><code>down</code> = list of User IDs that down-voted this comment or thread (no longer used).</li>
+<li><code>up_count</code> = total upvotes received.</li>
+<li><code>down_count</code> = total downvotes received (no longer used).</li>
+<li><code>count</code> = total votes cast.</li>
+<li><code>point</code> = net vote, now always equal to <code>up_count</code>.</li>
+</ul>
+<p>A user only has one vote per <code>Comment</code> or <code>CommentThread</code>. Though it's still written to the database, the UI no longer displays an option to downvote anything.</p>
+<h3>CommentThread Attributes</h3>
+<h4><code>closed</code></h4>
+<p>If true, this thread was closed by a forum moderator/admin.</p>
+<h4><code>comment_count</code></h4>
+<p>The number of comment replies in this thread. This includes all replies to replies, but does not include the original comment that started the thread. So if we had:</p>
+<pre><code>CommentThread: &quot;What's a good breakfast?&quot;
+  * Comment: &quot;Just eat cereal!&quot;
+  * Comment: &quot;Try a Loco Moco, it's amazing!&quot;
+    * Comment: &quot;A Loco Moco? Only if you want a heart attack!&quot;
+    * Comment: &quot;But it's worth it! Just get a spam musubi on the side.&quot;
+</code></pre>
+
+<p>In that exchange, the <code>comment_count</code> for the <code>CommentThread</code> is <code>4</code>.</p>
+<h4><code>commentable_id</code></h4>
+<p>We can attach a discussion to any piece of content in the course, or to top level categories like "General" and "Troubleshooting". When the <code>commentable_id</code> is a high level category, it's specified in the course's policy file. When it's a specific content piece (e.g. <code>600x_l5_p8</code>, meaning 6.00x, Lecture Sequence 5, Problem 8), it's taken from a discussion module in the course.</p>
+<h4><code>last_activity_at</code></h4>
+<p>Timestamp in UTC indicating the last time there was activity in the thread (new posts, edits, etc). Closing the thread does not affect the value in this field. </p>
+<h4><code>tags_array</code></h4>
+<p>Meant to be a list of tags that were user definable, but no longer used.</p>
+<h4><code>title</code></h4>
+<p>Title of the thread, UTF-8 string.</p>
+<h3>Comment Attributes</h3>
+<h4><code>endorsed</code></h4>
+<p>Boolean value, true if a forum moderator or instructor has marked that this <code>Comment</code> is a correct answer for whatever question the thread was asking. Exists for <code>Comments</code> that are replies to other <code>Comments</code>, but in that case <code>endorsed</code> is always false because there's no way to endorse such comments through the UI.</p>
+<h4><code>comment_thread_id</code></h4>
+<p>What <code>CommentThread</code> are we a part of? All <code>Comment</code> objects have this.</p>
+<h4><code>parent_id</code></h4>
+<p>The <code>parent_id</code> is the <code>_id</code> of the <code>Comment</code> that this comment was made in reply to. Note that this only occurs in a <code>Comment</code> that is a reply to another <code>Comment</code>; it does not appear in a <code>Comment</code> that is a reply to a <code>CommentThread</code>.</p>
+<h4><code>parent_ids</code></h4>
+<p>The <code>parent_ids</code> attribute appears in all <code>Comment</code> objects, and contains the <code>_id</code> of all ancestor comments. Since the UI now prevents comments from being nested more than one layer deep, it will only ever have at most one element in it. If a <code>Comment</code> has no parent, it's an empty list.</p>

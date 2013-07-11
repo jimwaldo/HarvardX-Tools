@@ -1,0 +1,141 @@
+2013-05-24 17:00:43.77: DEBUG: Using path src, main, resources, courses, harvardx-2013-04-07, ER22x, tingleysampleNOPUSH.sql
+2013-05-24 17:00:46.331: DEBUG: Using path src, main, resources, courses, harvardx-2013-04-07, ER22x, tingleysampleNOPUSH.sql
+2013-05-24 17:01:14.636: DEBUG: Using path src, main, resources, courses, harvardx-2013-04-07, ER22x, tingleysampleNOPUSH.sql
+2013-05-24 17:02:04.207: DEBUG: Using path src, main, resources, courses, harvardx-2013-04-07, ER22x, tingleysampleNOPUSH.sql
+2013-05-24 17:03:51.36: DEBUG: Using path src, main, resources, courses, harvardx-2013-04-07, ER22x, tingleysampleNOPUSH.sql
+2013-05-24 17:04:10.015: DEBUG: Using path src, main, resources, courses, harvardx-2013-04-07, ER22x, tingleysampleNOPUSH.sql
+2013-05-24 17:05:39.408: PROGRAM RUN
+2013-05-24 17:05:39.414: DEBUG: Using path src, main, resources, courses, harvardx-2013-04-07, ER22x, tingleysampleNOPUSH.sql
+2013-05-24 17:09:37.076: PROGRAM RUN
+2013-05-24 17:09:37.081: DEBUG: Using path src, main, resources, courses, harvardx-2013-04-07, ER22x, tingleysampleNOPUSH.sql
+2013-05-24 17:09:37.214: DEBUG: Opened connection to ER22x_2013.tingleysampleNOPUSH
+2013-05-24 17:25:13.917: PROGRAM RUN
+2013-05-24 17:25:13.922: DEBUG: Using path src, main, resources, courses, harvardx-2013-04-07, ER22x, sample-auth_user.sql
+2013-05-24 17:25:14.061: DEBUG: Opened connection to ER22x_2013.sample-auth_user
+2013-05-24 17:54:28.466: PROGRAM RUN
+2013-05-24 17:54:28.571: DEBUG: Using path src, main, resources, courses, harvardx-2013-04-07, ER22x, sample-auth_user.sql
+2013-05-24 17:55:21.132: PROGRAM RUN
+2013-05-24 17:55:21.138: DEBUG: Using path src, main, resources, courses, harvardx-2013-04-07, ER22x, sample-auth_user.sql
+2013-05-24 17:55:21.631: DEBUG: Opened connection to $databaseToUse.$collectionToUse
+2013-05-24 18:05:13.186: PROGRAM RUN
+2013-05-24 18:05:13.209: DEBUG: Using path src, main, resources, courses, harvardx-2013-04-07, ER22x, sample-auth_user.sql
+2013-05-24 18:05:13.557: DEBUG: Opened connection to $databaseToUse.$collectionToUse
+2013-05-24 18:05:14.108: DEBUG: Cleaning up Set(MongoCollectionSource(ER22x_2013,sample-auth_user))
+2013-05-24 18:05:14.108: PROGRAM EXITING
+2013-05-24 20:45:50.325: PROGRAM RUN
+2013-05-24 20:45:50.401: DEBUG: Using path src, main, resources, courses, harvardx-2013-04-07, ER22x, sample-auth_user.sql
+2013-05-24 20:45:51.151: DEBUG: Opened connection to $databaseToUse.$collectionToUse
+2013-05-24 20:45:51.678: DEBUG: Cleaning up Map(MongoCollectionSource(ER22x_2013,sample-auth_user) -> List({ "_id" : { "$oid" : "519fe41944ae06c317ab53d9"} , "id  username  first_name  last_name email password  is_staff  is_active is_superuser  last_login  date_joined status  email_key avatar_type country show_country  date_of_birth interesting_tags  ignored_tags  email_tag_filter_strategy display_tag_filter_strategy consecutive_days_visit_count" : "204800  uraniac     uraniac@rocketmail.com  pbkdf2_sha256$10000$MUaOC3BDUIX0$q5FFfVa+u/vCYD1egQVjSQottaQsdAqoH2MMh/qu5fk= 0 1 0 2013-02-14 03:07:40 2012-08-01 11:31:08 w NULL  n   0 NULL      1 0 0"}, { "_id" : { "$oid" : "519fe41a44ae06c317ab53da"} , "id  username  first_name  last_name email password  is_staff  is_active is_superuser  last_login  date_joined status  email_key avatar_type country show_country  date_of_birth interesting_tags  ignored_tags  email_tag_filter_strategy display_tag_filter_strategy consecutive_days_visit_count" : "11  dormsbee      dave@edx.org  pbkdf2_sha256$10000$1baUmRhqNzrs$+Xmy3l0wltqkZUJSJ/oVo6UR6ct3XjsIx2X+1H9PqkM= 1 1 0 2013-03-13 14:38:13 2012-02-12 23:14:35 w NULL  n   0 NULL      1 0 0"}, { "_id" : { "$oid" : "519fe41a44ae06c317ab53db"} , "id  username  first_name  last_name email password  is_staff  is_active is_superuser  last_login  date_joined status  email_key avatar_type country show_country  date_of_birth interesting_tags  ignored_tags  email_tag_filter_strategy display_tag_filter_strategy consecutive_days_visit_count" : "712272  AdiletGaparov     adilet.gaparov@gmail.com  pbkdf2_sha256$10000$HnrG2nQdnzSI$AqDeSJ/A6QHto0/MaGfHqyEKjQ7mv2aVFrsNtIEPbjE= 0 1 0 2013-03-17 15:05:33 2012-10-23 14:50:30 w NULL  n   0 NULL      1 0 0"}, { "_id" : { "$oid" : "519fe41a44ae06c317ab53dc"} , "id  username  first_name  last_name email password  is_staff  is_active is_superuser  last_login  date_joined status  email_key avatar_type country show_country  date_of_birth interesting_tags  ignored_tags  email_tag_filter_strategy display_tag_filter_strategy consecutive_days_visit_count" : "890570  Starfred      starfreds@gmail.com pbkdf2_sha256$10000$GnuWMLdnNqGs$scgT/QaMCHHKaqRHIq1UKKBp/nsRRll2vt4+Gg3Kj7c= 0 1 0 2012-12-19 15:11:29 2012-12-19 15:11:28   NULL      0 NULL      0 0 0"}, { "_id" : { "$oid" : "519fe41a44ae06c317ab53dd"} , "id  username  first_name  last_name email password  is_staff  is_active is_superuser  last_login  date_joined status  email_key avatar_type country show_country  date_of_birth interesting_tags  ignored_tags  email_tag_filter_strategy display_tag_filter_strategy consecutive_days_visit_count" : "890618  ampofo100     gidampofo@yahoo.com pbkdf2_sha256$10000$Erg0YKXoIbLN$QUD0fw/tapUHIJYIRxl22+1tHnLR9IoKiQKr9j58Diw= 0 1 0 2013-01-13 12:26:18 2012-12-19 15:44:48   NULL      0 NULL      0 0 0"}, { "_id" : { "$oid" : "519fe41a44ae06c317ab53de"} , "id  username  first_name  last_name email password  is_staff  is_active is_superuser  last_login  date_joined status  email_key avatar_type country show_country  date_of_birth interesting_tags  ignored_tags  email_tag_filter_strategy display_tag_filter_strategy consecutive_days_visit_count" : "890623  EdwardZarecor     edward@indeterminate.org  pbkdf2_sha256$10000$UptZfrCx1VsQ$lb+2PekvAiQUI1/vAyu6sZWAsnQbgTrM/0OkNnk5jqk= 0 1 0 2013-01-22 09:50:17 2012-12-19 15:47:32   NULL      0 NULL      0 0 0"}, { "_id" : { "$oid" : "519fe41a44ae06c317ab53df"} , "id  username  first_name  last_name email password  is_staff  is_active is_superuser  last_login  date_joined status  email_key avatar_type country show_country  date_of_birth interesting_tags  ignored_tags  email_tag_filter_strategy display_tag_filter_strategy consecutive_days_visit_count" : "890607  Thisisjustatest     Testing@edx.org pbkdf2_sha256$10000$PcI2AfITS9gW$CV2m0XToswx770UEEknU2ivoXkDwVYW8o6naWonJOgk= 0 0 0 2012-12-19 15:38:50 2012-12-19 15:38:50   NULL      0 NULL      0 0 0"}, { "_id" : { "$oid" : "519fe41a44ae06c317ab53e0"} , "id  username  first_name  last_name email password  is_staff  is_active is_superuser  last_login  date_joined status  email_key avatar_type country show_country  date_of_birth interesting_tags  ignored_tags  email_tag_filter_strategy display_tag_filter_strategy consecutive_days_visit_count" : "187161  Jan89     staggenborg.jan@gmail.com pbkdf2_sha256$10000$4FBTZgUXbOKg$BIpcsrvAwMmb/zgzx0TOLKel3gwRXWYFARaAwYkwybk= 0 1 0 2013-02-14 13:54:15 2012-07-28 13:34:36 w NULL  n   0 NULL      1 0 0"}, { "_id" : { "$oid" : "519fe41a44ae06c317ab53e1"} , "id  username  first_name  last_name email password  is_staff  is_active is_superuser  last_login  date_joined status  email_key avatar_type country show_country  date_of_birth interesting_tags  ignored_tags  email_tag_filter_strategy display_tag_filter_strategy consecutive_days_visit_count" : "398662  Echilas     ronaldinhel@yahoo.com pbkdf2_sha256$10000$Re1dncMSGc58$40W6nEhsouRtIW4k+KtaOnn+gbOleJkNGU6vPKwNTUc= 0 1 0 2013-03-31 22:16:51 2012-09-07 23:26:27 w NULL  n   0 NULL      1 0 0"}))
+2013-05-24 20:45:51.708: PROGRAM EXITING
+2013-05-24 20:46:02.856: PROGRAM RUN
+2013-05-24 20:46:02.862: DEBUG: Using path src, main, resources, courses, harvardx-2013-04-07, ER22x, sample-auth_user.sql
+2013-05-24 20:46:03.025: DEBUG: Opened connection to $databaseToUse.$collectionToUse
+2013-05-24 20:46:03.054: DEBUG: Cleaning up Map(MongoCollectionSource(ER22x_2013,sample-auth_user) -> List({ "_id" : { "$oid" : "519fe41944ae06c317ab53d9"} , "id  username  first_name  last_name email password  is_staff  is_active is_superuser  last_login  date_joined status  email_key avatar_type country show_country  date_of_birth interesting_tags  ignored_tags  email_tag_filter_strategy display_tag_filter_strategy consecutive_days_visit_count" : "204800  uraniac     uraniac@rocketmail.com  pbkdf2_sha256$10000$MUaOC3BDUIX0$q5FFfVa+u/vCYD1egQVjSQottaQsdAqoH2MMh/qu5fk= 0 1 0 2013-02-14 03:07:40 2012-08-01 11:31:08 w NULL  n   0 NULL      1 0 0"}, { "_id" : { "$oid" : "519fe41a44ae06c317ab53da"} , "id  username  first_name  last_name email password  is_staff  is_active is_superuser  last_login  date_joined status  email_key avatar_type country show_country  date_of_birth interesting_tags  ignored_tags  email_tag_filter_strategy display_tag_filter_strategy consecutive_days_visit_count" : "11  dormsbee      dave@edx.org  pbkdf2_sha256$10000$1baUmRhqNzrs$+Xmy3l0wltqkZUJSJ/oVo6UR6ct3XjsIx2X+1H9PqkM= 1 1 0 2013-03-13 14:38:13 2012-02-12 23:14:35 w NULL  n   0 NULL      1 0 0"}, { "_id" : { "$oid" : "519fe41a44ae06c317ab53db"} , "id  username  first_name  last_name email password  is_staff  is_active is_superuser  last_login  date_joined status  email_key avatar_type country show_country  date_of_birth interesting_tags  ignored_tags  email_tag_filter_strategy display_tag_filter_strategy consecutive_days_visit_count" : "712272  AdiletGaparov     adilet.gaparov@gmail.com  pbkdf2_sha256$10000$HnrG2nQdnzSI$AqDeSJ/A6QHto0/MaGfHqyEKjQ7mv2aVFrsNtIEPbjE= 0 1 0 2013-03-17 15:05:33 2012-10-23 14:50:30 w NULL  n   0 NULL      1 0 0"}, { "_id" : { "$oid" : "519fe41a44ae06c317ab53dc"} , "id  username  first_name  last_name email password  is_staff  is_active is_superuser  last_login  date_joined status  email_key avatar_type country show_country  date_of_birth interesting_tags  ignored_tags  email_tag_filter_strategy display_tag_filter_strategy consecutive_days_visit_count" : "890570  Starfred      starfreds@gmail.com pbkdf2_sha256$10000$GnuWMLdnNqGs$scgT/QaMCHHKaqRHIq1UKKBp/nsRRll2vt4+Gg3Kj7c= 0 1 0 2012-12-19 15:11:29 2012-12-19 15:11:28   NULL      0 NULL      0 0 0"}, { "_id" : { "$oid" : "519fe41a44ae06c317ab53dd"} , "id  username  first_name  last_name email password  is_staff  is_active is_superuser  last_login  date_joined status  email_key avatar_type country show_country  date_of_birth interesting_tags  ignored_tags  email_tag_filter_strategy display_tag_filter_strategy consecutive_days_visit_count" : "890618  ampofo100     gidampofo@yahoo.com pbkdf2_sha256$10000$Erg0YKXoIbLN$QUD0fw/tapUHIJYIRxl22+1tHnLR9IoKiQKr9j58Diw= 0 1 0 2013-01-13 12:26:18 2012-12-19 15:44:48   NULL      0 NULL      0 0 0"}, { "_id" : { "$oid" : "519fe41a44ae06c317ab53de"} , "id  username  first_name  last_name email password  is_staff  is_active is_superuser  last_login  date_joined status  email_key avatar_type country show_country  date_of_birth interesting_tags  ignored_tags  email_tag_filter_strategy display_tag_filter_strategy consecutive_days_visit_count" : "890623  EdwardZarecor     edward@indeterminate.org  pbkdf2_sha256$10000$UptZfrCx1VsQ$lb+2PekvAiQUI1/vAyu6sZWAsnQbgTrM/0OkNnk5jqk= 0 1 0 2013-01-22 09:50:17 2012-12-19 15:47:32   NULL      0 NULL      0 0 0"}, { "_id" : { "$oid" : "519fe41a44ae06c317ab53df"} , "id  username  first_name  last_name email password  is_staff  is_active is_superuser  last_login  date_joined status  email_key avatar_type country show_country  date_of_birth interesting_tags  ignored_tags  email_tag_filter_strategy display_tag_filter_strategy consecutive_days_visit_count" : "890607  Thisisjustatest     Testing@edx.org pbkdf2_sha256$10000$PcI2AfITS9gW$CV2m0XToswx770UEEknU2ivoXkDwVYW8o6naWonJOgk= 0 0 0 2012-12-19 15:38:50 2012-12-19 15:38:50   NULL      0 NULL      0 0 0"}, { "_id" : { "$oid" : "519fe41a44ae06c317ab53e0"} , "id  username  first_name  last_name email password  is_staff  is_active is_superuser  last_login  date_joined status  email_key avatar_type country show_country  date_of_birth interesting_tags  ignored_tags  email_tag_filter_strategy display_tag_filter_strategy consecutive_days_visit_count" : "187161  Jan89     staggenborg.jan@gmail.com pbkdf2_sha256$10000$4FBTZgUXbOKg$BIpcsrvAwMmb/zgzx0TOLKel3gwRXWYFARaAwYkwybk= 0 1 0 2013-02-14 13:54:15 2012-07-28 13:34:36 w NULL  n   0 NULL      1 0 0"}, { "_id" : { "$oid" : "519fe41a44ae06c317ab53e1"} , "id  username  first_name  last_name email password  is_staff  is_active is_superuser  last_login  date_joined status  email_key avatar_type country show_country  date_of_birth interesting_tags  ignored_tags  email_tag_filter_strategy display_tag_filter_strategy consecutive_days_visit_count" : "398662  Echilas     ronaldinhel@yahoo.com pbkdf2_sha256$10000$Re1dncMSGc58$40W6nEhsouRtIW4k+KtaOnn+gbOleJkNGU6vPKwNTUc= 0 1 0 2013-03-31 22:16:51 2012-09-07 23:26:27 w NULL  n   0 NULL      1 0 0"}, { "_id" : { "$oid" : "51a009bf44ae8f2745836048"} , "id  username  first_name  last_name email password  is_staff  is_active is_superuser  last_login  date_joined status  email_key avatar_type country show_country  date_of_birth interesting_tags  ignored_tags  email_tag_filter_strategy display_tag_filter_strategy consecutive_days_visit_count" : "204800  uraniac     uraniac@rocketmail.com  pbkdf2_sha256$10000$MUaOC3BDUIX0$q5FFfVa+u/vCYD1egQVjSQottaQsdAqoH2MMh/qu5fk= 0 1 0 2013-02-14 03:07:40 2012-08-01 11:31:08 w NULL  n   0 NULL      1 0 0"}, { "_id" : { "$oid" : "51a009bf44ae8f2745836049"} , "id  username  first_name  last_name email password  is_staff  is_active is_superuser  last_login  date_joined status  email_key avatar_type country show_country  date_of_birth interesting_tags  ignored_tags  email_tag_filter_strategy display_tag_filter_strategy consecutive_days_visit_count" : "11  dormsbee      dave@edx.org  pbkdf2_sha256$10000$1baUmRhqNzrs$+Xmy3l0wltqkZUJSJ/oVo6UR6ct3XjsIx2X+1H9PqkM= 1 1 0 2013-03-13 14:38:13 2012-02-12 23:14:35 w NULL  n   0 NULL      1 0 0"}, { "_id" : { "$oid" : "51a009bf44ae8f274583604a"} , "id  username  first_name  last_name email password  is_staff  is_active is_superuser  last_login  date_joined status  email_key avatar_type country show_country  date_of_birth interesting_tags  ignored_tags  email_tag_filter_strategy display_tag_filter_strategy consecutive_days_visit_count" : "712272  AdiletGaparov     adilet.gaparov@gmail.com  pbkdf2_sha256$10000$HnrG2nQdnzSI$AqDeSJ/A6QHto0/MaGfHqyEKjQ7mv2aVFrsNtIEPbjE= 0 1 0 2013-03-17 15:05:33 2012-10-23 14:50:30 w NULL  n   0 NULL      1 0 0"}, { "_id" : { "$oid" : "51a009bf44ae8f274583604b"} , "id  username  first_name  last_name email password  is_staff  is_active is_superuser  last_login  date_joined status  email_key avatar_type country show_country  date_of_birth interesting_tags  ignored_tags  email_tag_filter_strategy display_tag_filter_strategy consecutive_days_visit_count" : "890570  Starfred      starfreds@gmail.com pbkdf2_sha256$10000$GnuWMLdnNqGs$scgT/QaMCHHKaqRHIq1UKKBp/nsRRll2vt4+Gg3Kj7c= 0 1 0 2012-12-19 15:11:29 2012-12-19 15:11:28   NULL      0 NULL      0 0 0"}, { "_id" : { "$oid" : "51a009bf44ae8f274583604c"} , "id  username  first_name  last_name email password  is_staff  is_active is_superuser  last_login  date_joined status  email_key avatar_type country show_country  date_of_birth interesting_tags  ignored_tags  email_tag_filter_strategy display_tag_filter_strategy consecutive_days_visit_count" : "890618  ampofo100     gidampofo@yahoo.com pbkdf2_sha256$10000$Erg0YKXoIbLN$QUD0fw/tapUHIJYIRxl22+1tHnLR9IoKiQKr9j58Diw= 0 1 0 2013-01-13 12:26:18 2012-12-19 15:44:48   NULL      0 NULL      0 0 0"}, { "_id" : { "$oid" : "51a009bf44ae8f274583604d"} , "id  username  first_name  last_name email password  is_staff  is_active is_superuser  last_login  date_joined status  email_key avatar_type country show_country  date_of_birth interesting_tags  ignored_tags  email_tag_filter_strategy display_tag_filter_strategy consecutive_days_visit_count" : "890623  EdwardZarecor     edward@indeterminate.org  pbkdf2_sha256$10000$UptZfrCx1VsQ$lb+2PekvAiQUI1/vAyu6sZWAsnQbgTrM/0OkNnk5jqk= 0 1 0 2013-01-22 09:50:17 2012-12-19 15:47:32   NULL      0 NULL      0 0 0"}, { "_id" : { "$oid" : "51a009bf44ae8f274583604e"} , "id  username  first_name  last_name email password  is_staff  is_active is_superuser  last_login  date_joined status  email_key avatar_type country show_country  date_of_birth interesting_tags  ignored_tags  email_tag_filter_strategy display_tag_filter_strategy consecutive_days_visit_count" : "890607  Thisisjustatest     Testing@edx.org pbkdf2_sha256$10000$PcI2AfITS9gW$CV2m0XToswx770UEEknU2ivoXkDwVYW8o6naWonJOgk= 0 0 0 2012-12-19 15:38:50 2012-12-19 15:38:50   NULL      0 NULL      0 0 0"}, { "_id" : { "$oid" : "51a009bf44ae8f274583604f"} , "id  username  first_name  last_name email password  is_staff  is_active is_superuser  last_login  date_joined status  email_key avatar_type country show_country  date_of_birth interesting_tags  ignored_tags  email_tag_filter_strategy display_tag_filter_strategy consecutive_days_visit_count" : "187161  Jan89     staggenborg.jan@gmail.com pbkdf2_sha256$10000$4FBTZgUXbOKg$BIpcsrvAwMmb/zgzx0TOLKel3gwRXWYFARaAwYkwybk= 0 1 0 2013-02-14 13:54:15 2012-07-28 13:34:36 w NULL  n   0 NULL      1 0 0"}, { "_id" : { "$oid" : "51a009bf44ae8f2745836050"} , "id  username  first_name  last_name email password  is_staff  is_active is_superuser  last_login  date_joined status  email_key avatar_type country show_country  date_of_birth interesting_tags  ignored_tags  email_tag_filter_strategy display_tag_filter_strategy consecutive_days_visit_count" : "398662  Echilas     ronaldinhel@yahoo.com pbkdf2_sha256$10000$Re1dncMSGc58$40W6nEhsouRtIW4k+KtaOnn+gbOleJkNGU6vPKwNTUc= 0 1 0 2013-03-31 22:16:51 2012-09-07 23:26:27 w NULL  n   0 NULL      1 0 0"}))
+2013-05-24 20:46:03.063: PROGRAM EXITING
+2013-05-24 20:49:35.687: PROGRAM RUN
+2013-05-24 20:49:35.695: DEBUG: Using path src, main, resources, courses, harvardx-2013-04-07, ER22x, sample-auth_user.sql
+2013-05-24 20:49:35.876: DEBUG: shitList has length 27
+2013-05-24 20:49:35.876: DEBUG: Opened connection to $databaseToUse.$collectionToUse
+2013-05-24 20:49:35.913: DEBUG: shitList has length 36
+2013-05-24 20:49:35.93: PROGRAM EXITING
+2013-05-24 20:50:07.649: PROGRAM RUN
+2013-05-24 20:50:07.656: DEBUG: Using path src, main, resources, courses, harvardx-2013-04-07, ER22x, sample-auth_user.sql
+2013-05-24 20:50:07.874: DEBUG: shitList has length 36
+2013-05-24 20:50:07.875: DEBUG: Opened connection to $databaseToUse.$collectionToUse
+2013-05-24 20:50:07.912: PROGRAM EXITING
+2013-05-24 20:50:55.08: PROGRAM RUN
+2013-05-24 20:50:55.087: DEBUG: Using path src, main, resources, courses, harvardx-2013-04-07, ER22x, sample-auth_user.sql
+2013-05-24 20:50:55.261: DEBUG: shitList has length 45
+2013-05-24 20:50:55.262: DEBUG: Opened connection to $databaseToUse.$collectionToUse
+2013-05-24 20:50:55.293: DEBUG: Flashback has length 45
+2013-05-24 20:50:55.301: PROGRAM EXITING
+2013-05-24 20:51:05.562: PROGRAM RUN
+2013-05-24 20:51:05.567: DEBUG: Using path src, main, resources, courses, harvardx-2013-04-07, ER22x, sample-auth_user.sql
+2013-05-24 20:51:06.061: DEBUG: shitList has length 54
+2013-05-24 20:51:06.062: DEBUG: Opened connection to $databaseToUse.$collectionToUse
+2013-05-24 20:51:06.094: DEBUG: Flashback has length 54
+2013-05-24 20:51:06.103: PROGRAM EXITING
+2013-05-24 20:51:37.999: PROGRAM RUN
+2013-05-24 20:51:38.005: DEBUG: Using path src, main, resources, courses, harvardx-2013-04-07, ER22x, sample-auth_user.sql
+2013-05-24 20:51:38.195: DEBUG: shitList has length 63
+2013-05-24 20:51:38.196: DEBUG: Opened connection to $databaseToUse.$collectionToUse
+2013-05-24 20:51:38.259: DEBUG: Flashback has length 63
+2013-05-24 20:51:38.526: PROGRAM EXITING
+2013-05-24 20:51:39.437: PROGRAM RUN
+2013-05-24 20:51:39.442: DEBUG: Using path src, main, resources, courses, harvardx-2013-04-07, ER22x, sample-auth_user.sql
+2013-05-24 20:51:39.625: DEBUG: shitList has length 0
+2013-05-24 20:51:39.625: DEBUG: Opened connection to $databaseToUse.$collectionToUse
+2013-05-24 20:51:39.954: DEBUG: Flashback has length 0
+2013-05-24 20:51:39.964: PROGRAM EXITING
+2013-05-24 20:51:52.393: PROGRAM RUN
+2013-05-24 20:51:52.4: DEBUG: Using path src, main, resources, courses, harvardx-2013-04-07, ER22x, sample-auth_user.sql
+2013-05-24 20:51:52.556: DEBUG: shitList has length 0
+2013-05-24 20:51:52.556: DEBUG: Opened connection to $databaseToUse.$collectionToUse
+2013-05-24 20:51:52.58: DEBUG: Flashback has length 0
+2013-05-24 20:51:52.59: PROGRAM EXITING
+2013-05-24 20:51:53.858: PROGRAM RUN
+2013-05-24 20:51:53.864: DEBUG: Using path src, main, resources, courses, harvardx-2013-04-07, ER22x, sample-auth_user.sql
+2013-05-24 20:51:54.065: DEBUG: shitList has length 9
+2013-05-24 20:51:54.065: DEBUG: Opened connection to $databaseToUse.$collectionToUse
+2013-05-24 20:51:54.093: DEBUG: Flashback has length 9
+2013-05-24 20:51:54.103: PROGRAM EXITING
+2013-05-24 20:54:16.615: PROGRAM RUN
+2013-05-24 20:54:16.62: DEBUG: Using path src, main, resources, courses, harvardx-2013-04-07, ER22x, sample-auth_user.sql
+2013-05-24 20:54:16.791: DEBUG: shitList has length 18
+2013-05-24 20:54:16.791: DEBUG: Opened connection to $databaseToUse.$collectionToUse
+2013-05-24 20:54:16.815: DEBUG: Flashback has length 18
+2013-05-24 20:54:16.863: PROGRAM EXITING
+2013-05-24 20:54:19.186: PROGRAM RUN
+2013-05-24 20:54:19.191: DEBUG: Using path src, main, resources, courses, harvardx-2013-04-07, ER22x, sample-auth_user.sql
+2013-05-24 20:54:19.36: DEBUG: shitList has length 27
+2013-05-24 20:54:19.361: DEBUG: Opened connection to $databaseToUse.$collectionToUse
+2013-05-24 20:54:19.416: DEBUG: Flashback has length 27
+2013-05-24 20:54:19.433: PROGRAM EXITING
+2013-05-24 20:55:08.749: PROGRAM RUN
+2013-05-24 20:55:08.756: DEBUG: Using path src, main, resources, courses, harvardx-2013-04-07, ER22x, sample-auth_user.sql
+2013-05-24 20:55:08.929: DEBUG: shitList has length 36
+2013-05-24 20:55:08.929: DEBUG: Opened connection to $databaseToUse.$collectionToUse
+2013-05-24 20:55:08.954: DEBUG: Flashback has length 36
+2013-05-24 20:55:08.962: DEBUG: Dropped collection has length 45
+2013-05-24 20:55:08.964: PROGRAM EXITING
+2013-05-24 20:56:29.425: PROGRAM RUN
+2013-05-24 20:56:29.43: DEBUG: Using path src, main, resources, courses, harvardx-2013-04-07, ER22x, sample-auth_user.sql
+2013-05-24 20:56:29.596: DEBUG: shitList has length 45
+2013-05-24 20:56:29.596: DEBUG: Opened connection to $databaseToUse.$collectionToUse
+2013-05-24 20:56:29.623: DEBUG: Flashback has length 45
+2013-05-24 20:56:29.631: DEBUG: Dropped collection has length 0
+2013-05-24 20:56:30.091: PROGRAM EXITING
+2013-05-24 20:56:33.682: PROGRAM RUN
+2013-05-24 20:56:33.687: DEBUG: Using path src, main, resources, courses, harvardx-2013-04-07, ER22x, sample-auth_user.sql
+2013-05-24 20:56:33.857: DEBUG: shitList has length 45
+2013-05-24 20:56:33.857: DEBUG: Opened connection to $databaseToUse.$collectionToUse
+2013-05-24 20:56:33.886: DEBUG: Flashback has length 45
+2013-05-24 20:56:33.911: DEBUG: Dropped collection has length 0
+2013-05-24 20:56:33.929: PROGRAM EXITING
+2013-05-24 20:56:35.51: PROGRAM RUN
+2013-05-24 20:56:35.515: DEBUG: Using path src, main, resources, courses, harvardx-2013-04-07, ER22x, sample-auth_user.sql
+2013-05-24 20:56:35.695: DEBUG: shitList has length 45
+2013-05-24 20:56:35.696: DEBUG: Opened connection to $databaseToUse.$collectionToUse
+2013-05-24 20:56:35.724: DEBUG: Flashback has length 45
+2013-05-24 20:56:35.731: DEBUG: Dropped collection has length 0
+2013-05-24 20:56:35.749: PROGRAM EXITING
+2013-05-24 20:57:04.869: PROGRAM RUN
+2013-05-24 20:57:04.875: DEBUG: Using path src, main, resources, courses, harvardx-2013-04-07, ER22x, sample-auth_user.sql
+2013-05-24 20:57:05.044: DEBUG: shitList has length 45
+2013-05-24 20:57:05.044: DEBUG: Opened connection to $databaseToUse.$collectionToUse
+2013-05-24 20:57:05.069: DEBUG: Flashback has length 45
+2013-05-24 20:57:05.08: DEBUG: Dropped collection has length 0
+2013-05-24 20:57:05.127: PROGRAM EXITING
+2013-05-24 20:57:05.873: PROGRAM RUN
+2013-05-24 20:57:05.879: DEBUG: Using path src, main, resources, courses, harvardx-2013-04-07, ER22x, sample-auth_user.sql
+2013-05-24 20:57:06.052: DEBUG: shitList has length 45
+2013-05-24 20:57:06.053: DEBUG: Opened connection to $databaseToUse.$collectionToUse
+2013-05-24 20:57:06.08: DEBUG: Flashback has length 45
+2013-05-24 20:57:06.086: DEBUG: Dropped collection has length 0
+2013-05-24 20:57:06.106: PROGRAM EXITING
+2013-05-24 20:58:29.474: PROGRAM RUN
+2013-05-24 20:58:29.482: DEBUG: Using path src, main, resources, courses, harvardx-2013-04-07, ER22x, sample-auth_user.sql
+2013-05-24 20:58:29.65: DEBUG: shitList has length 45
+2013-05-24 20:58:29.65: DEBUG: Opened connection to $databaseToUse.$collectionToUse
+2013-05-24 20:58:29.665: DEBUG: Cleaning up MongoCollectionSource(ER22x_2013,sample-auth_user)
+2013-05-24 20:58:29.794: PROGRAM EXITING

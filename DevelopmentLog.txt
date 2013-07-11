@@ -1,0 +1,43 @@
+Development log
+3/16
+certificates.py
+	Completed first implementation and documentation of the certificate file
+	
+userprofile.py
+	Removed the lang and loc fields from the profile object. These have not been
+	used or gathered since the prototype of 6.002x. 
+	Added considerable pydoc to the defined functions.
+	Moved to using logging rather than print() for error messages	
+
+3/17
+user.py
+	Removed the unused fields from the user object. It might makes sense to compress
+	the csv files in a separate function that would read in the csv that was created
+	by toCSV to remove these fields. This would require a change in the builddict 
+	function, but would both save space and probably make everything faster.
+	
+course_enrollment.py
+	Created a module containing an object that encapsulates the course enrollment data.
+	This is a simple data file, containing the user id, the course id, and the date of
+	enrollment. There is a function to scrub the csv file, and one to build a dictionary
+	from the csv file. The internal id is not stored in the object.
+	
+convertfiles
+	Added a package convertfiles, which contains the programs used to convert from xml to 
+	csv. Placed toCSV.py, toCSVsmall.py, and xmltocsv.py into this package. Note that
+	eclipse got funky at understanding that these modules now live within the package.
+	
+activity_log
+	Added a package activity_log, containing the programs used to extract and manipulate
+	the log files that contain all of the course activity. Placed combineLogbyTime.py,
+	findEventTypes.py, and splitFiles.py into this package.
+	
+demographics
+	Added a package demographics, containing the programs used to determine the demographics
+	for a course. Moved getenrollmentdata,py, ph207demographcis.py, scrubstudentprofile.py, userprofile.py 
+	to this package. 
+	
+demographics/ph207demographics
+	Changed the name of the program to demographics.py, and added a first parameter that will
+	indicate the name of the course for which the report (and the corresponding file) are
+	prepared.

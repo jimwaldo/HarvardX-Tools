@@ -1,0 +1,13 @@
+Notes
+certificates file:
+	The current edX documentation of the certificates_generatedcertificates
+	file is incorrect. The first id in the file is the user's edX id, and
+	can be used to cross-reference the user with other files; the second is a 
+	sequence number generated for and only meaningful in this file. The documentation
+	reverses these and should be corrected.
+	
+auth_user file:
+	Nearly all of the fields in this file are obsolete. Is there any reason to continue
+	to include these in the file? It complicates the parsing, makes the files larger, and
+	doesn't add any real information. This is also true of the auth_userprofile file,
+	where about a third of the fields are no longer gathered or used
