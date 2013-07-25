@@ -35,7 +35,7 @@ for fname in logList:
             lineDict[ts].append(line)
     inf.close()
 
-outfile = open(classname + 'WeekLog', 'w')
+outfile = open('WeekLog', 'w')
 i = 0
 for d in sorted(iter(lineDict)):
     for l in lineDict[d]:
