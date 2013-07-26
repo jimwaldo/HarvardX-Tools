@@ -26,8 +26,7 @@ class user(object):
     and so are ignored.
      
     '''
-
-
+    
     def __init__(self, id, username,
                  email, is_staff, is_active, is_super,
                  last_l, date_j):
@@ -36,7 +35,6 @@ class user(object):
         
         This constructor creates and initializes the user object, using only the
         fields that are currently active.
-        
         '''
         self.id = id
         self.username = username
@@ -65,6 +63,8 @@ def builddict(f):
     
     retdict = {}
     lineno = 0;
+    #remove the header information from the dictionary
+    f.next()
     for line in f:
         if len(line) != 22:
             print ('bad line length at line' + str(lineno))
@@ -79,10 +79,40 @@ def builddict(f):
         retdict[id] = rec
             
     return retdict
+
+def readdict(fin):
+    '''
+    Reconstruct a user dictionary from an open .csv file previously created by writedict
+    
+    Reads the contents of a csv file containing the dump of a user dictionary, and creates
+    a dictionary containing the user data that is currently active. Input is a csv.reader
+    object. Returns a dictionary, indexed by user id, where each line is a user object.
+    '''
+    retDict = {}
+    fin.next()
+    for id, uname, email, is_staff, is_active, is_super, last_l, date_j in fin:
+        retDict[id] = user(id, uname, email, is_staff, is_active, is_super, 
+                           last_l, date_j)
+    return retDict
+
+def writedict(fout, udict):
+    '''
+    Save a user dictionary to an open .csv file, to be written by readdict
+    
+    Writes the contents of a user dictionary to an open csv file. The file will have
+    a human-readable header placed on it that will need to be skipped on reading.
+    '''
+    fout.writerow(['User id', 'User name', 'email', 'Is Staff', 'Is active', 
+                   'Is superuser', 'Last Log', 'Date joined'])
+    for u in iter(udict):
+        ent = udict[u]
+        fout.writerow([ent.id, ent.username, ent.email, ent.is_staff, ent.is_active, 
+                       ent.is_super, ent.last_l, ent.date_j])
+    
     
 def scrubfile(f1, f2):
     '''
-    Traverse a csv file, copying lines with the right set of entries to a second csv file
+    Traverse a csv file, copying lines with the right number of entries to a second csv file
     
     Parameters:
     --------------

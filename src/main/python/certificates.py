@@ -66,6 +66,8 @@ def builddict(f):
     '''
     retdict = {}
     lineno = 0
+    #skip the header line
+    f.next()
     for row in f:
         lineno += 1
         if (len(row) != 14):
@@ -79,6 +81,39 @@ def builddict(f):
             
     return retdict
 
+def read_dict(fin):
+    '''
+    Reconstructs a certificates dictionary from an open csv file like one written by write_dict
+    
+    Build a dictionary of the same form as builddict, indexed by student id, from an
+    open csv file that contains the contents of such a dictionary that has been previously
+    saved.
+    
+    '''
+    retdict = {}
+    fin.next()
+    for uid, durl, grade, courseid, key, distinction, status, ver_uuid, down_uuid, name, cdate, mdate, ereason in fin:
+        ncert = cert(uid, durl, grade, courseid, key, distinction, status, ver_uuid, down_uuid, name, 
+                     cdate, mdate, ereason )
+        retdict[uid] = ncert
+    return retdict
+
+def write_dict(fout, cdict):
+    '''
+    Write the contents of a certificates dictionary to an opened csv file
+    
+    Write out the contents of a certificates dictionary to a csv file so that it can be
+    reconstructed by read_dict. 
+    '''
+    fout.writerow(['Student id', 'Download URL', 'Grade', 'Course Id', 'Key', 'Distinction', 
+                   'Status', 'Verify UUID', 'Download UUID', 'Name', 'Date Created',
+                   'Date Modified', 'Error Reason'])
+    for c in iter(cdict):
+        oc = cdict[c]
+        fout.writerow([oc.uid, oc.durl, oc.grade, oc.courseid, oc.key, oc.distinction,
+                       oc.status, oc.ver_uuid, oc.down_uuid, oc.name, oc.cdate, oc.mdate,
+                       oc.ereason])
+        
 def scrubfile(f1, f2):
     '''
     Traverse a csv file, copying lines with the right set of entries to a second csv file
