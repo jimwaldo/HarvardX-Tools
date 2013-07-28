@@ -80,6 +80,34 @@ def builddict(f):
             
     return retdict
 
+def readdict(fin):
+    '''
+    Reconstruct a user profile dictionary from an open .csv file previously created by writedict
+    
+    Reads the contents of a csv file containing the dump of a user profile dictionary, and creates
+    a dictionary containing the profile data that is currently active. Input is a csv.reader
+    object. Returns a dictionary, indexed by user id, where each line is a profile object.
+     '''
+    retDict = {}
+    fin.next()
+    for uid, name, gend, maddr, yob, ledu, goal, allowcert in fin:
+        retDict[uid] = profile(uid, name, gend, maddr, yob, ledu, goal, allowcert)
+    return retDict
+
+def writedict(fout, pDict):
+    '''
+    Save a profile dictionary to an open .csv file, to be written by readdict
+    
+    Writes the contents of a user profile dictionary to an open csv file. The file will have
+    a human-readable header placed on it that will need to be skipped on reading.
+    '''
+    fout.writerow(['User id', 'Name', 'Gender', 'Mail address', 'Year of Birth',
+                   'Education level', 'Goal', 'Certificate allowed'])
+    for p in iter(pDict):
+        v = pDict[p]
+        fout.writerow(p, v.name, v.gender, v.maddr, v.yob, v.ledu, v.goal, 
+                      v.allowcert)
+
 def scrubprofile(f1, f2):
     '''
     Scrubs a CSV file of student profile data, removing lines of the wrong size

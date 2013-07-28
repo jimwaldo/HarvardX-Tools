@@ -81,9 +81,9 @@ def builddict(f):
             
     return retdict
 
-def read_dict(fin):
+def readdict(fin):
     '''
-    Reconstructs a certificates dictionary from an open csv file like one written by write_dict
+    Reconstructs a certificates dictionary from an open csv file like one written by writedict
     
     Build a dictionary of the same form as builddict, indexed by student id, from an
     open csv file that contains the contents of such a dictionary that has been previously
@@ -98,12 +98,12 @@ def read_dict(fin):
         retdict[uid] = ncert
     return retdict
 
-def write_dict(fout, cdict):
+def writedict(fout, cdict):
     '''
     Write the contents of a certificates dictionary to an opened csv file
     
     Write out the contents of a certificates dictionary to a csv file so that it can be
-    reconstructed by read_dict. 
+    reconstructed by readdict. 
     '''
     fout.writerow(['Student id', 'Download URL', 'Grade', 'Course Id', 'Key', 'Distinction', 
                    'Status', 'Verify UUID', 'Download UUID', 'Name', 'Date Created',

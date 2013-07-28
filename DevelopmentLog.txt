@@ -41,3 +41,11 @@ demographics/ph207demographics
 	Changed the name of the program to demographics.py, and added a first parameter that will
 	indicate the name of the course for which the report (and the corresponding file) are
 	prepared.
+	
+7/28
+course_enrollment.py, user.py, userprofile.py, certificates.py
+	All modules that deal with basic file types now have a builddict function (taking
+	the data file as supplied by edX and building a dictionary of those fields that
+	are still of interest), a readdict (takes a csv file and reconstructs such a
+	dictionary) and a writedict (takes a csv file and a dictionary, and writes the
+	contents of the dictionary to the file).

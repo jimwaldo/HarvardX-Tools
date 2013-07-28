@@ -66,6 +66,7 @@ def builddict(f):
     #remove the header information from the dictionary
     f.next()
     for line in f:
+        lineno += 1
         if len(line) != 22:
             print ('bad line length at line' + str(lineno))
             print ('expected 22, got ' + str(len(line)))

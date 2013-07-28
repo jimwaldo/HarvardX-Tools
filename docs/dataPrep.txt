@@ -6,7 +6,7 @@ This document describes the procedures used to receive and prepare the data gath
 are in the path of the shell, along with
      Tools/shellscripts
 
-The python scripts have been written against python 2.7.1. The shell scripts assume the tcsh (or csh).
+The python scripts have been written against python 2.7.1, but seem to work fine with python 2.6. The shell scripts assume the tcsh (or csh).
 
 Receipt of Data
 
