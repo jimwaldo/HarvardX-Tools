@@ -1,22 +1,23 @@
 #!/bin/tcsh
 
-mkdir CB22x CS50 CS50x ER22x HLS1x PH207x PH278x SPU27x AI121x AI122x GSE1x HDS1544x HMS214x MCB80x PH201x SW12x SW12SONDx Unknown
+mkdir CB22x-2013_Spring CS50-2012H CS50x-2012 CS50x-2014_T1 ER22x-2013_Spring HLS1x-2013_Spring HLS1Ax-2013_Spring HLS1Bx-2013_Spring HLS1Cx-2013_Spring HLS1Dx-2013_Spring PH207x-2012_Fall PH278x-2013_Spring SPU27x-2013_Oct AI12\.1x-2013_SOND AI12\.2x-2013_SOND GSE1x-2014_JFMA HDS1544\.1x-2013_SOND HMS214x-2013_SOND MCB80\.1x-2013_SOND PH201x-2013_SOND SW12x-2013_Oct SW12x-2013_SOND Unknown
 
-mv prod*/CB22* CB22x
-mv prod*/CS50x* CS50x
-mv prod*/CS50* CS50
-mv prod*/ER22* ER22x
-mv prod*/HLS1* HLS1x
-mv prod*/PH207* PH207x
-mv prod*/PH278* PH278x
-mv prod*/SPU27* SPU27x
-mv prod*/AI121* AI121x
-mv prod*/AI122* AI122x
-mv prod*/GSE1* GSE1x
-mv prod*/HDS1544* HDS1544x
-mv prod*/HMS214* HMS214x
-mv prod*/MCB80* MCB80x
-mv prod*/PH201* PH201x
-mv prod*/SW12SOND* SW12SONDx
-mv prod*/SW12* SW12x
+mv prod*/CB22* CB22x-2013_Spring
+mv prod*/CS50x-2012* CS50x-2012
+mv prod*/CS50-* CS50-2012H
+mv prod*/CS50x-2014 CS50x-2014_T1
+mv prod*/ER22* ER22x-2013_Spring
+mv prod*/HLS1* HLS1x-2013_Spring
+mv prod*/PH207* PH207x-2012_Fall
+mv prod*/PH278* PH278x-2013_Spring
+mv prod*/SPU27* SPU27x-2013-Oct
+mv prod*/AI121* AI12\.1x-2013_SOND
+mv prod*/AI122* AI12\.2x-2013_SOND
+mv prod*/GSE1* GSE1x-2014_JFMA
+mv prod*/HDS1544* HDS1544\.1x-2013_SOND
+mv prod*/HMS214* HMS214x-2013_SOND
+mv prod*/MCB80* MCB80\.1x-2013_SOND
+mv prod*/PH201* PH201x-2013_SOND
+mv prod*/SW12SOND* SW12x-2013_SOND
+mv prod*/SW12* SW12x-2013_Oct
 mv prod*/unknown* Unknown
