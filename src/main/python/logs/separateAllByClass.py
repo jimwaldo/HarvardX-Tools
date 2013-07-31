@@ -11,12 +11,18 @@ name with the server name and ending with a .log extension.
 Note that this will create empty files for classes that have no log entries. These
 are removed as part of the log processing script later in the process.
 
+Also note that there are some hacks to deal with classes that have multiple runs
+that may appear in the same log file. Some of these can be distinguished by the
+log entry, but others have to be placed by default in one class run or another, in
+a fashion that is not currently very well justified by the data.
+
 The program takes as an argument the name of the server that generated the logs.
 '''
 import sys
 import glob
 
-classes = ['AI121x', 'AI122x', 'CB22x', 'CS50x', 'CS50', 'ER22x', 'GSE1x','HLS1', 'HMS214x', 'MCB80x', 'PH201x', 'PH207x', 'PH278x', 'SPU27x', 'SW12SONDx', 'SW12x' ]
+classes = ['AI12.1x', 'AI12.2x', 'CB22x', 'CS50x', 'CS50', 'ER22x', 'GSE1x','HLS1', 
+           'HMS214x', 'MCB80x', 'PH201x', 'PH207x', 'PH278x', 'SPU27x', 'SW12x' ]
 
 def get_log_files():
     fileList = glob.glob('*.log')
@@ -26,27 +32,58 @@ def get_log_files():
 def openOutputFiles(server):
     filedict = {}
     for cname in classes:
-        cdname = cname + '_' + server + '.log'
-        cfile = open(cdname, 'w')
-        filedict[cname] = cfile
+        if cname == 'CS50x':
+            cdname = 'CS50x-2012' + server + '.log'
+            cfile = open(cdname, 'w')
+            filedict[cdname] = cfile
+            cdname = 'CS50x-2014' + server + '.log'
+            cfile = open(cdname, 'w')
+            filedict[cdname] = cfile
+        elif cname == 'SW12x':
+            cdname = 'SW12_Oct' + server + '.log'
+            cfile = open(cdname, 'w')
+            filedict[cdname] = cfile
+            cdname = 'SW12_SOND' + server + '.log'
+            cfile = open(cdname, 'w')
+            filedict[cdname] = cfile
+        else:
+            cdname = cname + '_' + server + '.log'
+            cfile = open(cdname, 'w')
+            filedict[cname] = cfile
+            
     return filedict
 
-serverName = sys.argv[1]
-logList = get_log_files()
+def parse_cname(cname, line):
+    if cname == 'CS50x':
+        if '2012' in line:
+            cname = 'CS50x-2012'
+        else:
+            cname = 'CS50x-2014'
+    elif cname =='SW12x':
+        if '2013_SOND' in line:
+            cname = 'SW12_SOND'
+        else:
+            cname = 'SW12_OCT' 
+    return cname
 
-filedict = openOutputFiles(serverName)
-unknownf = open('unknown'+serverName + '.log', 'w')
+if __name__ == '__main__':
+    serverName = sys.argv[1]
+    logList = get_log_files()
 
-for logName in logList:
-    print logName
-    infile = open(logName, 'r')
-    for line in infile:
-        written = False
-        for cname in classes:
-            if (cname in line):
-                filedict[cname].write(line)
-                written = True
-                break
-        if (not written):
-            unknownf.write(line)
-    infile.close()
+    filedict = openOutputFiles(serverName)
+    unknownf = open('unknown'+serverName + '.log', 'w')
+
+    for logName in logList:
+        print logName
+        infile = open(logName, 'r')
+        for line in infile:
+            written = False
+            for cname in classes:
+                if (cname in line):
+                    cname = parse_cname(cname, line)
+                    filedict[cname].write(line)
+                    written = True
+                    break
+            if (not written):
+                unknownf.write(line)
+        infile.close()
