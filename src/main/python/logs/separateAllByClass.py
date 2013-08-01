@@ -33,37 +33,44 @@ def openOutputFiles(server):
     filedict = {}
     for cname in classes:
         if cname == 'CS50x':
-            cdname = 'CS50x-2012' + server + '.log'
+            cname = 'CS50x-2012'
+            cdname = cname + server + '.log'
             cfile = open(cdname, 'w')
-            filedict[cdname] = cfile
-            cdname = 'CS50x-2014' + server + '.log'
+            filedict[cname] = cfile
+            cname = 'CS50x-2014'
+            cdname = cname + server + '.log'
             cfile = open(cdname, 'w')
-            filedict[cdname] = cfile
+            filedict[cname] = cfile
         elif cname == 'SW12x':
-            cdname = 'SW12_Oct' + server + '.log'
+            cname = 'SW12_Oct'
+            cdname = cname + server + '.log'
             cfile = open(cdname, 'w')
-            filedict[cdname] = cfile
-            cdname = 'SW12_SOND' + server + '.log'
+            filedict[cname] = cfile
+            cname = 'SW12_SOND'
+            cdname = cname + server + '.log'
             cfile = open(cdname, 'w')
-            filedict[cdname] = cfile
+            filedict[cname] = cfile
         else:
             cdname = cname + '_' + server + '.log'
             cfile = open(cdname, 'w')
             filedict[cname] = cfile
-            
+    
+    for f in iter(filedict):
+        print f 
+        
     return filedict
 
 def parse_cname(cname, line):
     if cname == 'CS50x':
-        if '2012' in line:
-            cname = 'CS50x-2012'
-        else:
+        if '2014' in line:
             cname = 'CS50x-2014'
+        else:
+            cname = 'CS50x-2012'
     elif cname =='SW12x':
         if '2013_SOND' in line:
             cname = 'SW12_SOND'
         else:
-            cname = 'SW12_OCT' 
+            cname = 'SW12_Oct' 
     return cname
 
 if __name__ == '__main__':

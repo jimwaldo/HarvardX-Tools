@@ -4,13 +4,13 @@ mkdir CB22x-2013_Spring CS50-2012H CS50x-2012 CS50x-2014_T1 ER22x-2013_Spring HL
 
 mv prod*/CB22* CB22x-2013_Spring
 mv prod*/CS50x-2012* CS50x-2012
-mv prod*/CS50-* CS50-2012H
-mv prod*/CS50x-2014 CS50x-2014_T1
+mv prod*/CS50_* CS50-2012H
+mv prod*/CS50x-2014* CS50x-2014_T1
 mv prod*/ER22* ER22x-2013_Spring
 mv prod*/HLS1* HLS1x-2013_Spring
 mv prod*/PH207* PH207x-2012_Fall
 mv prod*/PH278* PH278x-2013_Spring
-mv prod*/SPU27* SPU27x-2013-Oct
+mv prod*/SPU27* SPU27x-2013_Oct
 mv prod*/AI121* AI12\.1x-2013_SOND
 mv prod*/AI122* AI12\.2x-2013_SOND
 mv prod*/GSE1* GSE1x-2014_JFMA
