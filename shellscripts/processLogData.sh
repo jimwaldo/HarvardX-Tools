@@ -40,7 +40,15 @@ foreach d (*)
 foreach d ([A-U]*)
     cd $d
     buildWeekLog.py
+    mv WeekLog ../../$2/$d/WeekLog
     cd ..
     end
+
+#clean up the log directories, and move the logs to their own directory with the class data
+rm -r [A-U]*
+cd ..
+mv HarvardX $2/Logs
+
+
 
 
