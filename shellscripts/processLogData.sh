@@ -1,4 +1,12 @@
 #!/bin/tcsh
+# Process all of the log data from an edX dump. This script will result in a WeeklyLog for
+# each course, in the course directory, and a Log directory as a sibling of the course
+# directories that will contain the raw files.
+# The script takes two parameters-- the first is the day from which the log entries are
+# to be processed (the first day of the week) in YYYY-MM-DD format, while the second is 
+# the identifier of the week, in YYYY-MM-DD format, generally the timestamp of the log
+# file dump produced by edX (and which tends to be the last day the log files were collected
+# in this dump.
 
 #first, we get rid of any files that have already been processed, passing in the first date of
 #a log that we want to keep as the command to the scripts
@@ -40,7 +48,10 @@ foreach d (*)
 foreach d ([A-U]*)
     cd $d
     buildWeekLog.py
-    mv WeekLog ../../$2/$d/WeekLog
+    if -e WeekLog then
+	if -z WeekLog then rm WeekLog
+	else
+	    mv WeekLog ../../$2/$d/WeekLog
     cd ..
     end
 
