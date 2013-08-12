@@ -38,7 +38,9 @@ rmdir *
 foreach d (*)
     cd $d
     foreach f (*)
-        if -z $f rm $f
+        if (-z $f) then
+	    rm $f
+	endif
 	end
     cd ..
     end
@@ -48,10 +50,13 @@ foreach d (*)
 foreach d ([A-U]*)
     cd $d
     buildWeekLog.py
-    if -e WeekLog then
-	if -z WeekLog then rm WeekLog
+    if (-e WeekLog) then
+	if (-z WeekLog) then 
+	    rm WeekLog
 	else
 	    mv WeekLog ../../$2/$d/WeekLog
+	endif
+    endif
     cd ..
     end
 

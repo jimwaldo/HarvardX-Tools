@@ -21,7 +21,7 @@ The program takes as an argument the name of the server that generated the logs.
 import sys
 import glob
 
-classes = ['AI12.1x', 'AI12.2x', 'CB22x', 'CS50x', 'CS50', 'ER22x', 'GSE1x','HLS1', 
+classes = ['AI12.1x', 'AI12.2x', 'CB22x', 'CB22.1x' 'CS50x', 'CS50', 'ER22x', 'GSE1x','HLS1', 
            'HMS214x', 'MCB80x', 'PH201x', 'PH207x', 'PH278x', 'SPU27x', 'SW12x' ]
 
 def get_log_files():
@@ -55,9 +55,6 @@ def openOutputFiles(server):
             cfile = open(cdname, 'w')
             filedict[cname] = cfile
     
-    for f in iter(filedict):
-        print f 
-        
     return filedict
 
 def parse_cname(cname, line):
@@ -70,7 +67,7 @@ def parse_cname(cname, line):
         if '2013_SOND' in line:
             cname = 'SW12_SOND'
         else:
-            cname = 'SW12_Oct' 
+            cname = 'SW12_Oct'
     return cname
 
 if __name__ == '__main__':
@@ -81,7 +78,6 @@ if __name__ == '__main__':
     unknownf = open('unknown'+serverName + '.log', 'w')
 
     for logName in logList:
-        print logName
         infile = open(logName, 'r')
         for line in infile:
             written = False
