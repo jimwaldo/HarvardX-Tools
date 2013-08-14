@@ -12,10 +12,11 @@ import demographics.userprofile as profile
 import ipGeoloc as geo
 
 class rosterLine(object):
-    def __init__(self, sid, name, uname, cnt, age, ed, gend):
+    def __init__(self, sid, name, uname, maddr, cnt, age, ed, gend):
         self.sid = sid
         self.name = name
         self.uname = uname
+        self.maddr = maddr
         self.cnt = cnt
         self.age = age
         self.ed = ed
@@ -37,6 +38,7 @@ def buildRosterDict(proD, udict, locD):
             cnt = 'id not in loc file'
         if p in udict:
             uname = udict[p].username
+            maddr = udict[p].email
         else:
             uname = 'Not in user file'
         if proD[p].yob.isdigit():
@@ -47,7 +49,7 @@ def buildRosterDict(proD, udict, locD):
         edisc = 'unknown'
         if edu is not None:
             edisc = profile.trans_ledu(edu)
-        rl = rosterLine(p, proD[p].name, uname, cnt, age,
+        rl = rosterLine(p, proD[p].name, uname, maddr, cnt, age,
                     edisc, proD[p].gender)
         rDict[p] = rl
     return rDict
@@ -68,8 +70,8 @@ def readRoster(filein):
     rfile.next()
     retDict = {}
     for l in rfile:
-        [sid, name, uname, cnt, age, edu, gender] = l
-        rl = rosterLine(sid, name, uname, cnt, age, edu, gender)
+        [sid, name, uname, maddr, cnt, age, edu, gender] = l
+        rl = rosterLine(sid, name, uname, maddr, cnt, age, edu, gender)
         retDict[sid] = rl
     ofile.close()
     return retDict
@@ -82,10 +84,10 @@ def writeRoster(rDict, filein):
     '''
     ofile = open(filein, 'w')
     rf = csv.writer(ofile)
-    rf.writerow(['Student ID', 'Name', 'User Name' 'Country', 'Age', 'Education Level', 'Gender'])
+    rf.writerow(['Student ID', 'Name', 'User Name', 'Email', 'Country', 'Age', 'Education Level', 'Gender'])
     for s in iter(rDict):
         wl = rDict[s]
-        rf.writerow([wl.sid, wl.name, wl.uname, wl.cnt, wl.age, wl.ed, wl.gender])
+        rf.writerow([wl.sid, wl.name, wl.uname, wl.maddr, wl.cnt, wl.age, wl.ed, wl.gender])
     ofile.close()
     
 
