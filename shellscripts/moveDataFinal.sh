@@ -17,6 +17,9 @@ foreach d ([C-U]*)
             rm $2/WeekLog
         else
 	    cat $2/WeekLog >>Full_Log.log
+	endif
+    endif
     cd ..
+end
 
 
