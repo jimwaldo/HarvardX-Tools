@@ -8,7 +8,7 @@ mv HarvardX-CS50x-2014* CS50x-2014_T1/
 mv HarvardX-CS50x* CS50x-2012/
 mv HarvardX-CS50-* CS50-2012H/
 mv HarvardX-ER22* ER22x-2013_Spring/
-mv HarvardX-HKS211* HSK211\.1x-3T2013
+mv HarvardX-HKS211* HKS211\.1x-3T2013
 mv HarvardX-HLS1xA-C* HLS1Ax-2013_Spring/
 mv HarvardX-HLS1xB-C* HLS1Bx-2013_Spring/
 mv HarvardX-HLS1xC-C* HLS1Cx-2013_Spring/
