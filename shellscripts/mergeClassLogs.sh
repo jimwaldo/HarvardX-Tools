@@ -10,7 +10,7 @@ mv prod*/CS50x-2012* CS50x-2012
 mv prod*/CS50_* CS50-2012H
 mv prod*/CS50x-2014* CS50x-2014_T1
 mv prod*/ER22* ER22x-2013_Spring
-mv prod*/HSK211.1* HSK211.1x-3T2013
+mv prod*/HKS211.1* HKS211.1x-3T2013
 mv prod*/HLS1* HLS1x-2013_Spring
 mv prod*/PH207* PH207x-2012_Fall
 mv prod*/PH278* PH278x-2013_Spring
