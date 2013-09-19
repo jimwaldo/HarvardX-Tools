@@ -27,7 +27,7 @@ Created on September 18, 2013
 
 import re
 import csv
-import json # ujson faster?
+import json # ujson is faster!
 
 # list manually maintained
 possible_verbs = ["annotation_create"
@@ -180,7 +180,7 @@ re_page_close = re.compile("^page_close$")
 # parameterized by a course axis (for identifying objects)
 # where axis csv line format is as follows:
 # ["index","url_name","category","gformat","start","due","name","path","module_id","data"]
-class Parser:
+class LogParser:
     def __init__(self, axis_csv):
         '''
         An Parser instance is particular to a course. Initialize by passing

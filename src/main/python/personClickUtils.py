@@ -36,6 +36,7 @@ def getAgentInfo(df):
             'os': rec['os']['family'],
             'browser': rec['user_agent']['family']
             })
+
     return df['agent'].apply(getInfo)
 
 def getIPInfo(df, geolitecity_dat):
@@ -96,7 +97,7 @@ def countAnonymousUsers(df, pct=True):
     # When users aren't logged in, logged events don't have usernames.
     # When we don't have usernames, it's harder to do person-level
     # analyses.
-    n_anonymous = len(df[df.actor.notnull()])
+    n_anonymous = len(df[df.actor.isnull()])
     n_total = len(df)
     return float(n_anonymous) / n_total if pct else n_anonymous
 

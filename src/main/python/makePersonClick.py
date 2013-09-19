@@ -40,7 +40,7 @@ have these discarded log items written to a CSV file with these columns:
     username
 
 USAGE:
-    python makePersonClick.py CourseLog.log CourseAxis.csv OutputDataset.csv [OutputDiscards.csv]
+    python makePersonClick.py CourseLog.log CourseAxis.csv OutputDataset.csv [OutputDiscards.csv] [limit]
 
 WARNING: 
 This can be very slow for large log files. Parsing typically runs at a
@@ -69,7 +69,7 @@ def main():
     axis = sys.argv[2]
     output = sys.argv[3]
     discards = sys.argv[4] if len(sys.argv) >= 5 else None
-    limit = sys.argv[5] if len(sys.argv) >= 6 else -1
+    limit = int(sys.argv[5]) if len(sys.argv) >= 6 else -1
 
     makePersonClick(axis, log, output, discards, limit)
 
@@ -78,7 +78,7 @@ def parse_time(time_string):
     return dateutil.parser.parse(str(time_string))
 
 def makePersonClick(axis, log, outpath, outpath_discards=None, limit=-1):
-    parser = tlp.EdxEventParser(axis)
+    parser = tlp.LogParser(axis)
     outcsv = csv.writer(open(outpath, "w"))
     outcsv.writerow(["time", "secs_to_next", "actor", "verb", "object_name", "object_type", "result", "meta", "ip", "event", "event_type", "page", "agent"])
     if outpath_discards is not None: 
@@ -97,7 +97,7 @@ def makePersonClick(axis, log, outpath, outpath_discards=None, limit=-1):
     total_discards = 0
     total_activities = 0
     start_time = datetime.datetime.now()
-    
+
     for line in open(log, "r"):
         if(line_num == limit): break
         line_num += 1
@@ -146,7 +146,6 @@ def makePersonClick(axis, log, outpath, outpath_discards=None, limit=-1):
     print "total_activities: " + str(total_activities)
     print "total_discards: " + str(total_discards)
     print "pct_discarded: " + str(100.0 * total_discards / line_num) + "%"
-    print ""
     print "unique_users: " + str(len(unique_users.keys()))
     print "unique_verbs: " + str(len(unique_verbs.keys()))
     print "possible_verbs: 34"
