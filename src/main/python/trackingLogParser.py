@@ -60,11 +60,16 @@ possible_verbs = ["annotation_create"
                     ,"problem_check"
                     ,"problem_save"
                     ,"problem_view"
+                    ,"problem_show_answer"
                     ,"seq_goto"
                     ,"seq_next"
                     ,"seq_prev"
+                    ,"video_change_speed"
+                    ,"video_hide_transcript"
                     ,"video_pause"
                     ,"video_play"
+                    ,"video_seek"
+                    ,"video_show_transcript"
                     ,"wiki_view"]
 
 # TODO: ADD THESE TO COURSE AXIS (?)
@@ -77,6 +82,8 @@ top_level_tabs = {
     ,"progress" : "Progress"
     ,"notes" : "My Notes"
     ,"open_ended_notifications" : "Open Ended Panel"
+    ,"open_ended_problems" : "Open Ended Problems"
+    ,"peer_grading" : "Peer Grading"
     ,"instructor" : "Instructor"
     ,"about" : "About" # where is this page? (/courses/HarvardX/ER22x/2013_Spring/about)
 
@@ -117,6 +124,10 @@ re_hash = re.compile("[0-9a-f]{24,32}")
 
 re_video_play = re.compile("^play_video$")
 re_video_pause = re.compile("^pause_video$")
+re_video_show_transcript = re.compile("^show_transcript$")
+re_video_hide_transcript = re.compile("^hide_transcript$")
+re_video_change_speed = re.compile("^speed_change_video$")
+re_video_seek = re.compile("^seek_video$")
 
 re_seq_goto = re.compile("^seq_goto$")
 re_seq_next = re.compile("^seq_next$")
@@ -138,6 +149,7 @@ re_wiki_view = re.compile("wiki")
 
 re_annotation_create = re.compile("notes\/api\/annotations$") # see POST for object
 re_book_view = re.compile("notes\/api\/search$") # used in CB22x; not the normal textbook module
+re_book_view_actual = re.compile("^book$")
 
 re_forum_view = re.compile("discussion\/forum$") # view threads
 re_forum_view_user_profile = re.compile("discussion\/forum\/users\/[^/]+$")
@@ -269,6 +281,37 @@ class LogParser:
             except KeyError: m["playback_speed"] = None
             try: m["playback_position_secs"] = e["currentTime"] # sometimes this field is missing
             except KeyError: m["playback_position_secs"] = None
+        elif(re_video_show_transcript.search(event_type) or re_video_hide_transcript.search(event_type)):
+            # event_type: [browser] "show_transcript" or "hide_transcript"
+            # event: '{"id":"i4x-HarvardX-CB22x-video-ffdbfae1bbb34cd9a610c88349c350ec","code":"IWUv8ltEJOs","currentTime":0}'
+            v = "video_show_transcript" if "show_transcript" == event_type else "video_hide_transcript"
+            o = self.__getCoursewareObject(event.split("video-")[1].split("\"")[0])
+            r = None
+            m = {"playback_position_secs": e["currentTime"]}
+        elif(re_video_change_speed.search(event_type)):
+            # event_type: [browser] "speed_change_video"
+            # event: '{"id":"i4x-HarvardX-CB22x-video-a4fc2d96c8354252bb3e405816308828","code":"IERh8MkASDI","current_time":334.4424743652344,"old_speed":"1.50","new_speed":"1.0"}'
+            v = "video_change_speed"
+            o = self.__getCoursewareObject(event.split("video-")[1].split("\"")[0])
+            r = None
+            m = {
+                "youtube_id": e["code"],
+                "playback_position_secs": e["currentTime"],
+                "new_playback_speed": e["new_speed"],
+                "old_playback_speed": e["old_speed"]
+            }
+        elif(re_video_seek.search(event_type)):
+            # event_type: [browser] "seek_video"
+            # event: '{"id":"i4x-HarvardX-CB22x-video-2b509bcac67b49f9bcc51b85072dcef0","code":"Ct_M-_bP81k","old_time":641.696984,"new_time":709,"type":"onSlideSeek"}'
+            v = "video_seek"
+            o = self.__getCoursewareObject(event.split("video-")[1].split("\"")[0])
+            r = None
+            m = {
+                "youtube_id": e["code"],
+                "new_playback_position_secs": e["new_time"],
+                "old_playback_position_secs": e["old_time"],
+                "type": e["type"]
+            }
 
         ### SEQUENTIAL ###
         # TODO: give better names to the meta 'new' and 'old' fields (currently just ints)
@@ -335,7 +378,11 @@ class LogParser:
             r = "success" if event_type.split("problem_")[1] == "save" else "fail"
             m = None
         elif(re_problem_show_answer.search(event_type)):
-            v = "problem_view"
+            # when a user clicks 'Show Answer', three events are logged...
+            # event_type: [browser] "problem_show"
+            # event_type: [server] "/courses/HarvardX/CB22x/2013_Spring/modx/i4x://HarvardX/CB22x/problem/2a3fe3442faf4c5ab644768bdad794de/problem_show" <-- we use this
+            # event_type: [server] "showanswer" or "show_answer"
+            v = "problem_show_answer"
             o = self.__getCoursewareObject(event.split("problem/")[1].split("'")[0])
             r = None
             m = None
@@ -386,7 +433,6 @@ class LogParser:
             m = None
 
         ### BOOK ###
-        # TODO: add support for PH207x PDF book (unable to test)
         elif(re_book_view.search(event_type)):
             # we infer book view events from the annotation module, which logs the following every page load:
             # event_type: [server] "/courses/HarvardX/CB22x/2013_Spring/notes/api/search"
@@ -404,6 +450,16 @@ class LogParser:
             }
             r = None
             m = None
+        elif(re_book_view_actual.search(event_type)):
+            # event_type: [browser] book
+            # event: '{"type":"gotopage","old":2,"new":249}' or '{"type":"nextpage","new":3}'
+            v = "book_view"
+            o = {
+                "object_type" : "book_page",
+                "object_name" : e["new"]
+            }
+            r = None
+            m = {e["type"]}
 
         ### FORUM - TOP LEVEL ###
         # TODO: clean this mess up!!
@@ -637,11 +693,13 @@ class LogParser:
         elif(re_page_close.search(event_type)):
             # TODO: how reliable are page_close events within edX and across browsers?
             # page: https://courses.edx.org/courses/HarvardX/CB22x/2013_Spring/courseware/74a6ab26887c474eae8a8632600d9618/7b1ef88acd3743eb922d82781a2371cc/
+            # or sometimes: 'https://www.edx.org/courses/HarvardX/CB22x/2013_Spring/courseware/69569a7536674a3c87d9675ddb48f100/a038464de48d45de8d8032c9b6382508/#'
             v = "page_close"
             try: path = page.split("courseware")[1]
             except IndexError:
                 # print "page_close IndexError: " + page
                 return None # usually: https://courses.edx.org/courses/HarvardX/ER22x/2013_Spring/discussion/forum
+            if(len(path) > 0 and path[-1] == "#"): path = path[:-1]
             if(len(path) > 0 and path[-1] == "/"): path = path[:-1]
             try: o_name = self.axis_path_to_courseware_name[path]
             except KeyError: return None # page is noise b/c not in axis
