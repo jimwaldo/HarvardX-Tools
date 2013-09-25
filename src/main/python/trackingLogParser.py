@@ -296,7 +296,7 @@ class LogParser:
             r = None
             m = {
                 "youtube_id": e["code"],
-                "playback_position_secs": e["currentTime"],
+                "playback_position_secs": e["current_time"], # note "current_time" is different than "currentTime"!
                 "new_playback_speed": e["new_speed"],
                 "old_playback_speed": e["old_speed"]
             }
