@@ -53,7 +53,7 @@ def readList(inf):
     return cl
 
 if __name__ == '__main__':
-    if len(sys.argv) > 0:
+    if len(sys.argv) > 1:
         os.chdir(sys.argv[1])
     flist = glob.glob('*.mongo')
     clist = reduceName(flist)
