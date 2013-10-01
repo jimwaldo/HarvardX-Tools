@@ -26,7 +26,10 @@ def reduceName(flist):
     '''
     clist = []
     for f in flist:
-        clist.append(f[9: -6])
+        if 'HarvardX-' in f:
+            clist.append(f[9: -6])
+        else:
+            clist.append(f[ :-6])
     return clist
 
 def writeList(of, cl):
