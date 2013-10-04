@@ -148,7 +148,7 @@ def makePersonClick(axis, log, outpath, outpath_discards=None, limit=-1):
     print "pct_discarded: " + str(100.0 * total_discards / line_num) + "%"
     print "unique_users: " + str(len(unique_users.keys()))
     print "unique_verbs: " + str(len(unique_verbs.keys()))
-    print "possible_verbs: 34"
+    print "possible_verbs: " + str(len(tlp.possible_verbs))
     print "verbs_not_found: " 
     for v in tlp.possible_verbs:
         if v not in unique_verbs.keys():
