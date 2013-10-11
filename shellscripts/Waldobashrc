@@ -1,0 +1,27 @@
+# .bashrc
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+
+# User specific aliases and functions
+
+#
+# Umask examples. Uncomment the '## umask' lines to change
+#
+# Default (022) gives read and execute access to the group and others
+## umask 022
+
+# Closed to others (027) gives read and execute access to the group and nothing to others
+## umask 027
+
+# Closed to group *and* others (077) gives nothing to group and others
+## umaks 077
+
+# Open (002) giving all access to the group and read and execute access to others
+# 
+# Please make sure this is what you want: you will be giving group members write access.
+#
+## umask 002
+
