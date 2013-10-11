@@ -21,7 +21,7 @@ The program takes as an argument the name of the server that generated the logs.
 import sys
 import glob
 
-classes = ['AI12.1x', 'AI12.2x', 'CB22x', 'CB22.1x' 'CS50x', 'CS50', 'ER22x', 'GSE1x', 'HKS211.1',
+classes = ['AI12.1x', 'AI12.2x', 'CB22.1x', 'CB22x', 'CS50x', 'CS50', 'ER22x', 'GSE1x', 'HKS211.1',
            'HLS1','HMS214x', 'MCB80x', 'PH201x', 'PH207x', 'PH278x', 'SPU27x', 'SW12x' ]
 
 def get_log_files():
