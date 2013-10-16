@@ -109,7 +109,8 @@ def main():
             idDupOut.write([u, dupIdDict[u]])
     else:
         print("No duplicate ids found")
-    
+
 if __name__ == '__main__':
     main()
 
+    
