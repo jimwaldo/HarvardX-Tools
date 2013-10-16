@@ -22,6 +22,12 @@ import glob
 import csv
 import user
 
+def addDup(inDict, key, oval, nval):
+    if key in inDict:
+        inDict[key].append(nval)
+    else:
+        inDict[key]= [oval, nval]
+        
 def readId2Name(fin):
     '''
     Reconstruct a global id=>username dictionary from an open csv file
@@ -54,14 +60,22 @@ if __name__ == '__main__':
     ulist = glob.glob('*/*/users.csv')
     idDict = {}
     nameDict = {}
+    dupNameDict = {}
+    dupIdDict = {}
 
     for fname in ulist:
         fin = open(fname, 'r')
         fcsv = csv.reader(fin)
         udict = user.builddict(fcsv)
         for u in iter(udict):
-            idDict[u] = udict[u].username
-            nameDict[udict[u].username] = u
+            if u not in idDict:
+                idDict[u] = udict[u].username
+            elif idDict[u] != udict[u].username:
+                addDup(dupNameDict, u, idDict[u], udict[u].username)
+            if udict[u].username not in nameDict:   
+                nameDict[udict[u].username] = u
+            elif nameDict[udict[u].username] != u:
+                addDup(dupIdDict, udict[u].username, nameDict[udict[u].username], u)
     fin.close()
     
     idOut = csv.writer(open('globalid2name.csv', 'w'))
@@ -69,7 +83,23 @@ if __name__ == '__main__':
     for i in iter(idDict):
         idOut.writerow([i, idDict[i]])
     
+    
     nameOut = csv.writer(open('globalname2id.csv', 'w'))
     nameOut.writerow(['User Name', 'User ID'])
     for n in iter(nameDict):
         nameOut.writerow([n, nameDict[n]])
+
+    if len(dupNameDict) > 0:
+        nameDupOut = csv.writer(open('nameDups.csv', 'w'))
+        for u in iter(dupNameDict):
+            nameDupOut.writerow[u, dupNameDict[u]]
+    else:
+        print("No duplicate names found")       
+        
+    if len(dupIdDict) > 0:
+        idDupOut = csv.writer(open('idDups.csv', 'w'))
+        for u in iter(dupIdDict):
+            idDupOut.write([u, dupIdDict[u]])
+    else:
+        print("No duplicate ids found")
+    
