@@ -10,6 +10,13 @@ users.csv file will only be listed once. The result is written to a pair of file
 dictionary) and globalname2id.csv (for the username=> id dictionary). Note that each of these files is written with a
 first-line header that should be discarded if the files are read for processing.
 
+During the construction of the global maps, the function will also look for duplicate mappings
+from id to name or from name to id, and will construct a dictionary for each that will be
+keyed by the item with multiple mappings and have as value a list of the mappings. If no
+duplicates are found, a message to that effect will be printed to the console at the end of 
+the run; if any are found they are written to a .csv file in the directory in which the
+program was run (nameDups.csv or idDups.csv)
+
 The file also contains a pair of methods that can be used to reconstruct the
 dictionaries from the files.
 

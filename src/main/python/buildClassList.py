@@ -15,9 +15,9 @@ def reduceName(flist):
     
     This routine takes the file names supplied by edX and returns a
     list of classes that can be used to isolate the data files by
-    course. The current algorithm simply removes the 'HarvardX-'
+    course. The current algorithm simply removes the known institutional
     prefix, and the '.mongo' extension; it assumes that it is fed 
-    only the results of the an operation that will give examplars
+    only the results of the an operation that will give exemplars
     of the *.mongo files supplied. 
     
     This is something of a hack. As we continue to talk with edX 
@@ -25,11 +25,30 @@ def reduceName(flist):
     that will require change.
     '''
     clist = []
+    postSlice = -6
+    preSlice = 0
     for f in flist:
         if 'HarvardX-' in f:
-            clist.append(f[9: -6])
+            preSlice = 9
+        elif 'Harvardx-' in f:
+            preSlice = 9
+        elif 'HarvardKennedySchool' in f:
+            preSlice = 21
+        elif 'Harvard_DCE' in f:
+            preSlice = 12
+        elif 'Harvard-' in f:
+            preSlice = 8
+        elif 'Harvard_' in f:
+            preSlice = 8
+        elif 'HARVARD-' in f:
+            preSlice = 8
+        elif 'HarvardUniversityNoSpaces-' in f:
+            preSlice = 26
+        elif 'HarvardUniversityResearchX-' in f:
+            preSlice = 27
         else:
-            clist.append(f[ :-6])
+            preSlice = 0
+        clist.append(f[preSlice:postSlice])
     return clist
 
 def writeList(of, cl):
@@ -60,6 +79,6 @@ if __name__ == '__main__':
         os.chdir(sys.argv[1])
     flist = glob.glob('*.mongo')
     clist = reduceName(flist)
-    ofile = open('WeeklyClassList', 'w')
+    ofile = open('weeklyClassList', 'w')
     writeList(ofile, clist)
     

@@ -18,6 +18,7 @@ import glob
 import buildClassList
 import os
 import shutil
+import convertfiles.sqltocsv as conv
 
 
 def makeDestName(fileName):
@@ -68,11 +69,18 @@ def moveFiles(forCourse, flist):
      
 
 if __name__ == '__main__':
-    classList = buildClassList.readList(open('WeeklyClassList', 'r'))
+    classList = buildClassList.readList(open('weeklyClassList', 'r'))
     for c in classList:
         os.mkdir(c)
         if 'edge' not in c:
             flist = glob.glob('*' + c + '*')
             moveFiles(c, flist)
+            
+    convertList = glob.glob('*/*.sql')
+    for c in convertList:
+        print 'Converting file', c
+        toBuild = c[:-3] + 'csv'
+        conv.convertFile(c, toBuild)
+        
         
  
