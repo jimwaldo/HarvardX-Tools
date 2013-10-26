@@ -21,11 +21,15 @@ The program takes as an argument the name of the server that generated the logs.
 import sys
 import glob
 
-classes = ['AI12.1x', 'AI12.2x', 'CB22.1x', 'CB22x', 'CS50x', 'CS50', 'ER22x', 'GSE1x', 'HKS211.1',
-           'HLS1','HMS214x', 'MCB80x', 'PH201x', 'PH207x', 'PH278x', 'SPU27x', 'SW12x' ]
+classes = ['AI12.1x', 'AI12.2x', 'CB22.1x', 
+           'CB22x', 'CS50x', 'CS50', 'ER22x', 
+           'GSE1x', 'HKS211.1x', 'HDS1544',
+           'HLS1','HMS214x', 'MCB80.1x', 
+           'PH201x', 'PH207x', 'PH278x', 
+           'HS221', 'SPU17x', 'SPU27x', 'SPU27X', 'SW12x' ]
 
 def get_log_files():
-    fileList = glob.glob('*.log')
+    fileList = glob.glob('*HarvardX.log')
     fileList.sort()
     return fileList
 
