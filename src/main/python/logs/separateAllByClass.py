@@ -23,11 +23,22 @@ import glob
 
 classes = ['AI12.1x', 'AI12.2x', 'CB22.1x', 
            'CB22x', 'CS50x', 'CS50', 'ER22x', 
-           'GSE1x', 'HKS211.1x', 'HDS1544',
-           'HLS1','HMS214x', 'MCB80.1x', 
-           'PH201x', 'PH207x', 'PH278x', 
-           'HS221', 'SPU17x', 'SPU27x', 'SPU27X', 'SW12x' ]
+           'GSE1x', 'HKS211.1x','HKS_211', 'HDS1544',
+           'HLS1','HMS214x', 'ITCx', 'MCB80.1x', 
+           'PH201x', 'PH207x', 'PH278x', 'PH278X',
+           'HS221', 'SPU17x', 'SPU27x', 'SPU27X', 'SW12', ]
 
+class fileOut(object):
+    
+    def __init__(self, fname):
+        self.fname = fname
+        self.fout = None
+        
+    def write(self, st):
+        if self.fout == None:
+            self.fout = open(self.fname, 'w')
+        self.fout.write(st)
+        
 def get_log_files():
     fileList = glob.glob('*HarvardX.log')
     fileList.sort()
@@ -39,24 +50,28 @@ def openOutputFiles(server):
         if cname == 'CS50x':
             cname = 'CS50x-2012'
             cdname = cname + server + '.log'
-            cfile = open(cdname, 'w')
+            cfile = fileOut(cdname)
             filedict[cname] = cfile
             cname = 'CS50x-2014'
             cdname = cname + server + '.log'
-            cfile = open(cdname, 'w')
+            cfile = fileOut(cdname)
             filedict[cname] = cfile
-        elif cname == 'SW12x':
+        elif cname == 'SW12':
             cname = 'SW12_Oct'
             cdname = cname + server + '.log'
-            cfile = open(cdname, 'w')
+            cfile = fileOut(cdname)
             filedict[cname] = cfile
             cname = 'SW12_SOND'
             cdname = cname + server + '.log'
-            cfile = open(cdname, 'w')
+            cfile = fileOut(cdname)
             filedict[cname] = cfile
+        elif cname == 'HKS_211':
+            filedict[cname] = filedict['HKS211.1x']
+        elif cname == 'PH278X':
+            filedict[cname] = filedict['PH278x']
         else:
             cdname = cname + '_' + server + '.log'
-            cfile = open(cdname, 'w')
+            cfile = fileOut(cdname)
             filedict[cname] = cfile
     
     return filedict
@@ -67,7 +82,7 @@ def parse_cname(cname, line):
             cname = 'CS50x-2014'
         else:
             cname = 'CS50x-2012'
-    elif cname =='SW12x':
+    elif cname =='SW12':
         if '2013_SOND' in line:
             cname = 'SW12_SOND'
         else:
