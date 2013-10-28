@@ -42,6 +42,12 @@ def makeDestName(fileName):
         retName = 'users.sql'
     elif 'courseenrollment' in fileName:
         retName = 'enrollment.sql' 
+    elif 'user_id_map' in fileName:
+        retName = 'user_id_map.sql'
+    elif 'course_structure' in fileName:
+        retName = 'course_structure.json'
+    elif 'course' in fileName and 'xml.tar.gz' in fileName:
+        retName = 'course.xml.tar.gz'
     else:
         retName = fileName
     return retName
@@ -65,6 +71,7 @@ def moveFiles(forCourse, flist):
             destdir += '-edge'
         destname = makeDestName(f)
         dest = destdir + '/' + destname
+        print 'about to move', f, 'to', dest
         os.rename(f, dest)
      
 
@@ -72,6 +79,7 @@ if __name__ == '__main__':
     classList = buildClassList.readList(open('weeklyClassList', 'r'))
     for c in classList:
         os.mkdir(c)
+        os.mkdir(c + '-edge')
         if 'edge' not in c:
             flist = glob.glob('*' + c + '*')
             moveFiles(c, flist)

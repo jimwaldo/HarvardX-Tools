@@ -9,9 +9,9 @@ import os
 import glob
 
 killList = ['wiki',
-            'xml.gpg',
             'colin',
             'Colin',
+            'Dummy',
             'test',
             'Test',
             'Dogs',

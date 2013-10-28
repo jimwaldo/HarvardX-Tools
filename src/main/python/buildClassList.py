@@ -25,7 +25,7 @@ def reduceName(flist):
     that will require change.
     '''
     clist = []
-    postSlice = -6
+    postSlice = -11
     preSlice = 0
     for f in flist:
         if 'HarvardX-' in f:
@@ -48,7 +48,9 @@ def reduceName(flist):
             preSlice = 27
         else:
             preSlice = 0
-        clist.append(f[preSlice:postSlice])
+        cname = f[preSlice:postSlice]
+        if cname not in clist:
+            clist.append(f[preSlice:postSlice])
     return clist
 
 def writeList(of, cl):
