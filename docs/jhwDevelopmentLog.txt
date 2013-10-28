@@ -1,4 +1,17 @@
 Development log
+10/26
+It would be useful to know what groups are not being categorized by the separateAllByClass.py
+program. Reading through the unknown*.log for each directory can help, but is pretty
+tedious. So I've written a quick script, distillUnknownLabels, that will show the event_type 
+field for all of the uncategorized. This should be run from the directory above the one that
+contains all of the log files, and will aggregate all of the unknown files in a single list, 
+with counts for the number of events.
+
+The program separateAllByClass.py also created files for all of the classes, not just those that
+had a log entry. I made a change so that there is now a fileOut object that will only create
+a file when there is a log entry to write. I also set it up so that different variations of the
+name for the same class will write to the same log file.
+
 10/25
 Working on re-parsing and re-separating the log files. It isn't clear that there is
 as simple naming convention that is followed both by the naming of the data files and
