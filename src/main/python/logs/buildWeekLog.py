@@ -15,32 +15,56 @@ weeks log files are in the directory, they will all be combined.
 '''
 
 import json
-import os
+import glob
 
-lineDict = {}
-dc = json.JSONDecoder()
+classes = ['AI12.1x', 'AI12.2x', 'CB22.1x', 
+           'CB22x', 'CS50x', 'CS50', 'ER22x', 
+           'GSE1x', 'HKS211.1x','HKS_211', 'HDS1544',
+           'HLS1','HMS214x', 'ITCx', 'MCB80.1x', 
+           'PH201x', 'PH207x', 'PH278x', 'PH278X',
+           'HS221', 'SPU17x', 'SPU27x', 'SPU27X', 'SW12', ]
 
-dirname = os.getcwd()
-classname = dirname[dirname.rindex('/')+1:]
-logList = os.listdir(dirname)
+def combineLogs(className, logFiles):
+    lineDict = {}
+    dc = json.JSONDecoder()
+    for fname in logFiles:
+        inf = open(fname, 'r')
+        for line in inf:
+            dcl = dc.decode(line)
+            ts = dcl['time']
+            if ts not in lineDict:
+                lineDict[ts] = [line]
+            else:
+                lineDict[ts].append(line)
+        inf.close()
+    return lineDict
 
-for fname in logList:
-    inf = open(fname, 'r')
-    for line in inf:
-        dcl = dc.decode(line)
-        ts = dcl['time']
-        if ts not in lineDict:
-            lineDict[ts] = [line]
+def writeCombLog(fname, log):
+    i = 0
+    if len(log) < 1:
+        print 'Nothing to write for log', fname
+        return
+    outfile = open(fname, 'w')
+    for d in sorted(iter(log)):
+        for l in log[d]:
+            i += 1
+            outfile.write(l)
+    print 'wrote', str(i), 'lines to output file', fname
+    outfile.close()
+
+for cl in classes:
+    edgeLogs = []
+    prodLogs = []
+    logFiles = glob.glob('*/' + cl + '*')
+    for f in logFiles:
+        if 'edge' in f:
+            edgeLogs.append(f)
         else:
-            lineDict[ts].append(line)
-    inf.close()
+            prodLogs.append(f)
+    edgeDict = combineLogs(cl, edgeLogs)
+    prodDict = combineLogs(cl, prodLogs)
+    writeCombLog(cl + 'edge.log', edgeDict)
+    writeCombLog(cl + 'prod.log', prodDict)
 
-outfile = open('WeekLog', 'w')
-i = 0
-for d in sorted(iter(lineDict)):
-    for l in lineDict[d]:
-        i += 1
-        outfile.write(l)
-        
-print 'wrote ' + str(i) + ' lines to output file'
-outfile.close()
+
+
