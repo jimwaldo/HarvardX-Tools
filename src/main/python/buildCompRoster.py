@@ -25,16 +25,10 @@ import demographics.userprofile as prof
 import ipGeoloc as geo
 import user
 
-
-if __name__ == '__main__':
-    if len(sys.argv) > 1:
-        locname = sys.argv[1]
-    else:
-        locname = utils.getFileName('Enter name of the id=>location file :')
-    
+def main(locname, relLoc="./"):
     csv.field_size_limit(sys.maxsize)
     locD = geo.readIdToLoc(locname)
-    flist = glob.glob('20*')
+    flist = glob.glob(relLoc + '20*')
     fname = flist.pop()
     fin = csv.reader(open(fname + '/profiles.csv', 'r'))
     pDict = prof.builddict(fin)
@@ -52,5 +46,13 @@ if __name__ == '__main__':
             if i not in fullR:
                 fullR[i] = addR[i]
     
-    outname = 'FullRoster.csv'
+    outname = relLoc + 'FullRoster.csv'
     bcr.writeRoster(fullR, outname)
+
+if __name__ == '__main__':
+    if len(sys.argv) > 1:
+        locname = sys.argv[1]
+    else:
+        locname = utils.getFileName('Enter name of the id=>location file :')
+   
+    main(locname)
