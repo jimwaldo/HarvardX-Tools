@@ -63,6 +63,17 @@ def readName2Id(fin):
         retDict[name] = iden
     return retDict
 
+def buildMaps(udict, idDict, nameDict, dupNameDict, dupIdDict):
+    for u in iter(udict):
+        if u not in idDict:
+            idDict[u] = udict[u].username
+        elif idDict[u] != udict[u].username:
+            addDup(dupNameDict, u, idDict[u], udict[u].username)
+        if udict[u].username not in nameDict:   
+            nameDict[udict[u].username] = u
+        elif nameDict[udict[u].username] != u:
+            addDup(dupIdDict, udict[u].username, nameDict[udict[u].username], u)
+
 def main():
     ulist = glob.glob('*/*/users.csv')
     idDict = {}
@@ -74,15 +85,7 @@ def main():
         fin = open(fname, 'r')
         fcsv = csv.reader(fin)
         udict = user.builddict(fcsv)
-        for u in iter(udict):
-            if u not in idDict:
-                idDict[u] = udict[u].username
-            elif idDict[u] != udict[u].username:
-                addDup(dupNameDict, u, idDict[u], udict[u].username)
-            if udict[u].username not in nameDict:   
-                nameDict[udict[u].username] = u
-            elif nameDict[udict[u].username] != u:
-                addDup(dupIdDict, udict[u].username, nameDict[udict[u].username], u)
+        buildMaps(udict, idDict, nameDict, dupNameDict, dupIdDict)
     fin.close()
     
     idOut = csv.writer(open('globalid2name.csv', 'w'))
