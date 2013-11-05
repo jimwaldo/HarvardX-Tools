@@ -63,7 +63,7 @@ def readName2Id(fin):
         retDict[name] = iden
     return retDict
 
-if __name__ == '__main__':
+def main():
     ulist = glob.glob('*/*/users.csv')
     idDict = {}
     nameDict = {}
@@ -109,4 +109,8 @@ if __name__ == '__main__':
             idDupOut.write([u, dupIdDict[u]])
     else:
         print("No duplicate ids found")
+
+if __name__ == '__main__':
+    main()
+
     

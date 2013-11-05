@@ -52,19 +52,20 @@ def writeCombLog(fname, log):
     print 'wrote', str(i), 'lines to output file', fname
     outfile.close()
 
-for cl in classes:
-    edgeLogs = []
-    prodLogs = []
-    logFiles = glob.glob('*/' + cl + '*')
-    for f in logFiles:
-        if 'edge' in f:
-            edgeLogs.append(f)
-        else:
-            prodLogs.append(f)
-    edgeDict = combineLogs(cl, edgeLogs)
-    prodDict = combineLogs(cl, prodLogs)
-    writeCombLog(cl + 'edge.log', edgeDict)
-    writeCombLog(cl + 'prod.log', prodDict)
+if __name__ == '""main__':
+    for cl in classes:
+        edgeLogs = []
+        prodLogs = []
+        logFiles = glob.glob('*/' + cl + '*')
+        for f in logFiles:
+            if 'edge' in f:
+                edgeLogs.append(f)
+            else:
+                prodLogs.append(f)
+        edgeDict = combineLogs(cl, edgeLogs)
+        prodDict = combineLogs(cl, prodLogs)
+        writeCombLog(cl + 'edge.log', edgeDict)
+        writeCombLog(cl + 'prod.log', prodDict)
 
 
 
