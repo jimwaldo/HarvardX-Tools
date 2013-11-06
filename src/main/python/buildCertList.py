@@ -3,8 +3,10 @@
 Builds a dictionary of all of the certificates a user has been
 considered for, indexed by the user id.
 
-It is run in a directory which has all of the courses. Each course
-directory should have a particular date dump
+It is given a directory which has all of the courses. Each course
+directory should have at least one date dump
+
+Writes a FullCertList.json file to the given directory
 
 Created on October 11, 2013
 
@@ -12,13 +14,23 @@ Created on October 11, 2013
 '''
 
 import certificates
-from certificates import cert
+from certificates import cert, CertEncoder
 import csv
 import sys
 import glob
+import json
 
 
 def processCerts(dir):
+    '''
+    Construct a dictionary of certificate recipients for a course,
+    given the directory of the certificates.csv file
+
+    Parameters
+    -----------
+    dir: A string corresponding to the directory of the certificates.csv
+    '''
+
     try:
         f = open(dir+"/certificates.csv", 'r')
     except IOError:
@@ -31,6 +43,15 @@ def processCerts(dir):
 
 
 def mergeCertDicts(dict1, dict2):
+    '''
+    Take two dictionaries and merge them. Combines values with the
+    same key as a list
+
+    Parameters
+    -----------
+    dict1, dict2: dictionaries to be merged
+    '''
+
     for key in dict2:
         if key in dict1:
             obj1 = dict1[key]
@@ -75,17 +96,10 @@ def main():
             allCourseCerts.update(certDict)
 
         mergeCertDicts(allCerts, allCourseCerts)
-        print "%s: %d " % (dir, len(allCourseCerts))
 
-    print len(allCerts)
-    ct = 0
+    outfile = open(indir + "/" + "FullCertList.json", 'w')
+    outfile.write(json.dumps(allCerts, cls=CertEncoder))
 
-    for key in allCerts:
-        if not isinstance(allCerts[key], cert):
-            if len(allCerts[key]) == 5:
-                ct += 1
-
-    print "Students in all 5: %d" % ct
 
 if __name__ == '__main__':
     main()
