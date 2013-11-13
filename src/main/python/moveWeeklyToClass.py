@@ -49,7 +49,13 @@ def main():
         for course_file_name in src_files:
             src = os.path.join(cwd, course_name, course_file_name)
             dst = os.path.join(dst_dir, course_name, new_dir_name)
-
+            
+            #if there is no directory for this course, make one
+            if (not os.path.isdir(os.path.join(dst_dir, course_name))):
+                try:
+                    os.mkdir(os.path.join(dst_dir, course_name))
+                except OSError as err: pass
+                
             # make new week dir if necessary
             if(not os.path.isdir(dst)): 
                 try: os.mkdir(dst)

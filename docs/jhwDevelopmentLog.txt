@@ -1,4 +1,10 @@
 Development log
+11/13
+(A number of updates have not been logged)
+
+Changed moveWeeklyToClass to create a course directory if the directory does not already
+exist. This will allow new classes to be added without manual intervention.
+
 10/26
 It would be useful to know what groups are not being categorized by the separateAllByClass.py
 program. Reading through the unknown*.log for each directory can help, but is pretty
