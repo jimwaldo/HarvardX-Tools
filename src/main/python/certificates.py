@@ -13,6 +13,7 @@ Created on Feb 20, 2013
 '''
 import convertfiles.xmltocsv
 import logging
+import json
 
 class cert(object):
     '''
@@ -33,7 +34,7 @@ class cert(object):
         '''
         self.uid = uid
         self.download_url = durl
-        self.grade = grade,
+        self.grade = grade
         self.courseid = courseid
         self.key = key
         self.distinction = distinction
@@ -44,8 +45,46 @@ class cert(object):
         self.cdate = cdate
         self.mdate = mdate
         self.error_reason = ereason
+
+
+class CertEncoder(json.JSONEncoder):
+    '''
+    Extends the default JSONEncoder to allow for json.dumps() to work on
+    cert objects.
+
+    By default, it will simply return a dictionary containing all the member
+    variables of the cert and their values
+    '''
+    
+    def default(self, obj):
+        '''
+        Default encoder
+        '''
         
-        
+        if isinstance(obj, cert):
+            return obj.__dict__
+
+        return json.JSONEncoder.default(self, obj)
+
+
+def decodeCertJSON(dict):
+    '''
+    Decodes the JSON dictionary corresponding to a certificate
+
+    Use with json.load(file, object_hook=decodeCertJSON) or
+    json.loads(string, object_hook=decodeCertJSON)
+
+    Parameters
+    -----------
+    dict: dictionary of certificate attributes
+    '''
+    
+    if "uid" in dict:
+        return cert(*dict)
+
+    return dict
+
+
 def builddict(f):
     '''
     Construct a dictionary of certificate recipients, keyed by the id of the recipient
@@ -81,6 +120,7 @@ def builddict(f):
             
     return retdict
 
+
 def readdict(fin):
     '''
     Reconstructs a certificates dictionary from an open csv file like one written by writedict
@@ -98,6 +138,7 @@ def readdict(fin):
         retdict[uid] = ncert
     return retdict
 
+
 def writedict(fout, cdict):
     '''
     Write the contents of a certificates dictionary to an opened csv file
@@ -113,7 +154,8 @@ def writedict(fout, cdict):
         fout.writerow([oc.uid, oc.durl, oc.grade, oc.courseid, oc.key, oc.distinction,
                        oc.status, oc.ver_uuid, oc.down_uuid, oc.name, oc.cdate, oc.mdate,
                        oc.ereason])
-        
+
+
 def scrubfile(f1, f2):
     '''
     Traverse a csv file, copying lines with the right set of entries to a second csv file
