@@ -16,6 +16,7 @@ def split(name):
     return [first, last]
 
 if __name__ == '__main__':
+    csv.field_size_limit(sys.maxsize)
     ufile = csv.reader(open('users.csv','r'))
     udict = user.builddict(ufile)
     pfile = csv.reader(open('profiles.csv', 'r'))
