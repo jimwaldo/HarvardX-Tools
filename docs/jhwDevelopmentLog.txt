@@ -1,4 +1,9 @@
 Development log
+11/14
+Wrote a script that will generate a .csv file that lists first name, last name, and email
+address. This can be run in any directory that includes a users.csv and profiles.csv. This
+is more for the courses themselves rather than the research work; Peter Bol was saying that
+he needs this for his course and that edX has said that they can't supply it (sigh...)
 11/13
 (A number of updates have not been logged)
 
