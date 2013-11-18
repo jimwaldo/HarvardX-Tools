@@ -24,46 +24,13 @@ rmdir *
 foreach d (prod*)
     cd $d
     uncompAndDecrypt.sh
-    separateAllByClass.py $d
+    separateLogsByClass.py $d
     cd ..
     end
 
-#Make directories for each of the current classes, and move the logs for that class to the directory
-#Get rid of any empty directories
+#Build a log for the week for each of the classes, writing the log to the current directory
+buildWeekLog.py
 
-mergeClassLogs.sh
-rmdir *
-
-#Get rid of any empty files, and any empty directories
-foreach d (*)
-    cd $d
-    foreach f (*)
-        if (-z $f) then
-	    rm $f
-	endif
-	end
-    cd ..
-    end
-    rmdir *
-
-#go into each of the class directories, and build a full log for that week
-foreach d ([A-U]*)
-    cd $d
-    buildWeekLog.py
-    if (-e WeekLog) then
-	if (-z WeekLog) then 
-	    rm WeekLog
-	else
-	    mv WeekLog ../../$2/$d/WeekLog
-	endif
-    endif
-    cd ..
-    end
-
-#clean up the log directories, and move the logs to their own directory with the class data
-rm -r [A-U]*
-cd ..
-mv HarvardX $2/Logs
 
 
 

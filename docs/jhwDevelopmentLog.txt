@@ -1,4 +1,12 @@
 Development log
+11/18
+Added a bunch of courses to the kill list in killListedFiles.py. This is from information 
+gleaned from the HarvardX folks. I hope that all of these really are dummy courses; we will
+find out as the researchers take a look.
+
+Fixed a bug in the logging code that didn't separate some of the different instances of
+courses from each other.
+
 11/14
 Wrote a script that will generate a .csv file that lists first name, last name, and email
 address. This can be run in any directory that includes a users.csv and profiles.csv. This

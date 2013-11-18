@@ -37,6 +37,7 @@ class fileOut(object):
     def write(self, st):
         if self.fout == None:
             self.fout = open(self.fname, 'w')
+            print 'opening file named', self.fname
         self.fout.write(st)
         
 def get_log_files():
@@ -78,7 +79,7 @@ def openOutputFiles(server):
 
 def parse_cname(cname, line):
     if cname == 'CS50x':
-        if '2014' in line:
+        if 'CS50x/2014' in line:
             cname = 'CS50x-2014'
         else:
             cname = 'CS50x-2012'
