@@ -26,7 +26,7 @@ classes = ['AI12.1x', 'AI12.2x', 'CB22.1x',
            'GSE1x', 'HKS211.1x','HKS_211', 'HDS1544',
            'HLS1','HMS214x', 'ITCx', 'MCB80.1x', 
            'PH201x', 'PH207x', 'PH278x', 'PH278X',
-           'HS221', 'SPU17x', 'SPU27x', 'SPU27X', 'SW12' ]
+           'HS221', 'SPU17x', 'SPU27x','spu27', 'SPU27X', 'SW12', 'SW-12' ]
 
 class fileOut(object):
     

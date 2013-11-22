@@ -1,4 +1,8 @@
 Development log
+11/22
+Changed distillUnknownLabels so that it has a function that will build a dictionary of 
+unknown log entries on a file-by-file basis, that can be called from other code.
+
 11/18
 Added a bunch of courses to the kill list in killListedFiles.py. This is from information 
 gleaned from the HarvardX folks. I hope that all of these really are dummy courses; we will
