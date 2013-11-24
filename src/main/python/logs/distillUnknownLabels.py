@@ -25,7 +25,7 @@ if __name__ == '__main__':
     ukdict = {}
     fname = glob.glob('*/unknown*.log')
     for n in fname:
-        ukdict = buildList(fname, ukdict)
+        ukdict = buildList(n, ukdict)
         
     s = sorted(ukdict.items(), key = lambda(k,v):(v,k))
     for i in s:

@@ -1,4 +1,11 @@
 Development log
+11/24
+Changed separateLogsByClass to look for any log file matching the pattern *Harvard*.log. This
+allows the script to process the edge course files that have their institution as "Harvard"
+rather than HarvardX. 
+
+Added some better error handling in buildWeeklyLog; if a line can't be parsed using the
+json parser, the line number will be printed on the console. 
 11/22
 Changed distillUnknownLabels so that it has a function that will build a dictionary of 
 unknown log entries on a file-by-file basis, that can be called from other code.

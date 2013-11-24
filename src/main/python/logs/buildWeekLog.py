@@ -23,20 +23,25 @@ classes = ['AI12.1x', 'AI12.2x', 'CB22.1x',
            'HLS1','HMS214x', 'ITCx', 'MCB80.1x', 
            'PH201x', 'PH207x', 'PH278x', 'PH278X',
            'HS221', 'SPU17x', 'SPU27x', 'SPU27X', 'SW12_Oct',
-           'SW12_SOND', 'SW-12', 'spu27', 'unknown' ]
+           'SW12_SOND', 'SW-12', 'SPU27', 'unknown' ]
 
 def combineLogs(className, logFiles):
     lineDict = {}
     dc = json.JSONDecoder()
     for fname in logFiles:
         inf = open(fname, 'r')
+        lineNo = 1
         for line in inf:
-            dcl = dc.decode(line)
-            ts = dcl['time']
-            if ts not in lineDict:
-                lineDict[ts] = [line]
-            else:
-                lineDict[ts].append(line)
+            try:
+                dcl = dc.decode(line)
+                ts = dcl['time']
+                if ts not in lineDict:
+                    lineDict[ts] = [line]
+                else:
+                    lineDict[ts].append(line)
+                lineNo += 1
+            except ValueError:
+                print 'JSON error at line', str(lineNo)
         inf.close()
     return lineDict
 
@@ -60,6 +65,7 @@ if __name__ == '__main__':
         prodLogs = []
         logFiles = glob.glob('*/' + cl + '*')
         for f in logFiles:
+            print 'processing log', f
             if 'edge' in f:
                 edgeLogs.append(f)
             else:
