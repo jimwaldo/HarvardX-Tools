@@ -1,4 +1,14 @@
+#!/usr/bin/env python
 '''
+Move a set of log files to the directory of the class with which they are associated.
+
+This is a brute-force script, that keeps a hand-maintained list of log-file to class
+names. The script takes as arguments a source file directory and a destination file
+directory; the source file should be a directory where the logs named as the key to 
+the dictionary are found, and the destination should be the name of a directory 
+containing the class directories named as the value of each of the dictionary
+entries. The log files will be moved to that directory, and renamed 'WeekLog'
+
 Created on Dec 3, 2013
 
 @author: waldo
@@ -40,10 +50,12 @@ if __name__ == '__main__':
         
     fromDir = sys.argv[1]
     toDir = sys.argv[2]
-    print 'from directory = ', fromDir, ', to directory =', toDir
+    #print 'from directory = ', fromDir, ', to directory =', toDir
     
-    for k, v in nameMap:
+    for k in nameMap:
         fromFile = fromDir + '/' + k
-        toFile = toDir + '/'+ v + '/WeekLog'
-        os.rename(fromFile, toFile)
+        toFile = toDir + '/'+ nameMap[k] + '/WeekLog'
+        if os.path.exists(fromFile) and os.path.exists(toDir + '/' + nameMap[k]):
+            #print 'About to move', fromFile, 'to', toFile
+            os.rename(fromFile, toFile)
         
