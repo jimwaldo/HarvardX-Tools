@@ -15,7 +15,6 @@ Created on Feb 18, 2013
 @author: waldo
 '''
 import csv
-from convertfiles import xmltocsv
 import logging
 
 class profile:
@@ -107,20 +106,6 @@ def writedict(fout, pDict):
         v = pDict[p]
         fout.writerow(p, v.name, v.gender, v.maddr, v.yob, v.ledu, v.goal, 
                       v.allowcert)
-
-def scrubprofile(f1, f2):
-    '''
-    Scrubs a CSV file of student profile data, removing lines of the wrong size
-    
-    Parameters
-    ------------------
-    f1: csv.reader
-        An open csv reader containing the student profile data
-    f2: csv.writer
-        An open csv writer that will have the scrubbed data written to it
-    
-    '''
-    xmltocsv.scrubcsv(f1, f2, 13)
     
 def trans_ledu(ledu):
     '''

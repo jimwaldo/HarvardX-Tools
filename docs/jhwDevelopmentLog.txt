@@ -1,4 +1,28 @@
 Development log
+1/3/13
+Changed cullLogFiles to only look at files that begin with '20' (to insure that it only
+looks at the daily log files supplied from edX). Also added smarter comparison of the dates;
+rather than looking at the complete log file name (which is of the form 'YYYY-MM-DD_Insitituion.log')
+the code now extracts the YYYY-MM-DD for the comparison. Using <= as the comparison, this
+means that the supplied date should be the last date for which files should be deleted
+rather than the first date for which files should be kept. This makes it easier to 
+decide which ones to keep, since the date can be determined by looking at the last date
+from the week before.
+
+12/22
+It would be nice to be able to create copies of a set of log files. This might be from only 
+a single directory, or from a set of directories. 
+12/13
+The log file format has been changed to include extra information, including the course
+that the log entry is for. It would be handy to have a listing of all of the classes for
+which there are log entries, and a count of the number of entries. This is done in the
+script listClassEntries.py, which will take a set of log files and extract the course_id
+fields, building a dictionary keyed by the course_id and giving a count of the number of
+log entries for that course.
+
+In the course of doing this, I also removed the scrub function from userprofile.py, along
+with references to the xmltocsv.py file that has been previously removed
+
 12/7
 Changed the list of names used to identify files to delete in killListedFiles.py so that
 the list is sorted. This should make this list (which is getting pretty long) easier to 
