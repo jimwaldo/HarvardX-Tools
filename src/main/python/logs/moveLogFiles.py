@@ -56,11 +56,12 @@ if __name__ == '__main__':
         
     fromDir = sys.argv[1]
     toDir = sys.argv[2]
-    #print 'from directory = ', fromDir, ', to directory =', toDir
+#    print 'from directory = ', fromDir, ', to directory =', toDir
     
     for k in nameMap:
         fromFile = fromDir + '/' + k
         toFile = toDir + '/'+ nameMap[k] + '/WeekLog'
+        #print 'About to move', fromFile, 'to', toFile
         if os.path.exists(fromFile) and os.path.exists(toDir + '/' + nameMap[k]):
             #print 'About to move', fromFile, 'to', toFile
             os.rename(fromFile, toFile)
