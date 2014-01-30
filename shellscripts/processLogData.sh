@@ -13,7 +13,7 @@
 
 foreach d (*)
     cd $d
-    cullLogFiles.py $1
+    cullLogFiles.py $1 $2
     cd ..
     end
 

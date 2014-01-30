@@ -1,5 +1,23 @@
 Development log
-1/3/13
+1/30/14
+It turns out that the log files that edX has been sending include a truncated/partial
+version for the last file in a sequence- that is, on the day that the dump is taken, 
+the log file is only partial when the dump is done. The full file is sent the next week,
+but we had been skipping that file as a repeat (like all the others that are sent) and
+thus had been missing about a half-day worth of log file each week.
+
+Dealing with this, once it is known, is not that difficult. The approach is to drop the
+last (partial) day in any dump, and include that day in the next week's dump when all of
+the log is included. This requires changing cullLogFiles.py to take two dates, which 
+establish a range for the log files that will be retained. The first date is the first
+date for which a log file will be kept, the second is the date from which log files will
+be deleted. This allows the script to be called with the date of the last dump and the date
+of the current dump, and getting the right set of log files. 
+
+In addition, processLogFiles.sh has been changed to take two arguments, that are the dates
+that will be passed to cullLogFiles.py when called in that script.
+
+1/3/14
 Changed cullLogFiles to only look at files that begin with '20' (to insure that it only
 looks at the daily log files supplied from edX). Also added smarter comparison of the dates;
 rather than looking at the complete log file name (which is of the form 'YYYY-MM-DD_Insitituion.log')
