@@ -1,4 +1,14 @@
 Development log
+2/4/14
+Made changes to listClassEntries.py so that it would get the class names from the log 
+entries themselves, using the context: area of the json. This is slow (every line needs to
+be parsed), but gives something that can, with minimal hacking of the string, be turned 
+into a class name that will match the names of the classes in the class data. The one 
+heuristic that remains is that we distinguish between edge courses and on-line courses
+by the server on which the log is recorded. Edge courses are assumed to have logs on the
+prod-edge servers, while on-line generally available courses are assumed to have logs on
+the prod-edx* servers. This assumption should be confirmed with the edX folks.
+
 1/30/14
 It turns out that the log files that edX has been sending include a truncated/partial
 version for the last file in a sequence- that is, on the day that the dump is taken, 

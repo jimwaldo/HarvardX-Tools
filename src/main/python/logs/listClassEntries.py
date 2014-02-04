@@ -9,12 +9,16 @@ import glob
 import csv
 import sys
 
-def readFromLog(toDict,fromFile):
+def readFromLog(toDict,fromFile, inEdge):
     #dc = json.JSONDecoder()
     for line in fromFile:
         try:
             dcl = json.loads(line)
             cl = dcl['context']['course_id']
+            cl = cl[cl.find('/')+1:]
+            cl = cl.replace('/', '-')
+            if inEdge:
+                cl = cl + '-edge'
             if cl in toDict:
                 toDict[cl] += 1
             else:
@@ -31,11 +35,16 @@ if __name__ == '__main__':
     flist = glob.glob(d + '/' + '*.log')
     cDict = {}
     for f in flist:
+        if 'edge' in f:
+            inEdge = True
+        else:
+            inEdge = False
         fin = open(f, 'r')
-        cDict = readFromLog(cDict, fin)
+        cDict = readFromLog(cDict, fin, inEdge)
         fin.close()
         
     fout = csv.writer(open('ClassList.csv', 'w'))
     fout.writerow(['Classname', 'Count'])
     for v in iter(cDict):
         fout.writerow([v, cDict[v]])
+        print v
