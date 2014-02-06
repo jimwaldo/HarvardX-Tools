@@ -1,4 +1,10 @@
 Development log
+2/5/14
+Changing the way that the log files get generated. Rather than working with a known
+set of classes (which is the way separateLogsByClass.py is set up), we will go through
+the log files and extract the classes from the context, using the same sort of name 
+hacking that was used in listClassEntries. For a particular log server, we can sort the
+log files and read through, the log entries will be in order.
 2/4/14
 Made changes to listClassEntries.py so that it would get the class names from the log 
 entries themselves, using the context: area of the json. This is slow (every line needs to
