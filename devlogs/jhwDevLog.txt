@@ -1,4 +1,17 @@
 Development log
+2/22/14
+Finishing up the conversion of the log separation to use the course name that is now
+part of the log entry. Added code to separateClassLogs.py to keep track of all of the 
+courses that it has seen, along with a count of the number of log entries for that course.
+
+Added a python script to move the raw logs from the dump directories to a mirror on IQSS
+(the AllLogs). This had been done using a shell script, but the script was failing in odd
+ways, so this fairly simple script replaces it.
+
+Changed the buildWeekLog to name the log files with the classname + '.log', since there 
+is no overlap between the same (named) class being given on edge and on other forms of edX.
+This in turn allows changing the movement of log files to key off the name of the course,
+which is done in the new program moveWeeklyLogs.
 
 9/22
 Fixed the problem with separateClassFiles.py; the cause was a break statement where

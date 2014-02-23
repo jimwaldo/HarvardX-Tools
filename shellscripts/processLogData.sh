@@ -24,7 +24,7 @@ rmdir *
 foreach d (prod*)
     cd $d
     uncompAndDecrypt.sh
-    separateLogsByClass.py $d
+    separateClassLogs.py
     cd ..
     end
 

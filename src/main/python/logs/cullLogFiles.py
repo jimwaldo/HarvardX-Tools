@@ -18,7 +18,6 @@ import glob
 import os
 import sys
 
-fileList = glob.glob('20*')
 if len(sys.argv) > 2:
     startDate = sys.argv[1]
     endDate = sys.argv[2]
@@ -27,7 +26,8 @@ else:
     print "fromDate is the first date to be included and"
     print "toDate is the first date to be excluded"
     exit()
-
+    
+fileList = glob.glob('20*')
 for f in fileList:
     fdate = f[:f.index('_')]
     if (fdate < startDate) or (fdate >= endDate):

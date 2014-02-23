@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 '''
+This program is now obsolete, since the addition of consistent naming conventions
+and the addition of the course name to the log entry. Rather than using this, use
+moveWeeklyLogs.py
+
 Move a set of log files to the directory of the class with which they are associated.
 
 This is a brute-force script, that keeps a hand-maintained list of log-file to class

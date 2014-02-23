@@ -17,6 +17,10 @@ log entry, but others have to be placed by default in one class run or another, 
 a fashion that is not currently very well justified by the data.
 
 The program takes as an argument the name of the server that generated the logs.
+
+Note that this program is now obsolete; it has been replaced by separateClassLogs, 
+which uses the labeling of classes inside of the log which was added at our request.
+
 '''
 import sys
 import glob

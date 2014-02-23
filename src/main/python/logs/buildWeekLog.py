@@ -16,15 +16,17 @@ weeks log files are in the directory, they will all be combined.
 
 import json
 import glob
+import csv
 
-classes = ['AI12.1x', 'AI12.2x', 'CB22.1x', 
-           'CB22x', 'CS50x-2014', 'CS50x-2012', 'CS50', 'ER22x', 
-           'GSE1x', 'HKS211.1x','HKS_211', 'HDS1544',
-           'HLS1','HMS214x', 'ITCx', 'MCB80.1x', 
-           'PH201x', 'PH207x', 'PH278x', 'PH278X',
-           'HS221', 'SPU17x', 'SPU27x', 'SPU27X', 'SW12_Oct',
-           'SW12_SOND', 'SW-12', 'SPU27', 'unknown' ]
-
+def buildClassList():
+    classes = []
+    cin = open('ClassList.csv', 'rU')
+    cread = csv.reader(cin)
+    for course, count in cread:
+        if course not in classes:
+            classes.append(course)
+    return iter(classes)
+        
 def combineLogs(className, logFiles):
     lineDict = {}
     dc = json.JSONDecoder()
@@ -59,21 +61,18 @@ def writeCombLog(fname, log):
     outfile.close()
 
 if __name__ == '__main__':
+    
+    classes = buildClassList()
+    
     for cl in classes:
         print 'about to process logs for', cl
-        edgeLogs = []
         prodLogs = []
         logFiles = glob.glob('*/' + cl + '*')
         for f in logFiles:
             print 'processing log', f
-            if 'edge' in f:
-                edgeLogs.append(f)
-            else:
-                prodLogs.append(f)
-        edgeDict = combineLogs(cl, edgeLogs)
+            prodLogs.append(f)
         prodDict = combineLogs(cl, prodLogs)
-        writeCombLog(cl + 'edge.log', edgeDict)
-        writeCombLog(cl + 'prod.log', prodDict)
+        writeCombLog(cl + '.log', prodDict)
 
 
 
