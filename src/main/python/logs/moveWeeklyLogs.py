@@ -11,15 +11,16 @@ import shutil
 import glob
 
 if __name__ == '__main__':
-    if len(sys.argv) < 2:
+    if len(sys.argv) < 3:
         print 'Usage: moveWeeklyLogs srcDir destDir'
         exit()
         
-    srcDir = sys.argv[0]
-    destDir = sys.argv[1]
+    srcDir = sys.argv[1]
+    destDir = sys.argv[2]
     
     fileList = glob.glob(srcDir + '/*.log')
     for fname in fileList:
-        cname = fname[:fname.find('.log')]
-        destFile = destDir + '/' + cname + '/WeekLog'
-        shutil.move(fname, destFile)
+        if 'unknown' not in fname:
+            cname = fname[:fname.find('.log')]
+            destFile = destDir + '/' + cname + '/WeekLog'
+            shutil.move(fname, destFile)
