@@ -8,10 +8,10 @@ import glob
 import sys
 
 if __name__ == '__main__':
-    if len(sys.argv) < 1:
+    if len(sys.argv) < 2:
         print 'Usage: moveRawLogs destdir'
         exit()
-    destDir = sys.argv[0]
+    destDir = sys.argv[1]
     flist = glob.glob('*/*/2014*.log')
     for f in flist:
         destf = destDir + '/' + f
