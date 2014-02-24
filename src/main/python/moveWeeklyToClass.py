@@ -65,8 +65,8 @@ def main():
             try:
                 shutil.move(src, dst)
                 num_files_moved += 1
-            except IOError as err:
-                print err
+            except:
+                print 'error copying file', src
 
     if(verbose): print "Done. " + str(num_files_moved) + " files moved."
 
