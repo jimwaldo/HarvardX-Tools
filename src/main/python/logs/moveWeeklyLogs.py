@@ -23,4 +23,7 @@ if __name__ == '__main__':
         if 'unknown' not in fname:
             cname = fname[:fname.find('.log')]
             destFile = destDir + '/' + cname + '/WeekLog'
-            shutil.move(fname, destFile)
+            try:
+                shutil.move(fname, destFile)
+            except:
+                print 'unable to move file', fname
