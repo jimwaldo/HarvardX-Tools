@@ -54,7 +54,7 @@ def getClassList():
         clfile = open('../ClassList.csv', 'rU')
         clreader = csv.reader(clfile)
         for cname, count in clreader:
-            cldict[cname] = count
+            cldict[cname] = int(count)
         clfile.close()
     return cldict
 
