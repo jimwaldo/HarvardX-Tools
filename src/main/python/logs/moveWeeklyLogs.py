@@ -26,4 +26,4 @@ if __name__ == '__main__':
             try:
                 shutil.move(fname, destFile)
             except:
-                print 'unable to move file', fname
+                print 'unable to move file', fname, 'to', destFile

@@ -1,7 +1,9 @@
+#!/usr/bin/env python
 '''
 Created on Feb 23, 2014
 
-@author: waldo
+Move the raw log files from their position under the various weekly directories to 
+a full directory of all of the raw log files. 
 '''
 import shutil
 import glob
