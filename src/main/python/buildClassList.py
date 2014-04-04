@@ -50,7 +50,7 @@ def reduceName(flist):
             preSlice = 0
         cname = f[preSlice:postSlice]
         if cname not in clist:
-            clist.append(f[preSlice:postSlice])
+            clist.append(cname)
     return clist
 
 def writeList(of, cl):

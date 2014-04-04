@@ -3,9 +3,9 @@
 Moves files from an existing weekly directory (the default IQSS format) 
 into directories organized by course:
 
-    i.e. harvardx-YYYY-MM-DD/{COURSE}/ --> sys.argv[1]/{COURSE}/sys.argv[2]/
+    i.e. HarvardX/{COURSE}/ --> sys.argv[1]/{COURSE}/sys.argv[2]/
 
-Runs from an existing harvardx-YYYY-MM-DD/ weekly directory, containing 
+Runs from an existing weekly directory directly containing 
 a directory for each course. Pass the following args at command line:
 
     1) destination directory (containing directories for each course)
