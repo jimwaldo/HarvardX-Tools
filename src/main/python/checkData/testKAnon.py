@@ -12,11 +12,13 @@ import utils
 def makeDict(ids, infile):
     retDict = {}
     for line in infile:
+        keyAnon = ''
         for i in ids:
-            if line[i] in retDict:
-                retDict[line[i]] += 1
-            else:
-                retDict[line[i]] = 1
+            keyAnon += line[i]
+        if keyAnon in retDict:
+            retDict[keyAnon] += 1
+        else:
+            retDict[keyAnon] = 1
     return retDict
 
 def makeCountDict(anonDict):
@@ -30,8 +32,7 @@ def makeCountDict(anonDict):
     return retDict
 
 if __name__ == '__main__':
-#     idFields = [6,7,8,9,13]
-    idFields = [7]
+    idFields = [6,7,8,9]
     fname = utils.getFileName('data file to test')
     fin = open(fname, 'rU')
     fread = csv.reader(fin)
