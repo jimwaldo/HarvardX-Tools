@@ -36,7 +36,6 @@ value the number of times a line containing just those fields in those indexes o
 the dictionary to the caller.
 
 '''
-
 def makeDict(ids, infile):
     retDict = {}
     for line in infile:
@@ -48,22 +47,38 @@ def makeDict(ids, infile):
   
     return retDict
 
+'''
+When run stand-alone, this script will query for a filename and a level of anonymity
+to check for the externally-connected data fields in the .csv file. The user will also
+be prompted for either a summary of the anonymity level (in which case only the number
+of records that fail to be at least anonymous to the level indicated) will be printed, or
+a full report, in which case the concatenation of fields that allow identification finer
+than the level entered will be printed. Note that the indexes of the fields that can be
+linked to external properties is hard-coded at the moment; it would be good to have a more
+flexible mechanism for this but finding one that is not error prone is difficult.
 
+'''
 if __name__ == '__main__':
     idFields = [0,6,7,8,9,17]
     fname = utils.getFileName('data file to test')
+    kanon = utils.getIntVal('Enter value of k to test : ')
+    full = utils.getStringVal('Enter s for summary, f for full report : ', ['s', 'f'])
     fin = open(fname, 'rU')
     fread = csv.reader(fin)
     
-    totals = [0,0,0,0,0]
+    totals = []
+    for i in range(0,kanon):
+        totals.append(0)
+        
     fread.next()
     anonDict = makeDict(idFields, fread)
     sortedDict = sorted(anonDict.iteritems(), key=operator.itemgetter(1))
     for k,v in sortedDict:
-        if v < 6:
+        if v < kanon:
             totals[v-1] += 1
-            print v, k
-    for i in range(0,5):
+            if full == 'f':
+                print v, k
+    for i in range(0,kanon-1):
         print 'Number of buckets with', i+1, 'entries is', totals[i]
 
         

@@ -1,7 +1,10 @@
 Development log
 5/28/14
 We need something that will check a data file (assumed to be in .csv format) for level of
-k-anonymity. 
+k-anonymity. The test program will begin by getting the indexes of the members of each line
+that, in combination, need to be k-anonymous. At the moment, these are hard-coded, and need
+to be determined by inspection of the dataset.
+  
 2/5/14
 Changing the way that the log files get generated. Rather than working with a known
 set of classes (which is the way separateLogsByClass.py is set up), we will go through
