@@ -5,8 +5,8 @@ into directories organized by course:
 
     i.e. HarvardX/{COURSE}/ --> sys.argv[1]/{COURSE}/sys.argv[2]/
 
-Runs from an existing weekly directory directly containing 
-a directory for each course. Pass the following args at command line:
+Runs from an existing weekly directory containing a directory for each course,
+each directory named for the course. Pass the following args at command line:
 
     1) destination directory (containing directories for each course)
     2) name of new directory for the week of files being moved

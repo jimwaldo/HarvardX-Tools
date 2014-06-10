@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 
-import os
 import glob
-import user
+import classData.user as user
 import csv
 import ipGeoloc as loc
 import sys

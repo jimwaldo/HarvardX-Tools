@@ -11,7 +11,7 @@ Created on Mar 17, 2013
 @author: waldo
 '''
 import logging
-from convertfiles import xmltocsv
+#from convertfiles import xmltocsv
 
 class course_enrollment(object):
     '''
@@ -86,21 +86,21 @@ def writedict(fout, pDict):
     for u in iter(pDict):
         fout.writerow([u, pDict[u].course_id, pDict[u].enroll_d])
 
-def scrubstate(f1, f2):
-    '''
-    Clean up the state of a course enrollment csv file
-    
-    Reads through a csv file containing the course enrollment data, removing any
-    lines that are of the wrong size. Produces a scrubbed csv file
-    
-    Parameters
-    --------------
-    f1: csv reader
-        An open csv reader, containing the data to be cleaned up
-    f2: csv writer
-        An open csv writer, that will take all of the lines of the right 
-        size
-    '''
-    
-    xmltocsv.scrubcsv(f1, f2, 4)
+# def scrubstate(f1, f2):
+#     '''
+#     Clean up the state of a course enrollment csv file
+#     
+#     Reads through a csv file containing the course enrollment data, removing any
+#     lines that are of the wrong size. Produces a scrubbed csv file
+#     
+#     Parameters
+#     --------------
+#     f1: csv reader
+#         An open csv reader, containing the data to be cleaned up
+#     f2: csv writer
+#         An open csv writer, that will take all of the lines of the right 
+#         size
+#     '''
+#     
+#     xmltocsv.scrubcsv(f1, f2, 4)
         

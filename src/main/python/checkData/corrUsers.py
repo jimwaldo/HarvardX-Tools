@@ -12,7 +12,7 @@ entries in the profiles and enrollment file have entries in the user file.
 import csv
 import user
 import demographics.userprofile as uprofile
-import course_enrollment as ce
+from classData import course_enrollment as ce
 
 csv.field_size_limit(1000000)
 uIn = csv.reader(open('users.csv', 'r'))

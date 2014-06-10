@@ -19,7 +19,7 @@ import sys
 import csv
 import user
 import certificates
-import course_enrollment
+from classData import course_enrollment
 
 def compareUsers(d1, d2):
     retDict = {}
@@ -46,8 +46,8 @@ u1dict = user.builddict(uf1)
 u2dict = user.builddict(uf2)
 c1dict = certificates.builddict(cf1)
 c2dict = certificates.builddict(cf2)
-e1dict = course_enrollment.builddict(ef1)
-e2dict = course_enrollment.builddict(ef2)
+e1dict = classData.course_enrollment.builddict(ef1)
+e2dict = classData.course_enrollment.builddict(ef2)
 
 OneNotTwo = compareUsers(u1dict, u2dict)
 TwoNotOne = compareUsers(u2dict, u1dict)

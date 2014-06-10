@@ -12,7 +12,7 @@ Created on Feb 24, 2013
 @author: waldo
 '''
 
-import convertfiles.xmltocsv
+#import convertfiles.xmltocsv
 
 class coursestudentstate(object):
     '''
@@ -67,13 +67,14 @@ def builddict(f, ptype = ''):
         
     return retdict
 
-def scrubcsstate(f1, f2):
-    '''
-    Clean up the state of a cvs file representation of the student state
-    
-    This function will traverse a cvs file representation of the student
-    course state, removing any entries that do not have the right number
-    of fields (which can happen because of bad or dirty input)
-    '''
-    convertfiles.xmltocsv.scrubcsv(f1, f2, 11)
+
+# def scrubcsstate(f1, f2):
+#     '''
+#     Clean up the state of a cvs file representation of the student state
+#     
+#     This function will traverse a cvs file representation of the student
+#     course state, removing any entries that do not have the right number
+#     of fields (which can happen because of bad or dirty input)
+#     '''
+#     convertfiles.xmltocsv.scrubcsv(f1, f2, 11)
             
