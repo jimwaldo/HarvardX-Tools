@@ -19,7 +19,7 @@ week and then in the next.
 import glob
 import sys
 import csv
-import user
+import classData.user as user
 
 course = sys.argv[1]
 flist = glob.glob('harvardx*/' + course + '/users.csv')

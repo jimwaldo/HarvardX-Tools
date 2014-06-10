@@ -13,8 +13,8 @@ Created on October 11, 2013
 @author: lazovich
 '''
 
-import certificates
-from certificates import cert, CertEncoder
+
+from classData.certificates import cert, CertEncoder, builddict
 import csv
 import sys
 import glob
@@ -37,7 +37,7 @@ def processCerts(dir):
         return None
 
     infile = csv.reader(f)
-    certDict = certificates.builddict(infile)
+    certDict = builddict(infile)
 
     return certDict
 

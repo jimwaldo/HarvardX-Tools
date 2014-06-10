@@ -11,7 +11,6 @@ Created on Feb 20, 2013
 
 @author: waldo
 '''
-import convertfiles.xmltocsv
 import logging
 import json
 
@@ -156,10 +155,10 @@ def writedict(fout, cdict):
                        oc.ereason])
 
 
-def scrubfile(f1, f2):
-    '''
-    Traverse a csv file, copying lines with the right set of entries to a second csv file
-    
-    '''
-    convertfiles.xmltocsv.scrubcsv(f1, f2, 14)
+# def scrubfile(f1, f2):
+#     '''
+#     Traverse a csv file, copying lines with the right set of entries to a second csv file
+#     
+#     '''
+#     convertfiles.xmltocsv.scrubcsv(f1, f2, 14)
             

@@ -1,4 +1,13 @@
 Development log
+6/10/14
+Time to start cleaning up the system that has been build for processing the data files
+that we receive from edX. This is in preparation for the start of the research programmer,
+who should get something that makes some sense.
+
+The first task is to re-organize some of the files. We currently have a directory for programs
+related to the logs, but all of the programs related to class-level activity are at the mail 
+level. So we should add a package for classData, and move the right set of programs in to
+that package. 
 5/28/14
 We need something that will check a data file (assumed to be in .csv format) for level of
 k-anonymity. The test program will begin by getting the indexes of the members of each line
