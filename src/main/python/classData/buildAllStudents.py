@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-'''
+"""
 This is a file for building a complete list of users who have taken a course
 and what they've taken. As such, it's going to be saved as a JSON file.
 
@@ -11,10 +11,10 @@ relative location of things, so it's important to either do as I have outlined
 or update the logic below.
 
 @author EJ Bensing
-'''
+"""
 
 import glob
-import buildCompRoster as bcr
+from classData import buildCompRoster as bcr
 import csv
 import json
 

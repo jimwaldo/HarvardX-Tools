@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-'''
+"""
 Utilities for a CSV version of the edX auth_studentprofile data
 
 The object built by the profile constructor will include all of the data
@@ -13,26 +13,26 @@ of the dirty data that we get from edX
 Created on Feb 18, 2013
 
 @author: waldo
-'''
+"""
 import csv
 import logging
 
 class profile:
-    '''
+    """
     Representation of the data contained in the auth_userprofile data dumps
     
     This class contains representations of the interesting data in the auth_userprofile files
     from the edX dumps. There is also a utility function that will build a dictionary, keyed
     by the user_id, for this information.
-    '''
+    """
 
     def __init__(self, user_id, name, gender, maddr, yob, ledu, goal, allowcert):
-        '''
+        """
         Constructor
         
         Note that all of the information, other than the user id, is self-reported and
         not checked. It may also be left blank. 
-        '''
+        """
         self.user_id = user_id
         self.name = name
         self.gender = gender
@@ -44,7 +44,7 @@ class profile:
         
         
 def builddict(f):
-    '''
+    """
     Builds a dictionary of the student profile records in a CSV file
     
     This function takes an already opened CSV file containing the student profile
@@ -65,7 +65,7 @@ def builddict(f):
     -----------------
     f: csv.reader 
     file containing the student profiles, one per line
-    '''
+    """
     retdict = {}
     lineno = 0
     for row in f:
@@ -80,13 +80,13 @@ def builddict(f):
     return retdict
 
 def readdict(fin):
-    '''
+    """
     Reconstruct a user profile dictionary from an open .csv file previously created by writedict
     
     Reads the contents of a csv file containing the dump of a user profile dictionary, and creates
     a dictionary containing the profile data that is currently active. Input is a csv.reader
     object. Returns a dictionary, indexed by user id, where each line is a profile object.
-     '''
+     """
     retDict = {}
     fin.next()
     for uid, name, gend, maddr, yob, ledu, goal, allowcert in fin:
@@ -94,12 +94,12 @@ def readdict(fin):
     return retDict
 
 def writedict(fout, pDict):
-    '''
+    """
     Save a profile dictionary to an open .csv file, to be written by readdict
     
     Writes the contents of a user profile dictionary to an open csv file. The file will have
     a human-readable header placed on it that will need to be skipped on reading.
-    '''
+    """
     fout.writerow(['User id', 'Name', 'Gender', 'Mail address', 'Year of Birth',
                    'Education level', 'Goal', 'Certificate allowed'])
     for p in iter(pDict):
@@ -108,9 +108,9 @@ def writedict(fout, pDict):
                       v.allowcert)
     
 def trans_ledu(ledu):
-    '''
+    """
     Translates the level of education code to a human-readable string
-    '''
+    """
     retStr = 'unknown or unsupplied'
     if ledu == 'p_se':
         retStr = 'Ph.D. in STEM'

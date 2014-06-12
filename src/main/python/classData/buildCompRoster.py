@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-'''
+"""
 Build a cumulative class roster for a class
 
 Run from a directory that contains all of the weekly dumps of data for a class from 
@@ -14,16 +14,16 @@ Created on Jul 11, 2013
 Modified on Jul 28, 2013
 
 @author: waldo
-'''
+"""
 
 import glob
 import csv
 import sys
 import utils
-import buildClassRoster as bcr
-import demographics.userprofile as prof
-import ipGeoloc as geo
-import user
+from classData import buildClassRoster as bcr
+import classData.userprofile as prof
+from classData import ipGeoloc as geo
+from classData import user
 
 def main(locname, relLoc="./"):
     csv.field_size_limit(sys.maxsize)

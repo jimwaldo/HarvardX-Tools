@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-'''
+"""
 Combine all of the log files in a directory into a single log file
 
 This script assumes that all of the log files to be combined are in a 
@@ -12,7 +12,7 @@ order they are seen when read.
 The main use for this script is to combine all of the files for a given
 week (as obtained from edX) into a file for that week. However, if multiple
 weeks log files are in the directory, they will all be combined. 
-'''
+"""
 
 import json
 import glob

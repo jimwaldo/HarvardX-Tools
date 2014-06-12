@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-'''
+"""
 Object definition and utility functions for course certificate file
 
 Contains a definition of the certificate object, that holds all of the information
@@ -10,12 +10,12 @@ a dictionary, indexed by the user id, of the information in the file.
 Created on Feb 20, 2013
 
 @author: waldo
-'''
+"""
 import logging
 import json
 
 class cert(object):
-    '''
+    """
     Hold the information from the course_certificates data dump files
     
     This object reflects all of the fields held in the course_certificates
@@ -23,14 +23,14 @@ class cert(object):
     function to build a dictionary of all of the information, keyed by
     user_id, and a function that will remove all of the lines in a csv file
     for the certificates that are not of the correct length.
-    '''
+    """
 
 
     def __init__(self, uid, durl, grade, courseid, key, distinction, status, \
                  ver_uuid, down_uuid, name, cdate, mdate, ereason):
-        '''
+        """
         Constructor
-        '''
+        """
         self.uid = uid
         self.download_url = durl
         self.grade = grade
@@ -47,18 +47,18 @@ class cert(object):
 
 
 class CertEncoder(json.JSONEncoder):
-    '''
+    """
     Extends the default JSONEncoder to allow for json.dumps() to work on
     cert objects.
 
     By default, it will simply return a dictionary containing all the member
     variables of the cert and their values
-    '''
+    """
     
     def default(self, obj):
-        '''
+        """
         Default encoder
-        '''
+        """
         
         if isinstance(obj, cert):
             return obj.__dict__
@@ -67,7 +67,7 @@ class CertEncoder(json.JSONEncoder):
 
 
 def decodeCertJSON(dict):
-    '''
+    """
     Decodes the JSON dictionary corresponding to a certificate
 
     Use with json.load(file, object_hook=decodeCertJSON) or
@@ -76,7 +76,7 @@ def decodeCertJSON(dict):
     Parameters
     -----------
     dict: dictionary of certificate attributes
-    '''
+    """
     
     if "uid" in dict:
         return cert(*dict)
@@ -85,7 +85,7 @@ def decodeCertJSON(dict):
 
 
 def builddict(f):
-    '''
+    """
     Construct a dictionary of certificate recipients, keyed by the id of the recipient
     
     The dictionary constructed by this function will contain a certificate object, keyed
@@ -101,7 +101,7 @@ def builddict(f):
     -----------
     f: csv.reader 
         An open reader containing the information about the certificate recipients
-    '''
+    """
     retdict = {}
     lineno = 0
     #skip the header line
@@ -121,14 +121,14 @@ def builddict(f):
 
 
 def readdict(fin):
-    '''
+    """
     Reconstructs a certificates dictionary from an open csv file like one written by writedict
     
     Build a dictionary of the same form as builddict, indexed by student id, from an
     open csv file that contains the contents of such a dictionary that has been previously
     saved.
     
-    '''
+    """
     retdict = {}
     fin.next()
     for uid, durl, grade, courseid, key, distinction, status, ver_uuid, down_uuid, name, cdate, mdate, ereason in fin:
@@ -139,12 +139,12 @@ def readdict(fin):
 
 
 def writedict(fout, cdict):
-    '''
+    """
     Write the contents of a certificates dictionary to an opened csv file
     
     Write out the contents of a certificates dictionary to a csv file so that it can be
     reconstructed by readdict. 
-    '''
+    """
     fout.writerow(['Student id', 'Download URL', 'Grade', 'Course Id', 'Key', 'Distinction', 
                    'Status', 'Verify UUID', 'Download UUID', 'Name', 'Date Created',
                    'Date Modified', 'Error Reason'])
@@ -156,9 +156,9 @@ def writedict(fout, cdict):
 
 
 # def scrubfile(f1, f2):
-#     '''
+#     """
 #     Traverse a csv file, copying lines with the right set of entries to a second csv file
 #     
-#     '''
+#     """
 #     convertfiles.xmltocsv.scrubcsv(f1, f2, 14)
             

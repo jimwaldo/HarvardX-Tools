@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-'''
+"""
 Builds a csv file of First Name, Last Name, email address for a course
 
 This file needs to be run from a directory in which the users.csv and profiles.csv files
@@ -11,9 +11,9 @@ users.csv file but not in the profiles.csv file, the student's name will read "M
 Created on Nov 13, 2013
 
 @author: waldo
-'''
-import demographics.userprofile as userp
-import user
+"""
+import classData.userprofile as userp
+from classData import user
 import sys
 import csv
 

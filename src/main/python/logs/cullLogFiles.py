@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-'''
+"""
 Find and delete all of the log files before a given date
 
 This script, when run from a directory that contains a set of log files with names following
@@ -13,7 +13,7 @@ date should be the date of any partial files that should be excluded.
 
 If the script is called with no supplied date, it will simply exit after printing usage information.
 
-'''
+"""
 import glob
 import os
 import sys

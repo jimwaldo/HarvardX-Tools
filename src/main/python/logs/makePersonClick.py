@@ -1,5 +1,5 @@
 #!/usr/bin/env python 
-''' 
+""" 
 Creates a "person-click" CSV dataset for a given logfile and course axis. Relies
 heavily on the trackingLogParser module for parsing instructions. Prints a summary
 upon completion.
@@ -50,14 +50,14 @@ over an hour to run. Bottleneck comes from the trackingLogParser; working on it.
 Created on September 18, 2013
 
 @author: tmullaney
-'''
+"""
 
 import sys, os
 import csv
 import json # ujson is faster!
 import datetime
 import dateutil.parser
-import trackingLogParser as tlp
+from logs import trackingLogParser as tlp
 
 def main():
     # check args

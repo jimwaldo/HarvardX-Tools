@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-'''
+"""
 Builds a dictionary of all of the certificates a user has been
 considered for, indexed by the user id.
 
@@ -11,7 +11,7 @@ Writes a FullCertList.json file to the given directory
 Created on October 11, 2013
 
 @author: lazovich
-'''
+"""
 
 
 from classData.certificates import cert, CertEncoder, builddict
@@ -21,18 +21,18 @@ import glob
 import json
 
 
-def processCerts(dir):
-    '''
+def processCerts(direct):
+    """
     Construct a dictionary of certificate recipients for a course,
     given the directory of the certificates.csv file
 
     Parameters
     -----------
-    dir: A string corresponding to the directory of the certificates.csv
-    '''
+    direct: A string corresponding to the directory of the certificates.csv
+    """
 
     try:
-        f = open(dir+"/certificates.csv", 'r')
+        f = open(direct+"/certificates.csv", 'r')
     except IOError:
         return None
 
@@ -43,14 +43,14 @@ def processCerts(dir):
 
 
 def mergeCertDicts(dict1, dict2):
-    '''
+    """
     Take two dictionaries and merge them. Combines values with the
     same key as a list
 
     Parameters
     -----------
     dict1, dict2: dictionaries to be merged
-    '''
+    """
 
     for key in dict2:
         if key in dict1:
@@ -82,8 +82,8 @@ def main():
     allCerts = {}
 
     # Iterate over all courses
-    for dir in dirList:
-        fList = glob.glob(dir+"/"+"*20*")
+    for direct in dirList:
+        fList = glob.glob(direct+"/"+"*20*")
 
         # Iterate over all dumps
         allCourseCerts = {}

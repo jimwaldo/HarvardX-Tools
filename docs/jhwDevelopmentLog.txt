@@ -1,4 +1,26 @@
 Development log
+6/12/14
+The getcountry package contains only a single program, getcountry.py, which is an early attempt
+to map users to their country by looking at the self-reported address and extracting the country
+from that. The program is slow, error-prone, and based on heuristics (at best); also, most of the
+students don't report an address. This has been replaced with data that we get from edX, or from
+a program that gets the mapping from the student ip (obtained from the log files) and looks up the
+country for that ip from a commercial database. This program should not be used, and is kept only 
+for historical purposes; it might be better to delete it, but that is a decision that we will make
+after the overhaul of the full system.
+
+I also moved the sqltocsv.py and killListedFiles.py from the convertfiles package to the edXDump package.
+The convertfiles package now contains only the makeIdCountryFile.py program. This is still a useful 
+program if we are getting the edX country files, which are keyed by username rather than the more 
+useful userid.
+
+Cleaned up the makeIdCountryFile program to have better prompts, and to contain a main section.
+
+NOTE: buildAllStudents.py is a hack; admittedly so in the comments of the author. Should take a look...
+6/11/14
+Created a package for the scripts that are used to transform the data that comes from edX into
+the forms that we can use. The package is edXDump, and currently contains buildWeekLog.py, moveRawLog.py
+moveWeeklyLogs.py, moveWeeklyToClass.py, separateClassFiles.py, and separateClassLogs.py. 
 6/10/14
 Time to start cleaning up the system that has been build for processing the data files
 that we receive from edX. This is in preparation for the start of the research programmer,

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-'''
+"""
 Created on Apr 22, 2013
 
 Create a file of FERPA de-identified demographic data
@@ -14,14 +14,14 @@ The program takes five arguments:
     
 
 @author: waldo
-'''
+"""
 
 import sys
 import csv
-import userprofile as prof
-import user
-import certificates as cs
-import ipGeoloc as geo
+from classData import userprofile as prof
+from classData import user
+from classData import certificates as cs
+from classData import ipGeoloc as geo
 
 
 if (len(sys.argv) < 2):

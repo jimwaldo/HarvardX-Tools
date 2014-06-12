@@ -11,12 +11,12 @@ class course_struct:
         self.children = children
         self.metad = metad
 
-def getChildNames(dict, entr):
-    ent = dict[entr]
+def getChildNames(dct, entr):
+    ent = dct[entr]
     children = ent['children']
     retlist = []
     for c in children:
-        retlist.append(dict[c]['metadata']['display_name'])
+        retlist.append(dct[c]['metadata']['display_name'])
     return retlist
 
 def save_csv(ctree, f):
@@ -26,11 +26,12 @@ def save_csv(ctree, f):
         chNames = getChildNames(ctree, c)
         f.writerow([ c, ctree[c]['category'], ctree[c]['metadata'], chNames])
 
-inf = open(sys.argv[1], 'r')
-inline = inf.readline()
-ctdict = json.loads(inline)
+if __name__ == '__main__':
+    inf = open(sys.argv[1], 'r')
+    inline = inf.readline()
+    ctdict = json.loads(inline)
 
-outf = csv.writer(open(sys.argv[2], 'w'))
-save_csv(ctdict, outf)
+    outf = csv.writer(open(sys.argv[2], 'w'))
+    save_csv(ctdict, outf)
 
     

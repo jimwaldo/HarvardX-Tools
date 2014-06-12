@@ -1,11 +1,11 @@
 #!/usr/bin/env python
-'''
+"""
 Move the weekly logs created by separateClassLogs to the directory for the course,
 and rename the log WeekLog. 
 Created on Feb 23, 2014
 
 @author: waldo
-'''
+"""
 import sys
 import shutil
 import glob

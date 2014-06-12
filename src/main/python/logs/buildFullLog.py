@@ -1,9 +1,9 @@
 #!/usr/bin/env python
-'''
+"""
 Combine all of the log files in a particular directory into a single log file
 
 
-'''
+"""
 
 import json
 import os

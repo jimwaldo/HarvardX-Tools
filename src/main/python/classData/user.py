@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-'''
+"""
 Object definition and utility functions for the course users (students) file
 
 Contains a definition of a user object, that holds all of the information
@@ -10,13 +10,13 @@ a function that will remove any mal-formed entries in the file.
 Created on Feb 20, 2013
 
 @author: waldo
-'''
+"""
 
 from convertfiles import xmltocsv
 import json
 
 class user(object):
-    '''
+    """
     Representation of the data stored in the auth_user files
     
     This object contains all of the fields that are reported in a single entry
@@ -25,17 +25,17 @@ class user(object):
     filled in. Further, a number of these fields are no longer used or reported,
     and so are ignored.
      
-    '''
+    """
     
     def __init__(self, id, username,
                  email, is_staff, is_active, is_super,
                  last_l, date_j):
-        '''
+        """
         Constructor for a user object
         
         This constructor creates and initializes the user object, using only the
         fields that are currently active.
-        '''
+        """
         self.id = id
         self.username = username
         self.email = email
@@ -46,7 +46,7 @@ class user(object):
         self.data_j = date_j
      
 def builddict(f):
-    '''
+    """
     Build a dictionary of user information, indexed by user_id
     
     Builds a dictionary of user information from a csv file. If any line in the
@@ -59,7 +59,7 @@ def builddict(f):
     
         An open csv.reader containing the authorized user data
         
-    '''
+    """
     
     retdict = {}
     lineno = 0;
@@ -82,13 +82,13 @@ def builddict(f):
     return retdict
 
 def readdict(fin):
-    '''
+    """
     Reconstruct a user dictionary from an open .csv file previously created by writedict
     
     Reads the contents of a csv file containing the dump of a user dictionary, and creates
     a dictionary containing the user data that is currently active. Input is a csv.reader
     object. Returns a dictionary, indexed by user id, where each line is a user object.
-    '''
+    """
     retDict = {}
     fin.next()
     for id, uname, email, is_staff, is_active, is_super, last_l, date_j in fin:
@@ -97,12 +97,12 @@ def readdict(fin):
     return retDict
 
 def writedict(fout, udict):
-    '''
+    """
     Save a user dictionary to an open .csv file, to be written by readdict
     
     Writes the contents of a user dictionary to an open csv file. The file will have
     a human-readable header placed on it that will need to be skipped on reading.
-    '''
+    """
     fout.writerow(['User id', 'User name', 'email', 'Is Staff', 'Is active', 
                    'Is superuser', 'Last Log', 'Date joined'])
     for u in iter(udict):
@@ -112,7 +112,7 @@ def writedict(fout, udict):
     
     
 def scrubfile(f1, f2):
-    '''
+    """
     Traverse a csv file, copying lines with the right number of entries to a second csv file
     
     Parameters:
@@ -121,7 +121,7 @@ def scrubfile(f1, f2):
         An open csv.reader object, containing the raw data
     f2: csv.writer
         An open csv.writer object, to which the scrubbed data will be written
-    '''
+    """
     xmltocsv.scrubcsv(f1, f2, 22)
     
 

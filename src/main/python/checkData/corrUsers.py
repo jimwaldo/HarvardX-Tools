@@ -11,7 +11,7 @@ entries in the profiles and enrollment file have entries in the user file.
 
 import csv
 import user
-import demographics.userprofile as uprofile
+import classData.userprofile as uprofile
 from classData import course_enrollment as ce
 
 csv.field_size_limit(1000000)

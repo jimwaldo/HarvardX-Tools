@@ -1,12 +1,12 @@
 #!/usr/bin/env python
-'''
+"""
 Created on Oct 26, 2013
 Goes through all of the files containing log entries that were not able
 to be classified by course, and creates a list of the event types and
 the counts for that event type. Will print out the event types in increasing
 order so that the most common will be at the end.
 @author: waldo
-'''
+"""
 import json
 import glob
 

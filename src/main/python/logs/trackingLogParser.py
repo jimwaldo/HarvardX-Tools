@@ -1,5 +1,5 @@
 #!/usr/bin/env python 
-''' 
+""" 
 Class/module for parsing Tracking Log events into a standardized
 ExperienceAPI/TinCan-style schema with the following fields:
 
@@ -23,7 +23,7 @@ and slow. Need to figure out the best way to manage these tradeoffs.
 Created on September 18, 2013
 
 @author: tmullaney
-'''
+"""
 
 import re
 import csv
@@ -194,10 +194,10 @@ re_page_close = re.compile("^page_close$")
 # ["index","url_name","category","gformat","start","due","name","path","module_id","data"]
 class LogParser:
     def __init__(self, axis_csv):
-        '''
+        """
         An Parser instance is particular to a course. Initialize by passing
         the relevant Course Axis (.CSV), which is used for identifying objects.
-        '''
+        """
 
         # we need to build two axis lookup dicts
         self.axis_path_to_courseware_name = {} # used for page_view and page_close
@@ -235,11 +235,11 @@ class LogParser:
             self.axis_url_name_to_courseware_name[url_name] = courseware_name
 
     def parseActivity(self, log_item):
-        '''
+        """
         Parses an ExperienceAPI/TinCan-esque Activity (actor, verb, object, result, meta)
         from a single JSON-formatted log entry (as a string). Returns a dictionary 
         if activity can be parsed, None otherwise.
-        '''
+        """
         # convert log_item string into dict
         log_item_json = json.loads(log_item)
 

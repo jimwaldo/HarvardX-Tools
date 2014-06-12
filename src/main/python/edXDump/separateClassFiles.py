@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-'''
+"""
 Using a list of classes found in a file, separate the edX supplied research data files
 so that they are in different directories, one per class
 
@@ -13,22 +13,22 @@ WeeklyClassList in the directory in which the script is run.
 Created on Sep 21, 2013
 
 @author: waldo
-'''
+"""
 import glob
-import buildClassList
+from edXDump import buildClassList
 import os
 import shutil
-import convertfiles.sqltocsv as conv
+import edXDump.sqltocsv as conv
 
 
 def makeDestName(fileName):
-    '''
+    """
     Determine the name of the file as it will appear after being moved into the 
     directory for the class. Currently this follows a set pattern, where the data
     files are forum.mongo, and then .sql files for users, profiles, student modules,
     course enrollment, and certificates. This will need to be changed when different
     data files are produced.
-    '''
+    """
     retName = ''
     if '.mongo' in fileName:
         retName = 'forum.mongo'
@@ -54,12 +54,12 @@ def makeDestName(fileName):
 
     
 def moveFiles(forCourse, flist):
-    '''
+    """
     Move files from the flat directory to a directory that holds all the data for
     a single class. The routine will not move directories, and removes zero length
     files rather than moving them. If the file has the string 'edge' it is moved
     to a directory for the edge data, otherwise it is assumed to be a full edX course.
-    '''
+    """
     for f in flist:
         if os.path.isdir(f):
             continue
@@ -76,7 +76,7 @@ def moveFiles(forCourse, flist):
      
 
 if __name__ == '__main__':
-    classList = buildClassList.readList(open('weeklyClassList', 'r'))
+    classList = edXDump.buildClassList.readList(open('weeklyClassList', 'r'))
     for c in classList:
         os.mkdir(c)
         os.mkdir(c + '-edge')

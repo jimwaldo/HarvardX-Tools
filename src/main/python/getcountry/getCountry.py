@@ -1,5 +1,13 @@
 # coding=utf8
+"""
+This is an early attempt to extract the country associated with a student by looking at the address
+that is entered by the student, extracting some notion of the country, and regularizing that country
+(or, in cases of the US, the state). It is at best heuristic, and has been replaced by mechanisms that
+use the ip address (taken from the log files) and doing an ip->country lookup, using commerically 
+available databases of that information. 
 
+This program is kept around for historical purposes only, and should not be used.
+"""
 import csv
 import re
 import collections

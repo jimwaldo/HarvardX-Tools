@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-'''
+"""
 A script made necessary by the inability to distinguish between experimental
 or test courses and the real thing on the edX platform.
 
@@ -14,7 +14,7 @@ a class that hasn't had any log data generated for it during the week. But for
 the moment this is the technique being used.
 
 @author: waldo
-'''
+"""
 
 import os
 import glob

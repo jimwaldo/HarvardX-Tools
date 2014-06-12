@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
-'''Find all of the event types in a JSON-style log dump
+"""
+Find all of the event types in a JSON-style log dump
 
 This script will take as input an edX activity log file and find all
 of the event types in that file. The resulting event types will be
@@ -9,7 +10,7 @@ written to a file, one type per line, and the number of event types
 run. The script will deal with non-ascii characters, writing the
 output file as a latin-1 encoding
 
-'''
+"""
 import json
 import sys
 import codecs

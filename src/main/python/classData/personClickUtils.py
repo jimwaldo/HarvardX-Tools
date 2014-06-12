@@ -1,5 +1,5 @@
 #!/usr/bin/env python 
-''' 
+"""' 
 Handy derived data and analysis functions for working with person-click 
 datasets in Pandas. Most of these functions get passed a person-click 
 DataFrame.
@@ -10,7 +10,7 @@ http://www.maxmind.com.
 Created on September 18, 2013 
 
 @author: tmullaney
-'''
+"""'
 
 import pandas as pd
 import numpy as np
@@ -19,11 +19,11 @@ import pytz
 import datetime
 import dateutil.parser
 
-'''
+"""'
 DERIVED DATA
 Add columns to person-click datasets. Be careful running on very large 
 DataFrames, as these functions can be slow.
-'''
+"""'
 def getAgentInfo(df):
     from ua_parser import user_agent_parser
     # user_agent_parser
@@ -70,10 +70,10 @@ def getIPInfo(df, geolitecity_dat):
 
     return df[['time', 'ip']].apply(getInfo, axis=1)
 
-'''
+"""'
 DATA INTEGRITY
 Verify completeness/accuracy of a person-click dataset.
-'''
+"""'
 def loadPersonClick(personclick_csv, cols=None):
     # Full log person-click datasets can be too large for Pandas'
     # built-in CSV reader to work properly. This function loads a 

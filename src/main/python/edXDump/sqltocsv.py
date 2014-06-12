@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-'''
+"""
 Converts tab-separated lines from the data dumps into a csv file. 
 The program takes an sql file and the name of the csv file to 
 be produced. 
@@ -7,7 +7,7 @@ be produced.
 Created on Apr 7, 2013
 
 @author: waldo
-'''
+"""
 
 
 import sys

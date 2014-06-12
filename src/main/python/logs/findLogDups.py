@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-'''
+"""
 Find and report on duplicate lines in an edX log file
 
 Reads the edX log file supplied as the first parameter. Building a dictionary
@@ -15,7 +15,7 @@ duplicate lines found, and the number of non-duplicate lines.
 
 If duplicate lines are found, they can be eliminated by running the script
 cleanLogDups.py
-'''
+"""
 import json
 import sys
 

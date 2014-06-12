@@ -1,5 +1,5 @@
 #!/usr/bin/env python 
-''' 
+""" 
 Moves files from an existing weekly directory (the default IQSS format) 
 into directories organized by course:
 
@@ -16,7 +16,7 @@ each directory named for the course. Pass the following args at command line:
 Created on July 16, 2013
 
 @author: tmullaney
-'''
+"""
 
 import sys
 import os

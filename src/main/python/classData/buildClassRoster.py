@@ -1,15 +1,14 @@
 #!/usr/bin/env python
 
-'''
+"""
 Build a course roster, with basic demographic information
-'''
+"""
 
-import glob
 import csv
 import sys
-import user
-import demographics.userprofile as profile
-import ipGeoloc as geo
+from classData import user
+import classData.userprofile as profile
+from classData import ipGeoloc as geo
 
 class rosterLine(object):
     def __init__(self, sid, name, uname, maddr, cnt, age, ed, gend):
@@ -23,13 +22,13 @@ class rosterLine(object):
         self.gender = gend
         
 def buildRosterDict(proD, udict, locD):
-    '''
+    """
     Build a class roster from a profile dictionary and a dictionary of country locations
     
     The dictionary created will be indexed by the student id, and will contain lines 
     with the student id, student name, country (as determined by ip address), age, 
     education level (in a human readable form), and gender.
-    '''
+    """
     rDict = {}
     for p in iter(proD):
         if p in locD:
@@ -55,7 +54,7 @@ def buildRosterDict(proD, udict, locD):
     return rDict
 
 def readRoster(filein):
-    '''
+    """
     Create a class roster dictionary from a file created by writeRoster
     
     Reads the file named by the input parameter. The assumption is that this file is 
@@ -64,7 +63,7 @@ def readRoster(filein):
     with name, country, age, education level, and gender. Note that the education level
     will be a human-readable version of the level, not the encoding used in the profile
     file.
-    '''
+    """
     ofile = open(filein, 'r')
     rfile = csv.reader(ofile)
     rfile.next()
@@ -77,11 +76,11 @@ def readRoster(filein):
     return retDict
 
 def writeRoster(rDict, filein):
-    '''
+    """
     Write a roster dictionary to a .csv file
     
     Write a class roster dictionary to a .csv file named by the input parameter. 
-    '''
+    """
     ofile = open(filein, 'w')
     rf = csv.writer(ofile)
     rf.writerow(['Student ID', 'Name', 'User Name', 'Email', 'Country', 'Age', 'Education Level', 'Gender'])

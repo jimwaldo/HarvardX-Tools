@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-'''
+"""
 Construct a global user list for all of the courses offered
 
 When run in a directory that contains as sub-directories of sub-directories the data files for all of the classes, will
@@ -23,7 +23,7 @@ dictionaries from the files.
 Created on Jul 5, 2013
 
 @author: waldo
-'''
+"""
 
 import glob
 import csv
@@ -36,13 +36,13 @@ def addDup(inDict, key, oval, nval):
         inDict[key]= [oval, nval]
         
 def readId2Name(fin):
-    '''
+    """
     Reconstruct a global id=>username dictionary from an open csv file
     
     Reads the globalId2Name file (or equivalent) and constructs an id=>username
     dictionary. Input is an open csv.reader file such as the one constructed
     by the main method of this module. Returns a dictionary of id=>username
-    '''
+    """
     retDict = {}
     fin.readrow()
     for iden, name in fin:
@@ -50,13 +50,13 @@ def readId2Name(fin):
     return retDict
 
 def readName2Id(fin):
-    '''
+    """
     Reconstructs a global username=>id dictionary from an open csv file
     
     Reads the globalName2Id file (or equivalent) and constructs a username=>id
     dictionary. Input is an open csv.reader files such as the one constructed
     by the main method of this module. Returns a dictionary of username=>id
-    '''
+    """
     retDict= {}
     fin.readrow()
     for name, iden in fin:

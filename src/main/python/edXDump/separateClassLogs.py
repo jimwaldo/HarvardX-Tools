@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-'''
+"""
 Take the log files for the various days, and separate them by class
 
 This script will take all the log files for a particular server (one for each day)
@@ -9,26 +9,26 @@ entry, labeled by the course id in the context structure.
 Created on Feb 5, 2014
 
 @author: waldo
-'''
+"""
 import os
 import glob
 import json
 import csv
        
 def addName(name, filedict, dirName):
-    '''
+    """
     Adds the name of a course to the dictionary of courses, and opens a log file 
     for the entries for that course
-    '''
+    """
     fname = name + '-' + dirName
     fout = open(fname, 'w')
     filedict[name] = fout
     
 def getName(line):
-    '''
+    """
     Extracts the name of the course from the log entry. If no course name is 
     in the log entry, the log entry goes into the unknown class file
-    '''
+    """
     try:
         dcl = json.loads(line)
         cl = dcl['context']['course_id']
@@ -41,14 +41,14 @@ def getName(line):
     return cl
     
 def getClassList():
-    '''
+    """
     Returns a dictionary of class names and number of log entries for that class.
     Finds out if there is a ClassList.csv file at the next level of the directory
     hierarchy, and if so reads that file and creates a dictionary of class name and
     log entry counts for the class. Otherwise, returns an empty dictionary. Note 
     that the ClassList.csv file will be written at the end of the extraction of
     class log entries.
-    '''
+    """
     cldict = {}
     if 'ClassList.csv' in os.listdir('..'):
         clfile = open('../ClassList.csv', 'rU')
@@ -59,11 +59,11 @@ def getClassList():
     return cldict
 
 def get_log_files():
-    '''
+    """
     Returns a sorted list of all of the daily files in the directory. Since the 
     files are sorted by date, the log entries encountered when reading through those
     files will be in time-stamp order.
-    '''
+    """
     fileList = glob.glob('20*.log')
     fileList.sort()
     return fileList

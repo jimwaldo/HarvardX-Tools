@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-'''
+"""
 This program will construct a table of when the students of a course registered,
 and will track the self-reported gender of those students. The result is a csv
 file that contains the date of enrollment, the number of self-reported males,
@@ -19,9 +19,9 @@ Usage:
 Created on Feb 18, 2013
 
 @author: waldo
-'''
+"""
 
-import userprofile
+from classData import userprofile
 import csv
 import sys
 import logging

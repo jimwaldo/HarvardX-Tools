@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-'''
+"""
 Created on Mar 7, 2013
 
 Create a report on the demographics of a course, and create an anonymized
@@ -19,12 +19,12 @@ Usage
     The program will create a file with the same name, with 'anon_' as a prefix
 
 @author: waldo
-'''
+"""
 
-import userprofile as prof
+from classData import userprofile as prof
 import sys
 import csv
-import ipGeoloc as geo
+from classData import ipGeoloc as geo
 import utils
 
 
@@ -33,7 +33,7 @@ def makeCountryDict(fin, filename):
     return geo.buildIdtoLoc(fin, idC)
     
 def writeAnon(outf, p):
-    '''
+    """
     Write an anonymized version of the data into a line of a csv file
     
     This function will create a file with the user profile data, stripped of
@@ -47,7 +47,7 @@ def writeAnon(outf, p):
         File in which to place the anonymized data
     p: profile
         The full profile information for the student
-    '''
+    """
     outf.writerow([p.gender, p.yob, p.ledu, p.goal])
     
 male = female = undisc = 0
