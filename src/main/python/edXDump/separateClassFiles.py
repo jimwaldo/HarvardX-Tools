@@ -15,7 +15,7 @@ Created on Sep 21, 2013
 @author: waldo
 """
 import glob
-from edXDump import buildClassList
+import buildClassList
 import os
 import shutil
 import edXDump.sqltocsv as conv
@@ -76,7 +76,7 @@ def moveFiles(forCourse, flist):
      
 
 if __name__ == '__main__':
-    classList = edXDump.buildClassList.readList(open('weeklyClassList', 'r'))
+    classList = buildClassList.readList(open('weeklyClassList', 'r'))
     for c in classList:
         os.mkdir(c)
         os.mkdir(c + '-edge')
