@@ -1,4 +1,22 @@
 Development log
+6/13/14
+Beginning the detailed cleanup of the various program.
+
+The getCountry package is a good place to start, since there is only one program. Added and
+cleaned up the comment that this program is kept for historical reasons only, and probably should
+not be used.
+
+checkData package:
+certsAndusers.py
+	cleaned up the imports, made the documentation somewhat more
+	useful by adding a comment on what is being tested, and extracted the script into a main section.
+	
+checkUsersTimes.py
+	cleaned up the imports, and made a check for main in the program
+	
+compUsers.py
+	cleaned up imports, and made a check for main in the program 
+	
 6/12/14
 The getcountry package contains only a single program, getcountry.py, which is an early attempt
 to map users to their country by looking at the self-reported address and extracting the country
