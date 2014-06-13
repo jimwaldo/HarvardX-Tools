@@ -17,9 +17,7 @@ weeks compared is hard-coded.
 import os
 import sys
 import csv
-import user
-import certificates
-from classData import course_enrollment
+from classData import certificates, user, course_enrollment
 
 def compareUsers(d1, d2):
     retDict = {}
@@ -28,56 +26,56 @@ def compareUsers(d1, d2):
             retDict[u] = 'n'
     return retDict
             
-ck_course = sys.argv[1]
+if __name__ == '__main__':
+    ck_course = sys.argv[1]
+    wk1 = sys.argv[2]
+    wk2 = sys.argv[3]
+    week1 = wk1 + '/' + ck_course
+    week2 = wk2 + '/' + ck_course
+    userFile = '/users.csv'
+    certFile = '/certificates.csv'
+    enroll = '/enrollment.csv'
+    uf1 = csv.reader(open(week2 + userFile, 'r'))
+    uf2 = csv.reader(open(week1 + userFile, 'r'))
+    cf1 = csv.reader(open(week2 + certFile, 'r'))
+    cf2 = csv.reader(open(week1 + certFile, 'r'))
+    ef1 = csv.reader(open(week2 + enroll, 'r'))
+    ef2 = csv.reader(open(week1 + enroll, 'r'))
+    u1dict = user.builddict(uf1)
+    u2dict = user.builddict(uf2)
+    c1dict = certificates.builddict(cf1)
+    c2dict = certificates.builddict(cf2)
+    e1dict = course_enrollment.builddict(ef1)
+    e2dict = course_enrollment.builddict(ef2)
+    OneNotTwo = compareUsers(u1dict, u2dict)
+    TwoNotOne = compareUsers(u2dict, u1dict)
+    for u in iter(OneNotTwo):
+        if u in c1dict and c1dict[u].status == 'downloadable':
+            OneNotTwo[u] = 'y'
+    
+    for u in iter(TwoNotOne):
+        if u in c2dict and c2dict[u].status == 'downloadable':
+            TwoNotOne[u] = 'y'
+    
+    outfile = csv.writer(open('userDiff06020616' + ck_course + '.csv', 'w'))
+    outfile.writerow(['Users in ' + wk1 + ' list but not in ' + wk2 + ' list'])
+    outfile.writerow(['User id', 'Certificate granted', 'Date enrolled'])
+    for u in iter(OneNotTwo):
+        if u in e1dict:
+            signdate = e1dict[u].enroll_d
+        else:
+            signdate = ''
+        outfile.writerow([u, OneNotTwo[u], signdate])
+    
+    outfile.writerow(['Users in ' + wk2 + ' list but not in ' + wk1 + ' list'])
+    outfile.writerow(['User id', 'Certificate granted', 'Date enrolled'])
+    for u in iter(TwoNotOne):
+        if u in e2dict:
+            signdate = e2dict[u].enroll_d
+        else:
+            signdate = ''
+        outfile.writerow([u, TwoNotOne[u], signdate])
 
-dump2 = 'harvardx-2013-06-16'
-dump1 = 'harvardx-2013-06-02'
-userFile = '/' + ck_course + '/users.csv'
-certFile = '/' + ck_course + '/certificates.csv'
-enroll = '/' + ck_course + '/enrollment.csv'
-uf1 = csv.reader(open(dump1 + userFile, 'r'))
-uf2 = csv.reader(open(dump2 + userFile, 'r'))
-cf1 = csv.reader(open(dump1 + certFile, 'r'))
-cf2 = csv.reader(open(dump2 + certFile, 'r'))
-ef1 = csv.reader(open(dump1 + enroll, 'r'))
-ef2 = csv.reader(open(dump2 + enroll, 'r'))
-
-u1dict = user.builddict(uf1)
-u2dict = user.builddict(uf2)
-c1dict = certificates.builddict(cf1)
-c2dict = certificates.builddict(cf2)
-e1dict = classData.course_enrollment.builddict(ef1)
-e2dict = classData.course_enrollment.builddict(ef2)
-
-OneNotTwo = compareUsers(u1dict, u2dict)
-TwoNotOne = compareUsers(u2dict, u1dict)
-
-for u in iter(OneNotTwo):
-    if u in c1dict and c1dict[u].status =='downloadable':
-        OneNotTwo[u] = 'y'
-
-for u in iter(TwoNotOne):
-    if u in c2dict and c2dict[u].status == 'downloadable':
-        TwoNotOne[u] = 'y'
-
-outfile = csv.writer(open('userDiff06020616' + ck_course +'.csv', 'w'))
-outfile.writerow(['Users in 06/02 list but not in 06/16 list'])
-outfile.writerow(['User id', 'Certificate granted', 'Date enrolled'])
-for u in iter(OneNotTwo):
-    if u in e1dict:
-        signdate = e1dict[u].enroll_d
-    else:
-        signdate = ''
-    outfile.writerow([u, OneNotTwo[u], signdate])
-
-outfile.writerow(['Users in 06/16 list but not in 06/02 list'])
-outfile.writerow(['User id', 'Certificate granted', 'Date enrolled'])
-for u in iter(TwoNotOne):
-    if u in e2dict:
-        signdate = e2dict[u].enroll_d
-    else:
-        signdate = ''
-    outfile.writerow([u, TwoNotOne[u], signdate])
                     
 
 
