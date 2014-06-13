@@ -17,6 +17,16 @@ checkUsersTimes.py
 compUsers.py
 	cleaned up imports, and made a check for main in the program 
 	
+corrUsers.py
+	cleaned up imports, added a check for main in the program, clarified the module level
+	documentation
+	
+getCertsFromId.py
+	cleaned up imports, added a check for main in the program
+	
+testKAnon.py:
+	Clean up the method-level documentation. Add module documentation.
+	
 6/12/14
 The getcountry package contains only a single program, getcountry.py, which is an early attempt
 to map users to their country by looking at the self-reported address and extracting the country
