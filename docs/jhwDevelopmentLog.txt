@@ -1,4 +1,7 @@
 Development log
+6/17/14
+Added a check for a destination directory to moveWeeklyLogs; if the directory does not exist
+it is created. 
 6/13/14
 Beginning the detailed cleanup of the various program.
 
