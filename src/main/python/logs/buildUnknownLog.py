@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 """
-Created on Nov 3, 2013
+Combines all of the log entries from the various servers that have been found 
+that have no known class association into a single file.
 
 @author: waldo
 """

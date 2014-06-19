@@ -17,7 +17,6 @@ Created on Sep 21, 2013
 import glob
 import buildClassList
 import os
-import shutil
 import edXDump.sqltocsv as conv
 
 

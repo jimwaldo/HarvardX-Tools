@@ -1,4 +1,11 @@
 Development log
+6/19/14
+Removed an un-used export (shutil) from separateClassFiles.py
+Added comment to cleanLogDups.py, explaining why the file was created. 
+Added a doc comment to buildUnknownLog.py
+Added a doc comment to buildFullLog.py
+Added a doc comment for countInteract.py, along with a check for main
+
 6/17/14
 Added a check for a destination directory to moveWeeklyLogs; if the directory does not exist
 it is created. 

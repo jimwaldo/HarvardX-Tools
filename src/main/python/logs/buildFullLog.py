@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 """
-Combine all of the log files in a particular directory into a single log file
+Combine all of the log files in a particular directory into a single log file. The
+resulting log will be ordered by the time of the log entry. 
 
 
 """
