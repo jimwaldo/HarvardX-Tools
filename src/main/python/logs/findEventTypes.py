@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-Find all of the event types in a JSON-style log dump
+Find all of the event types in a JSON-style log dump no matter where they originated
 
 This script will take as input an edX activity log file and find all
 of the event types in that file. The resulting event types will be
@@ -15,20 +15,21 @@ import json
 import sys
 import codecs
 
-infile = open(sys.argv[1], 'r')
-outfile = codecs.open(sys.argv[2],'w', 'latin-1', 'replace')
-typelist = set()
-i = 0
+if __name__ == '__main__':
+    infile = open(sys.argv[1], 'r')
+    outfile = codecs.open(sys.argv[2], 'w', 'latin-1', 'replace')
+    typelist = set()
+    i = 0
+    for line in infile:
+        elems = json.loads(line)
+        etype = elems['event_type']
+        if etype not in typelist:
+            typelist.add(etype)
+            outfile.write(etype + '\n')
+            i = i + 1
+    
+    print 'Total number of event types :', i
 
-for line in infile:
-    elems = json.loads(line)
-    etype = elems['event_type']
-    if etype not in typelist:
-        typelist.add(etype)
-        outfile.write(etype + '\n') 
-        i = i + 1
-
-print i
 
 
         

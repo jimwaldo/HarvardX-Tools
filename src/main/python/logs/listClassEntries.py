@@ -1,5 +1,12 @@
 #!/usr/bin/env python
 """
+Creates a file listing the event count for each class in a log file
+
+Reads through a log file, and creates a dictionary keyed by class name, 
+that counts the number of events that are associated with that class. The
+-edge and regular versions of the course will be treated as different
+courses, with '-edge' appended to the name of the class for the edge version.
+
 Created on Dec 13, 2013
 
 @author: waldo
@@ -10,7 +17,6 @@ import csv
 import sys
 
 def readFromLog(toDict,fromFile, inEdge):
-    #dc = json.JSONDecoder()
     for line in fromFile:
         try:
             dcl = json.loads(line)

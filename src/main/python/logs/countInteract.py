@@ -14,6 +14,14 @@ import sys
 import csv
 
 class InteractRec:
+    """
+    A class to hold the information about user interaction. 
+    
+    Each object will hold the interaction record for a single user. The object 
+    itself will contain a  count of the number of interactions, a count of the number 
+    of different days on which an interaction took place, and a list of the particular 
+    log entries that count as the interaction.
+    """
     def __init__(self):
         self.totalInt = 0
         self.diffDays = 0

@@ -1,4 +1,16 @@
 Development log
+6/20/14
+cullLogFiles.py:
+	Updated documentation, extracted the script into a main method
+countInteract.py:
+	Updated documentation
+findBrowserEventTypes.py:
+	Updated the documentation, placed the code in a main() routine, clarified the printed result
+findEventTypes.py:
+	Updated the documentaion, placed the code in a main routine, clarified the printed result.	
+listClassEntries.py:
+	Updated documentation
+
 6/19/14
 Removed an un-used export (shutil) from separateClassFiles.py
 Added comment to cleanLogDups.py, explaining why the file was created. 
