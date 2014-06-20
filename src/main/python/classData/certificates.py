@@ -25,7 +25,6 @@ class cert(object):
     for the certificates that are not of the correct length.
     """
 
-
     def __init__(self, uid, durl, grade, courseid, key, distinction, status, \
                  ver_uuid, down_uuid, name, cdate, mdate, ereason):
         """
@@ -155,10 +154,5 @@ def writedict(fout, cdict):
                        oc.ereason])
 
 
-# def scrubfile(f1, f2):
-#     """
-#     Traverse a csv file, copying lines with the right set of entries to a second csv file
-#     
-#     """
-#     convertfiles.xmltocsv.scrubcsv(f1, f2, 14)
+
             

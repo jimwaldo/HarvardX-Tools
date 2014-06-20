@@ -1,5 +1,14 @@
 #!/usr/bin/env python
+"""
+Produce a list of all users, and the number of classes the user is in. 
 
+Run from a directory that contains a set of directories of class data for different
+classes, find all of the users and count the number of classes each user is in. This 
+also uses a user->country file of the form supplied by edX to give the country of 
+each of the users; the name of this file needs to be given as the first argument to 
+the program on the command line.
+
+"""
 import glob
 from classData import user
 import csv

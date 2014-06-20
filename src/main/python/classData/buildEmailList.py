@@ -6,18 +6,21 @@ This file needs to be run from a directory in which the users.csv and profiles.c
 exist. When run, it produces a mailAddresses.csv file with the above format. It will only
 include entries for students that are in the user.csv file. If there is a student in the
 users.csv file but not in the profiles.csv file, the student's name will read "Missing
- Profile"
+ Profile". If a user's email has not been recorded, the email entry will be blank.
 
 Created on Nov 13, 2013
 
 @author: waldo
 """
-import classData.userprofile as userp
-from classData import user
+from classData import user, userprofile as userp
 import sys
 import csv
 
 def split(name):
+    """
+    Splits a string of form firstname lastname into two strings, returning a list
+    containing those names.
+    """
     spIn = name.rfind(' ')
     first = name[ :spIn]
     last = name[spIn + 1: ]

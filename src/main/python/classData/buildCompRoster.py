@@ -21,7 +21,7 @@ import csv
 import sys
 import utils
 from classData import buildClassRoster as bcr
-import classData.userprofile as prof
+from classData import userprofile as prof
 from classData import ipGeoloc as geo
 from classData import user
 
