@@ -6,7 +6,6 @@ Created on Dec 22, 2013
 @author: waldo
 """
 
-import shutil
 import sys
 import glob
 

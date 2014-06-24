@@ -1,4 +1,7 @@
 Development log
+6/23/14
+makeUserIpList:
+	Added documentation.
 6/20/14
 cullLogFiles.py:
 	Updated documentation, extracted the script into a main method
