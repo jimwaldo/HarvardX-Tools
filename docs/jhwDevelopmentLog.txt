@@ -1,4 +1,10 @@
 Development log
+6/25/14
+Changed the processClassData.sh script to use HarvardKennedySchool as a directory name, rather than HKS. 
+This makes this script consistent with the directory structures used in the log files and on the IQSS servers.
+
+Added instructions for dealing with an edX data download to the edXDump __init__.py file. 
+
 6/23/14
 makeUserIpList:
 	Added documentation.

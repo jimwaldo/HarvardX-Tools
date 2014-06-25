@@ -9,8 +9,8 @@ mv Harvard-* Harvard/
 mv HARVARD-* Harvard/
 mkdir HSPH
 mv HSPH-* HSPH/
-mkdir HKS
-mv HarvardKennedy* HKS/
+mkdir HarvardKennedySchool
+mv HarvardKennedySchool-* HarvardKennedySchool/
 
 #Now, decrypt everything, set up separate directories for each class, move files
 #to those directories, and rename to something shorter and more uniform, and then
