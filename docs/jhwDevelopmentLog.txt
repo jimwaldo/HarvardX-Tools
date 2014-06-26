@@ -1,4 +1,14 @@
 Development log
+6/26/14
+Added basic documentation to course_struct.py; added check for the right
+number of command-line arguments.
+
+Added the ability to pass an empty acceptlist to util.getStringVal,in which case
+no checking of the inputed string is done (more accurately, any string is accepted).
+ 
+Removed the program logs.selectLogRange.py; this was never completed and never used.
+
+Added very basic module level documentation to logs/__init__.py
 6/25/14
 Added package level documentation to the checkData/__init__.py
 

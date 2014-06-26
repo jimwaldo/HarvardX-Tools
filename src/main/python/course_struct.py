@@ -1,8 +1,13 @@
 #!/usr/bin/env python
+"""
+Build a csv file reflecting the course structure, using the edX supplied json file.
 
+
+"""
 import csv
 import json
 import sys
+
 
 class course_struct:
 
@@ -27,6 +32,10 @@ def save_csv(ctree, f):
         f.writerow([ c, ctree[c]['category'], ctree[c]['metadata'], chNames])
 
 if __name__ == '__main__':
+    if len(sys.argv != 3):
+        print "Usage: course_struct.py courseFile.json outFile.csv"
+        sys.exit(1)
+        
     inf = open(sys.argv[1], 'r')
     inline = inf.readline()
     ctdict = json.loads(inline)

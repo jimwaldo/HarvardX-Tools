@@ -18,6 +18,7 @@ def getFileName(prompt):
             return (fname)
         else:
             print('Entered name does not exist, please retry')
+            
 def getNewFileName(prompt):
     """
     Get the name of a new file, insuring that no file of that name already exists.
@@ -52,11 +53,11 @@ def getStringVal(prompt, acceptList):
     Display a prompt and get a string back, which is then checked against a list of string values.
 
     If the string entered is not one of the values checked against, the user will be re-prompted.
-    Returns a string
+    Returns a string. If the list of acceptable strings is empty, no check is performed.
     """
     while (True):
         retStr = raw_input(prompt)
-        if retStr in acceptList:
+        if (retStr in acceptList) or (not acceptList) :
             return retStr
         else:
             print('invalid entry, please re-try')
