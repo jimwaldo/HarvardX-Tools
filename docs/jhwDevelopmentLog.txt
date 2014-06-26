@@ -1,5 +1,9 @@
 Development log
 6/25/14
+Added package level documentation to the checkData/__init__.py
+
+Spelling corrections on edXDump/__init__.py
+
 Changed the processClassData.sh script to use HarvardKennedySchool as a directory name, rather than HKS. 
 This makes this script consistent with the directory structures used in the log files and on the IQSS servers.
 

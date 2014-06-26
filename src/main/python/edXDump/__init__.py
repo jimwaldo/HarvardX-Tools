@@ -58,7 +58,7 @@ killListedFiles.py, which is something of a hack in that it has a hand-entered a
 of the courses that can be removed. The killList in this program specifies a set of patterns that
 will be used to delete files. Inactive or junk courses can be found by looking at the ClassList.csv
 files produced by the processing of the Log data to find classes in which no events have occurred, but
-there is likely a need to consult with the HarvardX group to insure tha you are not adding a new
+there is likely a need to consult with the HarvardX group to insure that you are not adding a new
 and not yet active course to the list. There has to be a better way, but I haven't found it.
 
 The script then makes a set of directories to mirror the structure of those created by unpacking the 
@@ -76,7 +76,7 @@ are:
     enrollment.{sql, csv}: a listing of all users, with some basic demographic information, who 
         have enrolled in the course
     profiles.{sql, csv}: additional demographic information on all who have enrolled in the course
-    studentmodule.{sql,csv}: information on progess each student has made in the course
+    studentmodule.{sql,csv}: information on progress each student has made in the course
     user_id_map.{sql, csv}: a mapping associating userid, username, and the hashed id of each user
     users.{sql, csv}: information about each user in the course
 In addition, there is the course_structure.json file, that represents the components of the course
