@@ -1,13 +1,17 @@
 #!/usr/bin/env python
-'''
-Created on Jul 1, 2014
+"""
+Run from a directory containing directories with name harvardx-YYYY-MM-DD and which has
+a set of directories that might contain a ClassList.csv file, this program will 
+create a set of csv files (written to the current directory) that will contain a line
+for each date (as determined by the directory name) and the count of the events during
+the week ending with that date. 
 
 @author: waldo
 
 
 
 
-'''
+"""
 import glob
 import sys
 import csv
