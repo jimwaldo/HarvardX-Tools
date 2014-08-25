@@ -17,5 +17,7 @@ if __name__ == '__main__':
     destDir = sys.argv[1]
     flist = glob.glob('*/*/2014*.log')
     for f in flist:
-        destf = destDir + '/' + f
-        shutil.move(f, destf)
+	#GLopez
+	print "f", f
+        #destf = destDir + '/' + f
+        #shutil.move(f, destf)

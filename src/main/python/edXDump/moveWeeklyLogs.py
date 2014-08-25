@@ -24,6 +24,7 @@ if __name__ == '__main__':
     
     fileList = glob.glob(srcDir + '/*.log')
     for fname in fileList:
+	print 'fname', fname
         if 'unknown' not in fname:
             cname = fname[:fname.find('.log')]
             if not os.path.isdir(destDir + '/' + cname):

@@ -17,7 +17,8 @@ Created on Sep 21, 2013
 import glob
 import buildClassList
 import os
-import edXDump.sqltocsv as conv
+#import edXDump.sqltocsv as conv
+import sqltocsv as conv
 
 
 def makeDestName(fileName):
