@@ -237,6 +237,7 @@ if __name__ == '__main__':
 	
 			if isUnknown:
 
+				courseName = unknown
 				if courseName not in courseListingDict:
 					courseListingDict[courseName] = 1
 					filedict[unknown] = addName(unknown)
@@ -246,7 +247,7 @@ if __name__ == '__main__':
 				try:
 					filedict[courseName].write(line)	
 				except:
-					print "[Error]: Did not write to raw file %s" % (courseName)
+					print "[Error]: Did not write to raw file %s (Course, Time or Host is unknown:  %s,%s,%s)" % (courseName, hostName, currentDate)
 					pass
 
 			else:
@@ -297,7 +298,7 @@ if __name__ == '__main__':
 					rawlogfileDict[dirName, hostName, currentYear, currentDate].write(line)
 						
 				except:
-					print "[Error]: Did not write to raw file %s" % (dirName, hostName, currentDate)
+					print "[Error]: Did not write to raw file %s %s %s %s" % (dirName, hostName, currentYear, currentDate)
 					pass
 
 		jfile.close()
