@@ -262,7 +262,7 @@ if __name__ == '__main__':
 				try:
 					rawlogdirDict[dirName, hostName, currentYear]
 				except:
-					print "Debug: Prod Server Dir does not exist. Add tuple key to dictionary (%s, %s, %s)" % (dirName, hostName, currentYear)
+					#print "Debug: Prod Server Dir does not exist. Add tuple key to dictionary (%s, %s, %s)" % (dirName, hostName, currentYear)
 					schoolHost = dirName + str('/') + hostName # i.e.: Harvard/courses.edx.org
 					schoolHostYear = schoolHost + str('/') + currentYear # i.e.: Harvard/courses.edx.org/2014
 					rawlogdirDict[rawlogdir(school=dirName, host=hostName, year=currentYear)] = schoolHostYear # Store full directory name
@@ -274,7 +274,7 @@ if __name__ == '__main__':
 				try:
 					rawlogfileDict[dirName, hostName, currentYear, currentDate]
 				except KeyError:
-					print "Debug: Raw Log file does not exist. Add tuple key to dictionary (%s, %s, %s)" % (dirName, hostName, currentDate)
+					#print "Debug: Raw Log file does not exist. Add tuple key to dictionary (%s, %s, %s)" % (dirName, hostName, currentDate)
 					rawlogfileDict[rawlogfile(school=dirName, host=hostName, year=currentYear, date=currentDate)] = addName(currentDate, rawlogdirDict[dirName,hostName,currentYear])
 					print "added raw file: %s.log to dir %s" % (currentDate, rawlogdirDict[dirName,hostName,currentYear])
 					pass
@@ -324,14 +324,12 @@ if __name__ == '__main__':
 	for d in sorted(dirNameDict, key=dirNameDict.get, reverse=True):
 		print "Directory Name: %s, Course Name: %s" % (dirNameDict[d], d)
 			
-	# Print sorted in Descending order
-	for c in sorted(courseListingDict, key=courseListingDict.get, reverse=True):
-		print "Course Name: %s, Count: %s" % (c, courseListingDict[c])
-
-	# Write Class output
+	# Write Class output (descending order)
 	clFile = csv.writer(open('ClassList.csv', 'w'))
 	for c in sorted(courseListingDict, key=courseListingDict.get, reverse=True):
-		clFile.writerow([c, courseListingDict[c]])	
+		if c is not unknown:
+			print "Course Name: %s, Count: %s" % (c, courseListingDict[c])
+			clFile.writerow([c, courseListingDict[c], dirNameDict[c]])	
 	
 	print "End of File"
 

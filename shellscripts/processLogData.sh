@@ -11,25 +11,26 @@
 #first, we get rid of any files that have already been processed, passing in the first date of
 #a log that we want to keep as the command to the scripts
 
-foreach d (*)
-    cd $d
-    cullLogFiles.py $1 $2
-    cd ..
-    end
+# No longer needed with new Daily Log Format
+#foreach d (*)
+#    cd $d
+#    cullLogFiles.py $1 $2
+#    cd ..
+ #   end
 
 #if any of the directories is empty, simply remove it
-rmdir *
+#rmdir *
 
 #Now, uncompress the logs, and separate out the log entries in each directory by the class
-foreach d (prod*)
-    cd $d
-    uncompAndDecrypt.sh
-    separateClassLogs.py
-    cd ..
-    end
+#foreach d (prod*)
+#    cd $d
+uncompAndDecrypt.sh
+separateClassLogs.py
+#    cd ..
+#    end
 
 #Build a log for the week for each of the classes, writing the log to the current directory
-buildWeekLog.py
+#buildWeekLog.py
 
 
 
