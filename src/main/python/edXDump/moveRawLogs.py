@@ -15,7 +15,8 @@ if __name__ == '__main__':
         print 'Usage: moveRawLogs destdir'
         exit()
     destDir = sys.argv[1]
-    flist = glob.glob('*/*/2014*.log')
+    flist = glob.glob('*/*/20*/20*.log') # Assume new dir structure HarvardX/courses.edx.org/YYYY/YYYY-MM-DD.log
     for f in flist:
+        #print f
         destf = destDir + '/' + f
         shutil.move(f, destf)

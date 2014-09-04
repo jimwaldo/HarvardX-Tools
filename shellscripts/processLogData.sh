@@ -18,7 +18,7 @@ foreach d (*)
     end
 
 #if any of the directories is empty, simply remove it
-#rmdir *
+rmdir *
 
 #Now, uncompress the logs, and separate out the log entries in each directory by the class
 foreach d (prod*)
