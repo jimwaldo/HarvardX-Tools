@@ -26,13 +26,24 @@ import csv
 from dateutil import parser
 from collections import namedtuple
 from operator import itemgetter
+import killListedFiles as kl
 
 unknown = str("unknown")
-edx_host_name = str("courses.edx.org")
-edx_prodserv_dirname = edx_host_name
-edge_host_name = str("edge.edx.org")
-edge_prodserv_dirname = edge_host_name
-# Note: in IMPORT_ALL_TRACKING_LOGS, check DO_EDGE condition (need to update)
+
+# Known Hosts
+known_host_names = [\
+	'courses.edx.org',
+	'edge.edx.org']
+
+# Known Org Id's (School names)
+known_org_ids = [\
+	'Harvard',
+	'HarvardX',
+	'HarvardKennedySchool',
+	'HSPH']
+
+# Course Junk List
+killList = kl.killList # Master list is in file killListedFiles.py
 
 
 def addName(name, dirName=None):
@@ -207,12 +218,12 @@ if __name__ == '__main__':
 			timeField = getField(line, 'time')
 			
 			# Check only known host names
-			if edx_host_name == hostName:
-				hostName = edx_prodserv_dirname
-			elif edge_host_name == hostName:
-				hostName = edge_prodserv_dirname
-			else:
+			if hostName not in known_host_names:
 				hostName = unknown
+			
+			# Check only known dirName's
+			if dirName not in known_org_ids:
+				dirName = unknown
 
 			# Parse Time data
 			try:
@@ -221,18 +232,19 @@ if __name__ == '__main__':
 				currentYear = str(currentTime.year)
 			except:
 				currentDate = unknown
-				date = unknown
 				currentYear = unknown
 				pass
 
 			# Parse Course Name Data
 			courseName = parseCourseIdField(courseIdField)
+			if courseName in killList:
+				courseName = unknown
 
 			# Setup raw log file dictionary tuples
-			rawlogfile = namedtuple('rawlogfile', ['school', 'host', 'year', 'date'])
+			rawlogfile = namedtuple('rawlogfile', ['school', 'host', 'year', 'date','fn'])
 			rawlogdir = namedtuple('rawlogdir', ['school', 'host', 'year'])
 
-			if hostName is unknown or currentDate is unknown or courseName is unknown:
+			if hostName is unknown or currentDate is unknown or courseName is unknown or dirName is unknown:
 				isUnknown = True
 	
 			if isUnknown:
@@ -272,11 +284,12 @@ if __name__ == '__main__':
 					
 				# Generate Raw Log Files	
 				try:
-					rawlogfileDict[dirName, hostName, currentYear, currentDate]
+					rawfilename = currentDate + str('_') + dirName
+					rawlogfileDict[dirName, hostName, currentYear, currentDate, rawfilename]
 				except KeyError:
 					#print "Debug: Raw Log file does not exist. Add tuple key to dictionary (%s, %s, %s)" % (dirName, hostName, currentDate)
-					rawlogfileDict[rawlogfile(school=dirName, host=hostName, year=currentYear, date=currentDate)] = addName(currentDate, rawlogdirDict[dirName,hostName,currentYear])
-					print "added raw file: %s.log to dir %s" % (currentDate, rawlogdirDict[dirName,hostName,currentYear])
+					rawlogfileDict[rawlogfile(school=dirName, host=hostName, year=currentYear, date=currentDate, fn=rawfilename)] = addName(rawfilename, rawlogdirDict[dirName,hostName,currentYear])
+					print "added raw file: %s.log to dir %s" % (rawfilename, rawlogdirDict[dirName,hostName,currentYear])
 					pass
 					
 				# Add to Course Listing Dictionary
@@ -295,7 +308,7 @@ if __name__ == '__main__':
 
 				#Create Production Server Log Files
 				try:
-					rawlogfileDict[dirName, hostName, currentYear, currentDate].write(line)
+					rawlogfileDict[dirName, hostName, currentYear, currentDate, rawfilename].write(line)
 						
 				except:
 					print "[Error]: Did not write to raw file %s %s %s %s" % (dirName, hostName, currentYear, currentDate)
@@ -317,8 +330,8 @@ if __name__ == '__main__':
 		timeCorrect = {}
 		rawlogfileDict[g].close()
 		if g.date is not unknown or g.host is not unknown:
-			timeCorrected = correctTimeOrder(g.date, rawlogdirDict[g.school, g.host, g.year])
-			writeTimeCorrectedLog(g.date, timeCorrected, rawlogdirDict[g.school, g.host, g.year])
+			timeCorrected = correctTimeOrder(g.fn, rawlogdirDict[g.school, g.host, g.year])
+			writeTimeCorrectedLog(g.fn, timeCorrected, rawlogdirDict[g.school, g.host, g.year])
 
 	# Print sorted in Descending order
 	for d in sorted(dirNameDict, key=dirNameDict.get, reverse=True):
