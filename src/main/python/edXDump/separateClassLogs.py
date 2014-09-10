@@ -3,6 +3,7 @@
 Description:
 Separate log files into Course Directory Structure using log files containing YYYY-MM-DD.log in Filename as input
 Runs from Top Level Directory Structure and recursively walks through subdirectories looking for input log files. 
+Optionally, specify startdate and enddate (inclusive) in format YYYY-MM-DD for processing log files between certain dates only.
 
 Input:
 Log files containing YYYY-MM-DD.log in Filename as input
@@ -10,9 +11,9 @@ Log files containing YYYY-MM-DD.log in Filename as input
 Output:
 Output is Course Directory structure containing both Time Corrected Raw Logs and separated Time Corrected Course Logs based on fields in the log files:
 Raw logs Structure
-<org_id>/<host>/YYYY/YYYY-MM-DD.log (i.e.: HarvardX/courses.edx.org/2014/2014-08-20.log)
+<org_id>/<host>/YYYY/YYYY-MM-DD.log (i.e.: HarvardX/courses.edx.org/2014/2014-08-20_<org_id>.log)
 
-Course logs Structure
+Course logs Structure (pre-processed for use with moveWeeklyLogs.py)
 <org_id>/coursename-term.log (i.e.: HarvardX/ER22.1x-1T2014.log)
 """
 import glob
@@ -74,11 +75,12 @@ def getClassList():
 		clfile.close()
 	return cldict
 
-def getLogFiles():
+def getLogFiles(start=None, end=None):
 	
 	''' 
 	Recursively walk through current directory and subdirectories, looking for files that contain
-	string YYYY-MM-DD with file ext .log
+	string YYYY-MM-DD with file ext .log, that are between user specified start and end dates.
+	If none specified, then process all files that it finds
 	Supports both Old, Old-Modified and New Formats
 	  Old format
 	  i.e.: prod-edxapp*/YYYY-MM-DD_HarvardX.log (for regular server)
@@ -92,6 +94,17 @@ def getLogFiles():
 	  i.e.: harvardx-edge-events-YYYY-MM-DD.log (for edge server)
 	  	harvardx-edx-events-YYYY-MM-DD.log (for regular server)	
 	'''
+
+	datesKnown = False
+	if start is not None and end is not None:
+		try:
+			startDate = parser.parse(start)
+			endDate = parser.parse(end)
+			datesKnown = True
+		except:
+			print "[Error]: Could not parse specified date"
+			pass
+
 	finalList = []
 	pattern = "\d{4}-\d{2}-\d{2}"
 	# Recursively look through dir
@@ -100,7 +113,13 @@ def getLogFiles():
 		for f in fnmatch.filter(files, '*.log'):
 			m = re.search(pattern, f)	
 			if m:
-				finalList.append((dirpath,f, m.group(0))) # Group 0 is the matched pattern string = YYYY-MM-DD, used for sorting purposes
+				date = m.group(0)
+				dateToCompare = parser.parse(date)
+				if datesKnown:
+					if (dateToCompare >= startDate and dateToCompare <= endDate):
+						finalList.append((dirpath,f, date)) # Group 0 is the matched pattern string = YYYY-MM-DD, used for sorting purposes
+				else:
+					finalList.append((dirpath,f, date)) # Group 0 is the matched pattern string = YYYY-MM-DD, used for sorting purposes
 
 	finalList = sorted(finalList, key=itemgetter(2))
 	for i, j, k in finalList:
@@ -191,6 +210,13 @@ def writeTimeCorrectedLog(name, log, dirName):
 
 if __name__ == '__main__':
 
+	if len(sys.argv) > 2:
+		startDate = sys.argv[1]
+		endDate = sys.argv[2]
+	else:
+		startDate = None
+		endDate = None
+		
 
 	#Dictionaries
 	courseListingDict = getClassList()
@@ -200,7 +226,7 @@ if __name__ == '__main__':
 	rawlogfileDict = {}
 	rawlogdirDict = {}
 
-	logList = getLogFiles()
+	logList = getLogFiles(startDate, endDate)
 
 	for log in logList:
 		
