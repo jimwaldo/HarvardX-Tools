@@ -95,6 +95,7 @@ def getLogFiles(start=None, end=None):
 	  	harvardx-edx-events-YYYY-MM-DD.log (for regular server)	
 	'''
 
+	finalList = []
 	datesKnown = False
 	if start is not None and end is not None:
 		try:
@@ -102,10 +103,10 @@ def getLogFiles(start=None, end=None):
 			endDate = parser.parse(end)
 			datesKnown = True
 		except:
-			print "[Error]: Could not parse specified date"
+			print "[Error]: Could not parse specified date. Proper format is YYYY-MM-DD"
+			return finalList
 			pass
 
-	finalList = []
 	pattern = "\d{4}-\d{2}-\d{2}"
 	# Recursively look through dir
 	path = os.getcwd()
