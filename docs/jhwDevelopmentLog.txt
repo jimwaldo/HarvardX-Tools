@@ -1,4 +1,10 @@
 Development log
+7/18/14
+Added documentation to buildClassHistograph.py. Changed getDateFromName to use
+regexp rather than rely on the naming convention and doing slicing. Created
+functions to get the name of the class from the filename, and one that will
+produce the filename from the classname (isolates the name munging).
+
 6/26/14
 Added basic documentation to course_struct.py; added check for the right
 number of command-line arguments.
@@ -9,6 +15,7 @@ no checking of the inputed string is done (more accurately, any string is accept
 Removed the program logs.selectLogRange.py; this was never completed and never used.
 
 Added very basic module level documentation to logs/__init__.py
+
 6/25/14
 Added package level documentation to the checkData/__init__.py
 

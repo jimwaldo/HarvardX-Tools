@@ -22,7 +22,7 @@ def getFileName(prompt):
 def getNewFileName(prompt):
     """
     Get the name of a new file, insuring that no file of that name already exists.
-    If a file of that name exists, the user will be propted to re-enter the filename.
+    If a file of that name exists, the user will be prompted to re-enter the filename.
     Returns a string
     """
     
