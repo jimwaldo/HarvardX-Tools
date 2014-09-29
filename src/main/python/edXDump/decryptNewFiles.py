@@ -1,5 +1,11 @@
 #!/usr/bin/env python
 '''
+Find all of the new daily files that have been downloaded, indicated
+by there being a daily encrypted file but no corresponding decrypted
+file, and decrypt that file and then copy the decrypted version of the
+file to a different directory, which is the staging area for moving
+to IQSS. 
+
 Created on Sep 19, 2014
 
 @author: waldo
@@ -23,10 +29,12 @@ def findNewFiles():
 
 def deComp(f):
     """
-    Decrypt the file named by the string passed in. The decryption is done
+    Decrypt the file named by the string passed in, and copy that file
+    to a directory in which new files will be stored. The decryption is done
     by making a subprocess call to gpg, but could be changed in the future.
     """
     subprocess.call(['gpg','-o', f[:-4], '-d', f] )
+    subprocess.call(['cp', f[:-4], '../NewFiles'])
 
 if __name__ == '__main__':
     newFiles = findNewFiles()
