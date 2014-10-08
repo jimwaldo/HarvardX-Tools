@@ -28,6 +28,7 @@ from dateutil import parser
 from collections import namedtuple
 from operator import itemgetter
 import killListedFiles as kl
+import grabLogs
 
 unknown = str("unknown")
 
@@ -56,77 +57,6 @@ def addName(name, dirName=None):
 	print "creating file: ", fname
 	fout = open(fname, 'w')
 	return fout
-
-def getClassList():
-	"""
-	Returns a dictionary of class names and number of log entries for that class.
-	Finds out if there is a ClassList.csv file at the next level of the directory
-	hierarchy, and if so reads that file and creates a dictionary of class name and
-	log entry counts for the class. Otherwise, returns an empty dictionary. Note 
-	that the ClassList.csv file will be written at the end of the extraction of
-	class log entries.
-	"""
-	cldict = {}
-	if 'ClassList.csv' in os.listdir('..'):
-		clfile = open('ClassList.csv', 'rU')
-		clreader = csv.reader(clfile)
-		for cname, count in clreader:
-			cldict[cname] = int(count)
-		clfile.close()
-	return cldict
-
-def getLogFiles(start=None, end=None):
-	
-	''' 
-	Recursively walk through current directory and subdirectories, looking for files that contain
-	string YYYY-MM-DD with file ext .log, that are between user specified start and end dates.
-	If none specified, then process all files that it finds
-	Supports both Old, Old-Modified and New Formats
-	  Old format
-	  i.e.: prod-edxapp*/YYYY-MM-DD_HarvardX.log (for regular server)
-	  	prod-edge-edxapp*/YYYY-MM-DD_HarvardX.log (for edge server)
-		Fixed directory structure
-	  Old Modified format
-	  i.e: prod-edge*<alphanumeric>/YYYY-MM-DD_HarvardX.log
-	       prod-edge*<alphanumeric>/YYYY-MM-DD_HarvardX.log
-	       Dynamic directory structure when EdX switched to Virtual Private Cloud during week of 2014-08-22
-	  New Format
-	  i.e.: harvardx-edge-events-YYYY-MM-DD.log (for edge server)
-	  	harvardx-edx-events-YYYY-MM-DD.log (for regular server)	
-	'''
-
-	finalList = []
-	datesKnown = False
-	if start is not None and end is not None:
-		try:
-			startDate = parser.parse(start)
-			endDate = parser.parse(end)
-			datesKnown = True
-		except:
-			print "[Error]: Could not parse specified date. Proper format is YYYY-MM-DD"
-			return finalList
-			pass
-
-	pattern = "\d{4}-\d{2}-\d{2}"
-	# Recursively look through dir
-	path = os.getcwd()
-	for dirpath, dirnames, files in os.walk(path):
-		for f in fnmatch.filter(files, '*.log'):
-			m = re.search(pattern, f)	
-			if m:
-				date = m.group(0)
-				dateToCompare = parser.parse(date)
-				if datesKnown:
-					if (dateToCompare >= startDate and dateToCompare <= endDate):
-						finalList.append((dirpath,f, date)) # Group 0 is the matched pattern string = YYYY-MM-DD, used for sorting purposes
-				else:
-					finalList.append((dirpath,f, date)) # Group 0 is the matched pattern string = YYYY-MM-DD, used for sorting purposes
-
-	finalList = sorted(finalList, key=itemgetter(2))
-	for i, j, k in finalList:
-		print "verified YYYY-MM-DD file naming format: %s in dir %s with date of %s)" % (j, i, k)
-
-	return finalList
 
 def getField(line, field1, field2 = None):
 	
@@ -214,25 +144,28 @@ if __name__ == '__main__':
 	if len(sys.argv) > 2:
 		startDate = sys.argv[1]
 		endDate = sys.argv[2]
+	elif len(sys.argv) > 1:
+		startDate = sys.argv[1]
+		endDate = sys.argv[1]
 	else:
 		startDate = None
 		endDate = None
-		
 
 	#Dictionaries
-	courseListingDict = getClassList()
+	courseListingDict = {}
 	filedict = {}
 	hostnameDict = {}
 	dirNameDict = {}
 	rawlogfileDict = {}
 	rawlogdirDict = {}
 
-	logList = getLogFiles(startDate, endDate)
+	#logList = getLogFiles(startDate, endDate)
+	logList = grabLogs.getLogFilesFromDates(True, startDate, endDate)
 
 	for log in logList:
 		
-		logName = log[0] + str('/') + log[1]
-		print "processing logName", logName
+		logName = log
+		print "processing logfile", logName
 		jfile = open(logName, 'r')
 
 		for line in jfile:
