@@ -1,8 +1,11 @@
 #!/usr/bin/env python
-'''
- Given a list of times, extract log events from input log
-
-'''
+"""
+  Given a list of times, extract log events from input log
+  First input is the logFile. Second input is the list of times (format is one time hack
+  per line then a new line character). Third argument is the name of the output file.
+  
+  Output is a logfile containing events with times specified in the list of times
+"""
 import json
 import sys
 
