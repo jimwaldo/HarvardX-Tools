@@ -22,6 +22,7 @@ import glob
 killList = ['00001',
             '001-Intro_to_Learning_Management_Eco_System',
             '007Horsey',
+            '1-Test',
             '100',
             '101-My',
             '101-Sept',
