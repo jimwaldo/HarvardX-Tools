@@ -27,26 +27,10 @@ import csv
 from dateutil import parser
 from collections import namedtuple
 from operator import itemgetter
-import killListedFiles as kl
 import grabLogs
+from masterLookup import *
 
 unknown = str("unknown")
-
-# Known Hosts
-known_host_names = [\
-	'courses.edx.org',
-	'edge.edx.org']
-
-# Known Org Id's (School names)
-known_org_ids = [\
-	'Harvard',
-	'HarvardX',
-	'HarvardKennedySchool',
-	'HSPH']
-
-# Course Junk List
-killList = kl.killList # Master list is in file killListedFiles.py
-
 
 def addName(name, dirName=None):
 
@@ -182,6 +166,9 @@ if __name__ == '__main__':
 				hostName = unknown
 			
 			# Check only known dirName's
+			if dirName in known_HarvardMIT_courses:
+				dirName = known_HarvardMIT_courses[dirName]
+
 			if dirName not in known_org_ids:
 				dirName = unknown
 
@@ -199,7 +186,7 @@ if __name__ == '__main__':
 			courseName = parseCourseIdField(courseIdField)
 			if courseName in killList:
 				courseName = unknown
-
+								
 			# Setup raw log file dictionary tuples
 			rawlogfile = namedtuple('rawlogfile', ['school', 'host', 'year', 'date','fn'])
 			rawlogdir = namedtuple('rawlogdir', ['school', 'host', 'year'])

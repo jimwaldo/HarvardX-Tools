@@ -2,6 +2,8 @@
 
 #First, get rid of files that won't be of use
 killListedFiles.py
+#Next, rename filenames for course that are common between HarvardX/MITx, since org id is not specified
+renameCommonCourses.py
 mkdir HarvardX
 mv HarvardX-* HarvardX
 mkdir Harvard
