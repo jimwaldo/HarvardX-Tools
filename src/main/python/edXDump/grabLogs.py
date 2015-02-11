@@ -88,7 +88,7 @@ def getLogFilesFromDates(verbose=False, start=None, end=None, searchDir=os.getcw
 			# Check valid file extensions
 			for ext in LOG_FILE_EXT:
 				if f.endswith(ext):
-					m = re.search(pattern, f)	
+					m = re.search(pattern, f)
 					if m:
 						date = m.group(0)
 						dateToCompare = parser.parse(date)

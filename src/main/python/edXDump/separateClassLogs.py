@@ -150,11 +150,11 @@ if __name__ == '__main__':
 		
 		logName = log
 		print "processing logfile", logName
-		
+
 		if logName.endswith('.gz'):
 			# Read gzipped file
 			jfile = gzip.open(logName, 'r')
-		else:	
+		else:
 			# Read '.log' extension
 			jfile = open(logName, 'r')
 
