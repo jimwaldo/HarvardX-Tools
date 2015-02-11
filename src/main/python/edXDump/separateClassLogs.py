@@ -28,6 +28,7 @@ from dateutil import parser
 from collections import namedtuple
 from operator import itemgetter
 import grabLogs
+import gzip
 from masterLookup import *
 
 unknown = str("unknown")
@@ -143,14 +144,19 @@ if __name__ == '__main__':
 	rawlogfileDict = {}
 	rawlogdirDict = {}
 
-	#logList = getLogFiles(startDate, endDate)
 	logList = grabLogs.getLogFilesFromDates(True, startDate, endDate)
 
 	for log in logList:
 		
 		logName = log
 		print "processing logfile", logName
-		jfile = open(logName, 'r')
+		
+		if logName.endswith('.gz'):
+			# Read gzipped file
+			jfile = gzip.open(logName, 'r')
+		else:	
+			# Read '.log' extension
+			jfile = open(logName, 'r')
 
 		for line in jfile:
 			isUnknown = False

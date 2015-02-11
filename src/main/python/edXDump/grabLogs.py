@@ -16,6 +16,10 @@ from dateutil import parser
 from operator import itemgetter
 from datetime import datetime 
 
+LOG_FILE_EXT = ['.gz',
+		'.log',
+	       ]
+
 timeWindow = {\
 		'one_day_ago': 1,
 		'half_week_ago': 4,
@@ -80,17 +84,20 @@ def getLogFilesFromDates(verbose=False, start=None, end=None, searchDir=os.getcw
 	# Recursively look through dir
 	#path = os.getcwd()
 	for dirpath, dirnames, files in os.walk(searchDir):
-		for f in fnmatch.filter(files, '*.log'):
-			m = re.search(pattern, f)	
-			if m:
-				date = m.group(0)
-				dateToCompare = parser.parse(date)
-				absFilePath = dirpath + str("/") + f
-				if datesKnown:
-					if (dateToCompare >= startDate and dateToCompare <= endDate):
-						finalList_tuple.append((absFilePath,date)) # Group 0 is the matched pattern string = YYYY-MM-DD, used for sorting purposes
-				else:
-					finalList_tuple.append((absFilePath,date)) # Group 0 is the matched pattern string = YYYY-MM-DD, used for sorting purposes
+		for f in files:
+			# Check valid file extensions
+			for ext in LOG_FILE_EXT:
+				if f.endswith(ext):
+					m = re.search(pattern, f)	
+					if m:
+						date = m.group(0)
+						dateToCompare = parser.parse(date)
+						absFilePath = dirpath + str("/") + f
+						if datesKnown:
+							if (dateToCompare >= startDate and dateToCompare <= endDate):
+								finalList_tuple.append((absFilePath,date)) # Group 0 is the matched pattern string = YYYY-MM-DD, used for sorting purposes
+						else:
+							finalList_tuple.append((absFilePath,date)) # Group 0 is the matched pattern string = YYYY-MM-DD, used for sorting purposes
 
 	finalList_tuple = sorted(finalList_tuple, key=itemgetter(1)) #last item is date
 
