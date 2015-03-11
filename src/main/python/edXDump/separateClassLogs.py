@@ -76,11 +76,30 @@ def createTopLevelDirectory(newdir):
 def parseCourseIdField(cidf):
 
 	#print "ParseCourseIDField"
-	# Assume format <dirname>/cnameprefix/cnameterm
-	# Need to verify if this is always true
+	# There are 2 formats to process
+	# 1) Transparent Key Format => <dirname>/cnameprefix/cnameterm [This is pre-March 2015, when it was introduced in Hx Logs]
+	# 2) Opaque Key Identifier => "course-v1:HarvardX+cnameprefix+cnameterm"
 	try:
-		dirname, cnameprefix, cnameterm = cidf.split('/')
-		cname = str(cnameprefix) + str('-') + str(cnameterm)
+		for id_key in COURSE_ID_KEY_FORMAT:
+
+			# Transparent Key
+			m = id_key['regex'].match(cidf)
+			if m and id_key['key_type'] == 'transparent':
+				dirname, cnameprefix, cnameterm = cidf.split('/')
+				cname = str(cnameprefix) + str('-') + str(cnameterm)
+				break
+
+			# Opaque Key
+			elif m and id_key['key_type'] == 'opaque':
+				course_version_prefix = m.group().replace(':','')
+				course_prefix, course_version = course_version_prefix.split('-') # Might need this in the future for course versioning
+				opaque_id = cidf.replace(course_version_prefix, '')
+				transparent_id = opaque_id.replace('+', '/')
+				dirname, cnameprefix, cnameterm = transparent_id.split('/')
+				cname = str(cnameprefix) + str('-') + str(cnameterm)
+				break
+			else:
+				cname = unknown
 
 	except ValueError:
 		cname = unknown

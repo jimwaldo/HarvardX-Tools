@@ -12,6 +12,7 @@
        have the format as follows: "VJx/VJx"
 """
 from killListedFiles import *
+import re
 
 # Known Hosts
 known_host_names = [\
@@ -29,3 +30,6 @@ known_org_ids = [\
 known_HarvardMIT_courses = {'VJx': 'HarvardX'
                             }
 
+COURSE_ID_KEY_FORMAT = [{'key_type': 'transparent', 'regex': re.compile('(^Harvard|HSPH)')},
+		        {'key_type': 'opaque', 'regex': re.compile('([^:]*:)')},
+		       ]
