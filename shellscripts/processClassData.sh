@@ -16,8 +16,7 @@ mv HarvardKennedySchool-* HarvardKennedySchool/
 
 # Move Weekly email optin list
 mkdir HarvardX/CombinedCourseData
-mkdir HarvardX/CombinedCourseData/email_opt_in
-mv harvardx-email_opt_in-* HarvardX/CombinedCourseData/email_opt_in
+mv harvardx-email_opt_in-* HarvardX/CombinedCourseData
 
 #Now, decrypt everything, set up separate directories for each class, move files
 #to those directories, and rename to something shorter and more uniform, and then
