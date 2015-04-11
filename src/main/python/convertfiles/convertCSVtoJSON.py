@@ -85,7 +85,7 @@ def cleanJSONline(d, schema_dict):
 			specified_type = BQ2PTYPE[schema_dict[key]]
 
 			# Mismatch identified
-			if type(value) in [float, int] and type(value) != type(specified_type):
+			if type(value) in [float, int, unicode] and type(value) != type(specified_type):
 			
 			    # Record stats for populated field with incorrect format
 			    if key not in SCHMA_NOK_CNT_DICT:
@@ -93,47 +93,47 @@ def cleanJSONline(d, schema_dict):
 			    else:
 				SCHMA_NOK_CNT_DICT[key] += 1
 	      
-				# Attempt to convert incorrect fields according to specified schema
-				try:
-					if type(value) is float and specified_type is int:
-					    try:
-					        d[key] = int(value) 
-					    except:
-						raise
-					elif type(value) is int and specified_type is float:
-					    try:
-					        d[key] = float(value)
-					    except:
-						raise
-					elif type(value) is unicode and specified_type is int:
-					    try:
-						d[key] = int(float(value.encode("ascii")))
-					    except:
-						pass
+			    # Attempt to convert incorrect fields according to specified schema
+			    try:
+				    if type(value) is float and specified_type is int:
+				        try:
+				            d[key] = int(value) 
+					except:
+					    raise
+				    elif type(value) is int and specified_type is float:
+				        try:
+				            d[key] = float(value)
+					except:
+					    raise
+				    elif type(value) is unicode and specified_type is int:
+				        try:
+					    d[key] = int(float(value.encode("ascii")))
+					except:
+					    pass
 
-					    try:
-						d[key] = int(value.encode("ascii"))
-					    except:
-						raise
-					elif type(value) is unicode and specified_type is float:
-					    try:
-						d[key] = float(value.encode("ascii"))
-					    except:
-						raise
+				        try:
+					    d[key] = int(value.encode("ascii"))
+				        except:
+					    raise
+				    elif type(value) is unicode and specified_type is float:
+				        try:
+					    d[key] = float(value.encode("ascii"))
+					except:
+					    raise
 				    
-				        # Record stats for populated field wit incorrect format and successfully converted field
-					if key not in SCHMA_CVT_CNT_DICT:
-					    SCHMA_CVT_CNT_DICT[key] = 1
-					else:
-					    SCHMA_CVT_CNT_DICT[key] += 1
-				except:
-
-				    # Record stats for populated field wit incorrect format and unconverted field
-				    if key not in SCHMA_NCVT_CNT_DICT:
-					SCHMA_NCVT_CNT_DICT[key] = 1
+				    # Record stats for populated field wit incorrect format and successfully converted field
+				    if key not in SCHMA_CVT_CNT_DICT:
+				        SCHMA_CVT_CNT_DICT[key] = 1
 				    else:
-					SCHMA_NCVT_CNT_DICT[key] += 1
-				    continue
+				        SCHMA_CVT_CNT_DICT[key] += 1
+			    except:
+
+			        # Record stats for populated field wit incorrect format and unconverted field
+			        if key not in SCHMA_NCVT_CNT_DICT:
+				    SCHMA_NCVT_CNT_DICT[key] = 1
+			        else:
+				    SCHMA_NCVT_CNT_DICT[key] += 1
+			        continue
 
 			# Schema and current field format matches
 			else:
