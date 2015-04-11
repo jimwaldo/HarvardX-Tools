@@ -2,7 +2,7 @@
 """
 This is generic CSV to JSON converter containing newline delimited formatting
 
-Input is a comma delimited CSV file:w
+Input is a comma delimited CSV file
 Output is a newline delimited JSON formatted
 
 Usage:
@@ -157,7 +157,10 @@ def readSchema(schema_file=None, schema_name=None):
     for keys in schema:
         schema_dict[keys.get('name', None)] = keys.get('type', None)
 
-    print schema_dict
+    print "--------------------------------"
+    print "SCHEMA SPECIFIED"
+    print "--------------------------------"
+    print(json.dumps(schema_dict, indent=4))
 
     return schema_dict
 
@@ -294,12 +297,8 @@ def main():
 		SCHMA_SUMMARY.ix[field, '% Corrected'] = pct_incorrect_fixed
 	
 	# Sort by % not fixed to identify problem areas
-	print SCHMA_SUMMARY.shape
 	SCHMA_SUMMARY.sort(['% Incorrect'], inplace=True, ascending=False)
 	SCHMA_SUMMARY.apply(printStats, axis=1)
-	#SCHMA_SUMMARY.apply(lambda: x: print "Field Name: %s, Correct %s, Incorrect %s, Fixed %s, Not Fixed %s, %Incorrect %s %Corrected %s)" % (x.index, x['Correct'], x['Incorrect'], x['Fixed'], x['Not Fixed'], x['% Incorrect'], x['% Corrected']))
-
-                #print "[main]: Field name: %s, Correct: %s, Incorrect: %s, Fixed: %s, Not Fixed: %s (%0.2f incorrect, %0.2f corrected)" % ( field, total_pop_fields_correct, total_pop_fields_incorrect, total_pop_fields_corrected, total_pop_fields_notcorrected, pct_incorrect, pct_incorrect_fixed )
 
         # Print Final Summary
         print "--------------------------------"
