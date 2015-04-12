@@ -37,6 +37,8 @@ SCHMA_OK_CNT_DICT = {}   # Schema matches field format
 SCHMA_NOK_CNT_DICT = {}  # Schema doesn't match field format
 SCHMA_CVT_CNT_DICT = {}  # Non-matching field converted to Schema Format
 SCHMA_NCVT_CNT_DICT = {}  # Non-matching field could NOT be converted to Schema Format
+SCHMA_BAD_KEY = {}
+SCHMA_FIXED_KEYS = {}
 SCHMA_SUMMARY = {}
 SCHMA_SUMMARY_COLS = ['Correct', 'Incorrect', 'Fixed', 'Not Fixed', '% Incorrect', '% Corrected']
 
@@ -50,6 +52,14 @@ BQ2PTYPE = {'RECORD': dict, 'INTEGER': int, 'STRING': unicode, 'FLOAT': float,
             'TIMESTAMP': unicode,
            }
 
+# Replace illegal characters in key field names
+# These characters are not accepted as BigQuery table field names and need to be fixed
+DASH = '-'
+PERIOD = '.'
+REPLACE = {DASH: '_',
+           PERIOD: '__'
+          }
+
 def cleanJSONline(d, schema_dict):
     """
     First, Delete keys with the value ``None`` in a dictionary, recursively.
@@ -59,6 +69,7 @@ def cleanJSONline(d, schema_dict):
 
     # d.iteritems isn't used as you can't del or the iterator breaks.
     for key, value in d.items():
+
         if value is None:
             del d[key]
 
@@ -82,6 +93,7 @@ def cleanJSONline(d, schema_dict):
 	    # If schema is specified, then attempt to convert incorrect fields into correct format
 	    if schema_dict is not None: 
 		    if key in schema_dict.keys():
+			
 			specified_type = BQ2PTYPE[schema_dict[key]]
 
 			# Mismatch identified
@@ -142,9 +154,40 @@ def cleanJSONline(d, schema_dict):
 				SCHMA_OK_CNT_DICT[key] = 1
 			    else:
 				SCHMA_OK_CNT_DICT[key] += 1
+		    else:
+
+	                if key not in SCHMA_BAD_KEY:
+	                    SCHMA_BAD_KEY[key] = 1
+		        else:
+	                    SCHMA_BAD_KEY[key] += 1
+
+
                     continue
     return d
 
+def checkIllegalKeys(d, fixkeys=True):
+
+    illegal_keys_exist = False
+
+    # Lastly, check for illegal characters in keys and replace
+    for key, value in d.items():
+        if DASH in key or PERIOD in key:
+            illegal_keys_exist = True
+	    illegal_key = key
+	    new_key = key.replace(DASH, REPLACE[DASH]).replace(PERIOD, REPLACE[PERIOD])
+	    if illegal_key not in SCHMA_BAD_KEY:
+	        SCHMA_BAD_KEY[illegal_key] = new_key
+	    if new_key not in SCHMA_FIXED_KEYS:
+	        SCHMA_FIXED_KEYS[new_key] = 1
+	    else:
+	        SCHMA_FIXED_KEYS[new_key] += 1
+
+    if illegal_keys_exist and fixkeys:
+        # Need to rebuild ordered dict
+        goodkeys = OrderedDict((SCHMA_BAD_KEY[k] if k in SCHMA_BAD_KEY else k, v) for k, v in d.iteritems())
+        return goodkeys
+    else:
+        return d
     
 def readSchema(schema_file=None, schema_name=None):
     
@@ -176,7 +219,8 @@ def writeJSONline(x, fileHandler, schema_dict):
         rec = x.to_json(orient="index", force_ascii=True)
         rec_json = json.loads(rec, object_pairs_hook=OrderedDict)
         rec_json_cleaned = cleanJSONline(rec_json, schema_dict)
-        fileHandler.write(json.dumps(rec_json_cleaned) + "\n")
+	rec_json_cleaned_verified_keys = checkIllegalKeys(rec_json_cleaned)
+        fileHandler.write(json.dumps(rec_json_cleaned_verified_keys) + "\n")
 
         # Print procesing Counter
         LINE_CNT = LINE_CNT + 1
@@ -207,7 +251,7 @@ def writeOutJSONfile(writeData, outputfilename, gzipOutput, schema_file=None, sc
 
 def printStats(x):
     
-    print "[main]: Field name: %s, Correct: %s, Incorrect: %s, Fixed: %s, Not Fixed: %s (%0.2f incorrect, %0.2f corrected)" % ( x['Field'], x['Correct'], x['Incorrect'], x['Fixed'], x['Not Fixed'], x['% Incorrect'], x['% Corrected'] )
+    print "[main]: Field name: %s, Correct: %s, Incorrect: %s, Fixed: %s, Not Fixed: %s (%0.2f %incorrect, %0.2f %corrected)" % ( x['Field'], x['Correct'], x['Incorrect'], x['Fixed'], x['Not Fixed'], x['% Incorrect'], x['% Corrected'] )
 
 
 def main():
@@ -299,6 +343,14 @@ def main():
 	# Sort by % not fixed to identify problem areas
 	SCHMA_SUMMARY.sort(['% Incorrect'], inplace=True, ascending=False)
 	SCHMA_SUMMARY.apply(printStats, axis=1)
+
+	# Print Bad Keys, if they exist
+	if SCHMA_BAD_KEY:
+	    for field in SCHMA_BAD_KEY:
+		if type(SCHMA_BAD_KEY[field]) is int:
+                    print "[main]: Bad Field name: %s, %s values ignored since does not exist in schema" % (field, SCHMA_BAD_KEY[field])
+		if type(SCHMA_BAD_KEY[field]) is unicode:
+                    print "[main]: Bad Field name: %s replaced with %s (Fixed %s occurrences)" % (field, SCHMA_BAD_KEY[field], SCHMA_FIXED_KEYS[SCHMA_BAD_KEY[field]])
 
         # Print Final Summary
         print "--------------------------------"
