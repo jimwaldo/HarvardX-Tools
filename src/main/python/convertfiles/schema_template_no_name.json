@@ -1,0 +1,27 @@
+[
+    {
+        "type": "STRING", 
+        "name": "string field name", 
+        "description": "string field description"
+    }, 
+    {
+        "type": "INTEGER", 
+        "name": "integer field name", 
+        "description": "integer field description"
+    }, 
+    {
+        "type": "TIMESTAMP", 
+        "name": "time stamp field name", 
+        "description": "timestamp field description"
+    }, 
+    {
+        "type": "BOOLEAN", 
+        "name": "boolean field name", 
+        "description": "boolean field description"
+    }, 
+    {
+        "type": "FLOAT", 
+        "name": "float field name", 
+        "description": "float field description"
+    }
+]
