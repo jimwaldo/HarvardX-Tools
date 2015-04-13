@@ -24,6 +24,7 @@ import json
 from collections import OrderedDict
 import argparse
 import sys
+import gzip
 
 # Maintain Stats
 LINE_CNT = 0
@@ -38,7 +39,11 @@ def checkJSON(inputFile, schemaFile, schemaName=None):
 	schema_dict = checkFormat.readSchema( path(schemaFile), schemaName )
 
 	# Read JSON file
-	fin = open(inputFile, 'r')
+	if inputFile.endswith(".gz"):
+		fin = gzip.open(inputFile, 'r')
+	else:
+		fin = open(inputFile, 'r')
+
 	for line in fin:
 		try:
 			json_rec = json.loads(line, object_pairs_hook=OrderedDict)
