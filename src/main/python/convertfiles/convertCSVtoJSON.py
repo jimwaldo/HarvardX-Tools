@@ -93,10 +93,12 @@ class convertCSVtoJSON(object):
 		self.total_pop_fields_incorrect = 0
 		self.total_pop_fields_corrected = 0
 		self.total_pop_fields_notcorrected = 0
+		self.total_pop_fields_bad = 0
 		self.pct_correct = 0
 		self.pct_incorrect = 0
 		self.pct_incorrect_fixed = 0
 		self.pct_incorrect_notfixed = 0
+		self.pct_bad_unknown = 0
 
 	def cleanJSONline(self, d, schema_dict, applySchema=True):
 		"""
@@ -344,11 +346,21 @@ class convertCSVtoJSON(object):
 		print "--------------------------------"
 		print "SUMMARY"
 		print "--------------------------------"
-		print "[main]: Finished writing JSON file %s with %s rows and %s fields max" % (self.outputfilename, self.rows, self.cols)
+		if self.outputfilename is not None and self.rows is not None and self.cols is not None:
+			print "[main]: Finished writing JSON file %s with %s rows and %s fields max" % (self.outputfilename, self.rows, self.cols)
+
+		print "[main]: Total Populated Fields = %s" % self.total_pop_fields
+		print "[main]: Total Populated Fields Correct = %s" % self.total_pop_fields_correct
+		print "[main]: Total Populated Fields Incorrect = %s" % self.total_pop_fields_incorrect
+		print "[main]: Total Populated Fields Corrected = %s" % self.total_pop_fields_corrected
+		print "[main]: Total Populated Fields Not Corrected = %s" % self.total_pop_fields_notcorrected
+		print "[main]: Total Populated Bad/Unknown Fields = %s" % self.total_pop_fields_bad
+
 		print "[main]: Pct Correct = %0.2f%%" % self.pct_correct
 		print "[main]: Pct InCorrect = %0.2f%%" % self.pct_incorrect
 		print "[main]: Pct InCorrect Fixed = %0.2f%%" % self.pct_incorrect_fixed
 		print "[main]: Pct InCorrect Not Fixed= %0.2f%%" % self.pct_incorrect_notfixed
+		print "[main]: Pct Bad/Unknown Fields Not Fixed = %0.2f%%" % self.pct_bad_unknown
 
 	def calculateOverallSummary(self):
 		"""
@@ -359,6 +371,7 @@ class convertCSVtoJSON(object):
 		self.pct_incorrect = float(float( self.total_pop_fields_incorrect) / float(self.total_pop_fields)) * 100.00 if self.total_pop_fields != 0 else 0.0
 		self.pct_incorrect_fixed = float( float(self.total_pop_fields_corrected) / float(self.total_pop_fields_incorrect) ) * 100.00 if self.total_pop_fields_incorrect != 0 else 0.0
 		self.pct_incorrect_notfixed = float( float(self.total_pop_fields_notcorrected) / float(self.total_pop_fields_incorrect) ) * 100.00 if self.total_pop_fields_incorrect != 0 else 0.0
+		self.pct_bad_unknown = float( float(self.total_pop_fields_bad) / float(self.total_pop_fields) ) * 100.00 if self.total_pop_fields != 0 else 0.0
 
 	def calculateSchemaStats(self):
 		"""
@@ -410,8 +423,10 @@ class convertCSVtoJSON(object):
 			for field in self.SCHMA_BAD_KEY:
 				if type(self.SCHMA_BAD_KEY[field]) is int:
 					print "[main]: Bad Field name: %s, %s values ignored since does not exist in schema" % (field, self.SCHMA_BAD_KEY[field])
+					self.total_pop_fields_bad = self.total_pop_fields_bad + self.SCHMA_BAD_KEY[field]
 				if type(self.SCHMA_BAD_KEY[field]) is unicode:
 					print "[main]: Bad Field name: %s replaced with %s (Fixed %s occurrences)" % (field, self.SCHMA_BAD_KEY[field], self.SCHMA_FIXED_KEYS[self.SCHMA_BAD_KEY[field]])
+					self.total_pop_fields_bad = self.total_pop_fields_bad + self.SCHMA_BAD_KEY[field]
 
 	def printSchemaStatsPerRow(self, row):
 		"""
