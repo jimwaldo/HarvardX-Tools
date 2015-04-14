@@ -40,6 +40,7 @@ from collections import OrderedDict
 from path import path
 import argparse
 import pandas as pd
+import re
 
 
 # List of supported file types
@@ -54,6 +55,9 @@ BQ2PTYPE = {'RECORD': dict, 'INTEGER': int, 'STRING': unicode, 'FLOAT': float,
 
 # Define Schema Stats
 SCHMA_SUMMARY_COLS = ['Correct', 'Incorrect', 'Fixed', 'Not Fixed', '% Incorrect', '% Corrected']
+
+SCHMA_KEY_IGNORE = {'i4x-': re.compile('^i4x.*'),
+		   }
 
 # Replace illegal characters in key field names
 # These characters are not accepted as BigQuery table field names and need to be fixed
@@ -83,8 +87,10 @@ class convertCSVtoJSON(object):
 		self.SCHMA_NOK_CNT_DICT = {}  # Schema doesn't match field format
 		self.SCHMA_CVT_CNT_DICT = {}  # Non-matching field converted to Schema Format
 		self.SCHMA_NCVT_CNT_DICT = {}  # Non-matching field could NOT be converted to Schema Format
-		self.SCHMA_BAD_KEY = {}
-		self.SCHMA_FIXED_KEYS = {}
+		self.SCHMA_BAD_KEY = {}        # Bad/Unknown Keys
+		self.SCHMA_FIXED_KEYS = {}     # Fixed Keys
+		self.SCHMA_IGNORE_KEYS = {}    # Ignored Keys
+		self.SCHMA_IGNORE_KEY_EXIST = {} # Ignored Key per Regular Expression
 		self.SCHMA_SUMMARY = pd.DataFrame( columns=SCHMA_SUMMARY_COLS  )
 
 		# Maintain Overall stats	
@@ -94,11 +100,13 @@ class convertCSVtoJSON(object):
 		self.total_pop_fields_corrected = 0
 		self.total_pop_fields_notcorrected = 0
 		self.total_pop_fields_bad = 0
+		self.total_pop_fields_ignore = 0
 		self.pct_correct = 0
 		self.pct_incorrect = 0
 		self.pct_incorrect_fixed = 0
 		self.pct_incorrect_notfixed = 0
 		self.pct_bad_unknown = 0
+		self.pct_ignored_keys = 0 
 
 	def cleanJSONline(self, d, schema_dict, applySchema=True):
 		"""
@@ -119,7 +127,7 @@ class convertCSVtoJSON(object):
 					self.NONE_CNT_DICT[key] += 1
 
 			elif isinstance(value, dict):
-				self.cleanJSONline(value, schema_dict)
+				self.cleanJSONline(value, schema_dict, applySchema=applySchema)
 
 			else:
 		
@@ -173,11 +181,34 @@ class convertCSVtoJSON(object):
 
 					# Key does not exist in defined schema 
 					else:
+						
+						# Check if this is a key to Ignore
+						for ignore_key in SCHMA_KEY_IGNORE:
+							m = SCHMA_KEY_IGNORE[ignore_key].match(key)
 
-						if key not in self.SCHMA_BAD_KEY:
-							self.SCHMA_BAD_KEY[key] = 1
-						else:
-							self.SCHMA_BAD_KEY[key] += 1
+							# If this is a key NOT to ignore, then this is a bad key
+							if not m:
+								#print "[main]: Bad/Unknown Field name: %s, %s values ignored since does not exist in schema" % (field, self.SCHMA_BAD_KEY[field])
+								if key not in self.SCHMA_BAD_KEY:
+									self.SCHMA_BAD_KEY[key] = 1
+								else:
+									self.SCHMA_BAD_KEY[key] += 1
+
+							# This is a key to ignore
+							else:
+								# Record count for each type of reg exp ignored
+								if ignore_key not in self.SCHMA_IGNORE_KEY_EXIST:
+									self.SCHMA_IGNORE_KEY_EXIST[ignore_key] = 1
+								else:
+									self.SCHMA_IGNORE_KEY_EXIST[ignore_key] += 1
+
+								# Record count for each unique ignored key
+								if key not in self.SCHMA_IGNORE_KEYS:
+									self.SCHMA_IGNORE_KEYS[key] = 1
+								else:
+									self.SCHMA_IGNORE_KEYS[key] += 1
+								break
+
 
 					continue
 		return d
@@ -219,13 +250,12 @@ class convertCSVtoJSON(object):
 			except:
 				raise
 
-		elif type(value) is float and specified_type is unicode:
+		elif (type(value) is float or type(value) is int) and specified_type is unicode:
 			try:
 				new_value = str(value)
 			
 			except:
 				raise
-			
 		else:
 			print "[applySchemaFormat]: Format not handled: value %s, spec_type %s" % (type(value), specified_type)
 			raise
@@ -355,12 +385,14 @@ class convertCSVtoJSON(object):
 		print "[main]: Total Populated Fields Corrected = %s" % self.total_pop_fields_corrected
 		print "[main]: Total Populated Fields Not Corrected = %s" % self.total_pop_fields_notcorrected
 		print "[main]: Total Populated Bad/Unknown Fields = %s" % self.total_pop_fields_bad
+		print "[main]: Total Populated Ignored Fields = %s" % self.total_pop_fields_ignore
 
-		print "[main]: Pct Correct = %0.2f%%" % self.pct_correct
-		print "[main]: Pct InCorrect = %0.2f%%" % self.pct_incorrect
-		print "[main]: Pct InCorrect Fixed = %0.2f%%" % self.pct_incorrect_fixed
-		print "[main]: Pct InCorrect Not Fixed= %0.2f%%" % self.pct_incorrect_notfixed
-		print "[main]: Pct Bad/Unknown Fields Not Fixed = %0.2f%%" % self.pct_bad_unknown
+		print "[main]: Pct Correct = %0.3f%%" % self.pct_correct
+		print "[main]: Pct InCorrect = %0.3f%%" % self.pct_incorrect
+		print "[main]: Pct InCorrect Fixed = %0.3f%%" % self.pct_incorrect_fixed
+		print "[main]: Pct InCorrect Not Fixed= %0.3f%%" % self.pct_incorrect_notfixed
+		print "[main]: Pct Bad/Unknown Fields Not Fixed = %0.3f%%" % self.pct_bad_unknown
+		print "[main]: Pct Ignored Fields = %0.3f%%" % self.pct_ignored_keys
 
 	def calculateOverallSummary(self):
 		"""
@@ -372,6 +404,7 @@ class convertCSVtoJSON(object):
 		self.pct_incorrect_fixed = float( float(self.total_pop_fields_corrected) / float(self.total_pop_fields_incorrect) ) * 100.00 if self.total_pop_fields_incorrect != 0 else 0.0
 		self.pct_incorrect_notfixed = float( float(self.total_pop_fields_notcorrected) / float(self.total_pop_fields_incorrect) ) * 100.00 if self.total_pop_fields_incorrect != 0 else 0.0
 		self.pct_bad_unknown = float( float(self.total_pop_fields_bad) / float(self.total_pop_fields) ) * 100.00 if self.total_pop_fields != 0 else 0.0
+		self.pct_ignored_keys = float(float(self.total_pop_fields_ignore) / float(self.total_pop_fields) ) * 100.00 if self.total_pop_fields != 0 else 0.0
 
 	def calculateSchemaStats(self):
 		"""
@@ -380,22 +413,29 @@ class convertCSVtoJSON(object):
 
 		if self.VALUE_CNT_DICT:
 			for field in sorted(self.VALUE_CNT_DICT, key=self.VALUE_CNT_DICT.get, reverse=True):
+
+				# Get Populated field counts from dictionaries
 				total_pop_fields = self.VALUE_CNT_DICT.get(field, 0) 	           # VALUE_CNT_DICT[field]
 				total_pop_fields_correct = self.SCHMA_OK_CNT_DICT.get(field, 0)         # SCHMA_OK_CNT_DICT[field]
 				total_pop_fields_incorrect = self.SCHMA_NOK_CNT_DICT.get(field, 0)      # SCHMA_NOK_CNT_DICT[field]
 				total_pop_fields_corrected = self.SCHMA_CVT_CNT_DICT.get(field, 0)      # SCHMA_CVT_CNT_DICT[field]
 				total_pop_fields_notcorrected = self.SCHMA_NCVT_CNT_DICT.get(field, 0)  # SCHMA_NCVT_CNT_DICT[field]
-				pct_correct = float(float(total_pop_fields_correct) / float(total_pop_fields)) * 100.00 if total_pop_fields != 0 else 0.0
-				pct_incorrect = float(float( total_pop_fields_incorrect) / float(total_pop_fields)) * 100.00 if total_pop_fields != 0 else 0.0
-				pct_incorrect_fixed = float( float(total_pop_fields_corrected) / float(total_pop_fields_incorrect) ) * 100.00 if total_pop_fields_incorrect != 0 else 0.0
-				pct_incorrect_notfixed = float( float(total_pop_fields_notcorrected) / float(total_pop_fields_incorrect) ) * 100.00 if total_pop_fields_incorrect != 0 else 0.0
-				self.SCHMA_SUMMARY.ix[field, 'Field'] = field
-				self.SCHMA_SUMMARY.ix[field, 'Correct'] = total_pop_fields_correct
-				self.SCHMA_SUMMARY.ix[field, 'Incorrect'] = total_pop_fields_incorrect
-				self.SCHMA_SUMMARY.ix[field, 'Fixed'] = total_pop_fields_corrected
-				self.SCHMA_SUMMARY.ix[field, 'Not Fixed'] = total_pop_fields_notcorrected
-				self.SCHMA_SUMMARY.ix[field, '% Incorrect'] = pct_incorrect
-				self.SCHMA_SUMMARY.ix[field, '% Corrected'] = pct_incorrect_fixed
+
+				# If not in Ignore Field Dictory and not in Bad key Dict, then calc stats
+				if field not in self.SCHMA_IGNORE_KEYS and field not in self.SCHMA_BAD_KEY:
+
+
+					pct_correct = float(float(total_pop_fields_correct) / float(total_pop_fields)) * 100.00 if total_pop_fields != 0 else 0.0
+					pct_incorrect = float(float( total_pop_fields_incorrect) / float(total_pop_fields)) * 100.00 if total_pop_fields != 0 else 0.0
+					pct_incorrect_fixed = float( float(total_pop_fields_corrected) / float(total_pop_fields_incorrect) ) * 100.00 if total_pop_fields_incorrect != 0 else 0.0
+					pct_incorrect_notfixed = float( float(total_pop_fields_notcorrected) / float(total_pop_fields_incorrect) ) * 100.00 if total_pop_fields_incorrect != 0 else 0.0
+					self.SCHMA_SUMMARY.ix[field, 'Field'] = field
+					self.SCHMA_SUMMARY.ix[field, 'Correct'] = total_pop_fields_correct
+					self.SCHMA_SUMMARY.ix[field, 'Incorrect'] = total_pop_fields_incorrect
+					self.SCHMA_SUMMARY.ix[field, 'Fixed'] = total_pop_fields_corrected
+					self.SCHMA_SUMMARY.ix[field, 'Not Fixed'] = total_pop_fields_notcorrected
+					self.SCHMA_SUMMARY.ix[field, '% Incorrect'] = pct_incorrect
+					self.SCHMA_SUMMARY.ix[field, '% Corrected'] = pct_incorrect_fixed
 
 				# Maintain overall count
 				self.total_pop_fields = self.total_pop_fields + total_pop_fields
@@ -422,18 +462,27 @@ class convertCSVtoJSON(object):
 		if self.SCHMA_BAD_KEY:
 			for field in self.SCHMA_BAD_KEY:
 				if type(self.SCHMA_BAD_KEY[field]) is int:
-					print "[main]: Bad Field name: %s, %s values ignored since does not exist in schema" % (field, self.SCHMA_BAD_KEY[field])
+
+					print "[main]: Bad/Unknown Field name: %s, %s values ignored since does not exist in schema" % (field, self.SCHMA_BAD_KEY[field])
 					self.total_pop_fields_bad = self.total_pop_fields_bad + self.SCHMA_BAD_KEY[field]
+
 				if type(self.SCHMA_BAD_KEY[field]) is unicode:
-					print "[main]: Bad Field name: %s replaced with %s (Fixed %s occurrences)" % (field, self.SCHMA_BAD_KEY[field], self.SCHMA_FIXED_KEYS[self.SCHMA_BAD_KEY[field]])
+
+					print "[main]: Bad/Unknown Field name: %s replaced with %s (Fixed %s occurrences)" % (field, self.SCHMA_BAD_KEY[field], self.SCHMA_FIXED_KEYS[self.SCHMA_BAD_KEY[field]])
 					self.total_pop_fields_bad = self.total_pop_fields_bad + self.SCHMA_BAD_KEY[field]
+		
+		if self.SCHMA_IGNORE_KEY_EXIST:
+			for ignore_key in self.SCHMA_IGNORE_KEY_EXIST:
+				print "[main]: Ignored fields that match regex %s, (%s occurrences)" % (SCHMA_KEY_IGNORE[ignore_key].pattern, self.SCHMA_IGNORE_KEY_EXIST[ignore_key] )
+				self.total_pop_fields_ignore = self.total_pop_fields_ignore + self.SCHMA_IGNORE_KEY_EXIST[ignore_key]
+		
 
 	def printSchemaStatsPerRow(self, row):
 		"""
 		Help function to print stats for each field
 		"""
 	    
-		print "[main]: Field name: %s, Correct: %s, Incorrect: %s, Fixed: %s, Not Fixed: %s (%0.2f%% incorrect, %0.2f%% corrected)" % ( row['Field'], row['Correct'], row['Incorrect'], row['Fixed'], row['Not Fixed'], row['% Incorrect'], row['% Corrected'] )
+		print "[main]: Known Field name: %s, Correct: %s, Incorrect: %s, Fixed: %s, Not Fixed: %s (%0.2f%% incorrect, %0.2f%% corrected)" % ( row['Field'], row['Correct'], row['Incorrect'], row['Fixed'], row['Not Fixed'], row['% Incorrect'], row['% Corrected'] )
 
 
 def main():
