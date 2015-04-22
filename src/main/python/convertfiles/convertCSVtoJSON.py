@@ -41,6 +41,8 @@ from path import path
 import argparse
 import pandas as pd
 import re
+import copy
+import ast
 
 
 # List of supported file types
@@ -52,11 +54,15 @@ BQ2PTYPE = {'RECORD': dict, 'INTEGER': int, 'STRING': unicode, 'FLOAT': float,
             'BOOLEAN': int,
             'TIMESTAMP': unicode,
            }
+TYPE_RECORD = 'RECORD'
 
 # Define Schema Stats
 SCHMA_SUMMARY_COLS = ['Correct', 'Incorrect', 'Fixed', 'Not Fixed', '% Incorrect', '% Corrected']
 
 SCHMA_KEY_IGNORE = {'i4x-': re.compile('^i4x.*'),
+		    'input_i4x': re.compile('^input_i4x.*'),
+		    'submission': re.compile('{"submission":.*'),
+		    'options_selected': re.compile('{"options_selected":.*')
 		   }
 
 # Replace illegal characters in key field names
@@ -117,102 +123,201 @@ class convertCSVtoJSON(object):
 		# d.iteritems isn't used as you can't del or the iterator breaks.
 		for key, value in d.items():
 
+			if type(value) is unicode:
+				try:	
+					value = ast.literal_eval(value)
+				except:	
+					pass
+
+			if type(key) is unicode:
+				try:	
+					key = ast.literal_eval(key)
+				except:	
+					pass
+				
 			if value is None:
 				del d[key]
 
 				# Record for stats
-				if key not in self.NONE_CNT_DICT:
-					self.NONE_CNT_DICT[key] = 1            
-				else:
-					self.NONE_CNT_DICT[key] += 1
+				self.__addNoneDict__(key)
 
 			elif isinstance(value, dict):
-				self.cleanJSONline(value, schema_dict, applySchema=applySchema)
 
+				try:
+					if key in schema_dict:
+						
+						# Pass dictionary value recursively until root is found
+						self.cleanJSONline(value, schema_dict[key], applySchema=applySchema)
+						
+						# Record value for stats
+						self.__addValueDict__(key)
+					else:
+						# Value is a dictionary, but key is not, so root found and schema should be checked
+						self.checkSchemaFormat(key, value, schema_dict, applySchema=applySchema)
+
+						# Record value for stats
+						self.__addValueDict__(key)
+				except:
+					print "eerror: value=%s, key=%s, schema=%s" % (value, key, schema_dict)
+					raise
+					continue
+
+			# Root found
 			else:
 		
 				# Record stats for populated field
-				if key not in self.VALUE_CNT_DICT:
-					self.VALUE_CNT_DICT[key] = 1
-				else:
-					self.VALUE_CNT_DICT[key] += 1
+				self.__addValueDict__(key)
 
 				# If schema is specified, then attempt to convert incorrect fields into correct format
 				if schema_dict is not None: 
-					if key in schema_dict.keys():
-	
-						specified_type = BQ2PTYPE[schema_dict[key]]
 
-						# Mismatch identified
-						if type(value) in [float, int, unicode] and type(value) != specified_type:
+					new_value = self.checkSchemaFormat(key, value, schema_dict, applySchema=applySchema)
 				
-							# Record stats for populated field with incorrect format
-							if key not in self.SCHMA_NOK_CNT_DICT:
-								self.SCHMA_NOK_CNT_DICT[key] = 1
-							else:
-								self.SCHMA_NOK_CNT_DICT[key] += 1
-		      
-							# Attempt to convert incorrect fields according to specified schema
-							if applySchema:
-								try:
-									d[key] = self.applySchemaFormat(value, specified_type)
-									# Record stats for populated field wit incorrect format and successfully converted field
-									if key not in self.SCHMA_CVT_CNT_DICT:
-										self.SCHMA_CVT_CNT_DICT[key] = 1
-									else:
-										self.SCHMA_CVT_CNT_DICT[key] += 1
-								except:
-
-									# Record stats for populated field wit incorrect format and unconverted field
-									if key not in self.SCHMA_NCVT_CNT_DICT:
-										self.SCHMA_NCVT_CNT_DICT[key] = 1
-									else:
-										self.SCHMA_NCVT_CNT_DICT[key] += 1
-
-									continue
-
-						# Schema and current field format matches
-						else:
-
-							if key not in self.SCHMA_OK_CNT_DICT:
-								self.SCHMA_OK_CNT_DICT[key] = 1
-							else:
-								self.SCHMA_OK_CNT_DICT[key] += 1
-
-					# Key does not exist in defined schema 
-					else:
-						
-						# Check if this is a key to Ignore
-						for ignore_key in SCHMA_KEY_IGNORE:
-							m = SCHMA_KEY_IGNORE[ignore_key].match(key)
-
-							# If this is a key NOT to ignore, then this is a bad key
-							if not m:
-								#print "[main]: Bad/Unknown Field name: %s, %s values ignored since does not exist in schema" % (field, self.SCHMA_BAD_KEY[field])
-								if key not in self.SCHMA_BAD_KEY:
-									self.SCHMA_BAD_KEY[key] = 1
-								else:
-									self.SCHMA_BAD_KEY[key] += 1
-
-							# This is a key to ignore
-							else:
-								# Record count for each type of reg exp ignored
-								if ignore_key not in self.SCHMA_IGNORE_KEY_EXIST:
-									self.SCHMA_IGNORE_KEY_EXIST[ignore_key] = 1
-								else:
-									self.SCHMA_IGNORE_KEY_EXIST[ignore_key] += 1
-
-								# Record count for each unique ignored key
-								if key not in self.SCHMA_IGNORE_KEYS:
-									self.SCHMA_IGNORE_KEYS[key] = 1
-								else:
-									self.SCHMA_IGNORE_KEYS[key] += 1
-								break
-
-
-					continue
+					# Apply schema and assign to existing value, if specified
+					if new_value is not None:
+						d[key] = new_value
 		return d
 
+	def checkSchemaFormat(self, key, value, schema_dict, applySchema):
+		"""
+		Check schema format according to schema dictionary, if provided, then optionally correct
+		"""
+
+		if key in schema_dict:
+
+			try:
+				specified_type = BQ2PTYPE[schema_dict[key]]
+			except:
+				specified_type = schema_dict
+
+		# Key does not exist in defined schema 
+		else:
+
+			self.__addBadIgnoreKeys__(key)
+			return
+
+		# Mismatch identified
+		if type(value) in [float, int, unicode] and type(value) != specified_type:
+
+			# Record stats for populated field with incorrect format
+			self.__addValueNotOkDict__(key)
+
+			# Attempt to convert incorrect fields according to specified schema
+			if applySchema:
+				try:
+					new_value = self.applySchemaFormat(value, specified_type)
+					# Record stats for populated field wit incorrect format and successfully converted field
+					self.__addConvertedDict__(key)
+					return new_value
+					
+				except:
+
+					# Record stats for populated field wit incorrect format and unconverted field
+					self.__addNotConvertedDict__(key)
+
+					return
+
+		# Schema and current field format matches
+		else:
+
+			self.__addValueOkDict__(key)
+
+		return
+
+	def __addConvertedDict__(self, key):
+		"""
+		Add provided key to the Converted success dict, for summary stats
+		"""
+		if key not in self.SCHMA_CVT_CNT_DICT:
+			self.SCHMA_CVT_CNT_DICT[key] = 1
+		else:
+			self.SCHMA_CVT_CNT_DICT[key] += 1
+
+	def __addNotConvertedDict__(self, key):
+		"""
+		Add provided key to the Conversion failure dict, for summary stats
+		"""
+		if key not in self.SCHMA_NCVT_CNT_DICT:
+			self.SCHMA_NCVT_CNT_DICT[key] = 1
+		else:
+			self.SCHMA_NCVT_CNT_DICT[key] += 1
+
+	def __addValueOkDict__(self, key):
+		"""
+		Add provided key to the Value Schema OK dict, for summary stats
+		"""
+		if key not in self.SCHMA_OK_CNT_DICT:
+			self.SCHMA_OK_CNT_DICT[key] = 1
+		else:
+			self.SCHMA_OK_CNT_DICT[key] += 1
+
+	def __addValueNotOkDict__(self, key):
+		"""
+		Add provided key to the Value Schema mismatch dict, for summary stats
+		"""
+		if key not in self.SCHMA_NOK_CNT_DICT:
+			self.SCHMA_NOK_CNT_DICT[key] = 1
+		else:
+			self.SCHMA_NOK_CNT_DICT[key] += 1
+
+	def __addValueDict__(self, key):
+		"""
+		Add provided key to the populated value dictionary, for summary stats
+		"""
+
+		# Record stats for populated field
+		if key not in self.VALUE_CNT_DICT:
+			self.VALUE_CNT_DICT[key] = 1
+		else:
+			self.VALUE_CNT_DICT[key] += 1
+
+	def __addNoneDict__(self, key):
+		"""
+		Add provided key to None Dictionary for summary statistics
+		"""
+
+		# Record for stats
+		if key not in self.NONE_CNT_DICT:
+			self.NONE_CNT_DICT[key] = 1            
+		else:
+			self.NONE_CNT_DICT[key] += 1
+
+	def __addBadIgnoreKeys__(self, key):
+		"""
+		Determine if provided key should be ignored based on ignore dictionary
+		"""
+		keyIgnored = False
+		# Check if this is a key to Ignore
+		for ignore_key in SCHMA_KEY_IGNORE:
+			m = SCHMA_KEY_IGNORE[ignore_key].match(key)
+
+			# This is a key to ignore
+			if m:
+				#print "key %s ignored" % key
+				keyIgnored = True
+				# Record count for each type of reg exp ignored
+				if ignore_key not in self.SCHMA_IGNORE_KEY_EXIST:
+					self.SCHMA_IGNORE_KEY_EXIST[ignore_key] = 1
+				else:
+					self.SCHMA_IGNORE_KEY_EXIST[ignore_key] += 1
+
+				# Record count for each unique ignored key
+				if key not in self.SCHMA_IGNORE_KEYS:
+					self.SCHMA_IGNORE_KEYS[key] = 1
+				else:
+					self.SCHMA_IGNORE_KEYS[key] += 1
+				break
+
+		# If this is a key NOT to ignore, then this is a bad key
+		if not keyIgnored:
+			#print "bad key %s " % key
+
+			if key not in self.SCHMA_BAD_KEY:
+				self.SCHMA_BAD_KEY[key] = 1
+			else:
+				self.SCHMA_BAD_KEY[key] += 1
+
+		return keyIgnored
 
 	def applySchemaFormat(self, value, specified_type):
 		"""
@@ -220,6 +325,7 @@ class convertCSVtoJSON(object):
 		and then an attempt to convert will be performed. If successful, return value and assign it. Otherwise,
 		raise an error
 		"""
+		new_value = None
 		if type(value) is float and specified_type is int:
 
 			try:
@@ -290,17 +396,24 @@ class convertCSVtoJSON(object):
 			return d
 			    
 	def readSchema(self, schema_file=None, schema_name=None):
-		'''
+		"""	
 		Function will read the specified schema and will be used for comparing each json key/value pair
-		'''
+		"""
 		if schema_name is None:
 			schema = json.loads(open(schema_file).read())
 		else:
 			schema = json.loads(open(schema_file).read())[schema_name]
 
-		schema_dict = OrderedDict()
-		for keys in schema:
-			schema_dict[keys.get('name', None)] = keys.get('type', None)
+		def schemaDict(input_schema):
+			schema_dict = OrderedDict()
+			schema = copy.deepcopy(input_schema)
+			for keys in schema:
+				schema_dict[keys.get('name', None)] = keys.get('type', None)
+				if keys['type'] == TYPE_RECORD:
+					#schema_dict['dict_schema'] = schemaDict(keys['fields'])
+					schema_dict[keys.get('name', None)] = schemaDict(keys['fields'])
+			return schema_dict
+		schema_dict = schemaDict(schema)
 
 		print "--------------------------------"
 		print "SCHEMA SPECIFIED"
@@ -330,6 +443,7 @@ class convertCSVtoJSON(object):
 				sys.stdout.flush()
 		except:
 			print "[main]: Error writing json line %s\n" % rec
+			raise
 			pass 
 
 	def writeOutJSONfile(self, writeData, outputfilename, gzipOutput, schema_file=None, schema_name=None):
@@ -366,7 +480,10 @@ class convertCSVtoJSON(object):
 		print "--------------------------------"
 		if self.VALUE_CNT_DICT:
 			for field in sorted(self.VALUE_CNT_DICT, key=self.VALUE_CNT_DICT.get, reverse=True):
-				print "[main]: Field name: %s, Value count: %s" % (field, self.VALUE_CNT_DICT[field])
+
+				# Do not print Ignore Keys (there will be lots)
+				if field not in self.SCHMA_IGNORE_KEYS:
+					print "[main]: Field name: %s, Value count: %s" % (field, self.VALUE_CNT_DICT[field])
 
 	def printOverallSummary(self):
 		"""
