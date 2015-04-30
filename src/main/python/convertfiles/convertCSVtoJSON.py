@@ -586,7 +586,7 @@ class convertCSVtoJSON(object):
 				if type(self.SCHMA_BAD_KEY[field]) is unicode:
 
 					print "[main]: Bad/Unknown Field name: %s replaced with %s (Fixed %s occurrences)" % (field, self.SCHMA_BAD_KEY[field], self.SCHMA_FIXED_KEYS[self.SCHMA_BAD_KEY[field]])
-					self.total_pop_fields_bad = self.total_pop_fields_bad + self.SCHMA_BAD_KEY[field]
+					self.total_pop_fields_bad = self.total_pop_fields_bad + self.SCHMA_FIXED_KEYS[self.SCHMA_BAD_KEY[field]]
 		
 		if self.SCHMA_IGNORE_KEY_EXIST:
 			for ignore_key in self.SCHMA_IGNORE_KEY_EXIST:
