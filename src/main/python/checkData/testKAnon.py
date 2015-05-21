@@ -19,7 +19,7 @@ Created on May 28, 2014
 @author: waldo
 """
 import operator
-import csv
+import csv, sys
 import utils
 def buildKey(ids, dataLine):
     """
@@ -70,11 +70,19 @@ if __name__ == '__main__':
     linked to external properties is hard-coded at the moment; it would be good to have a more
     flexible mechanism for this but finding one that is not error prone is difficult.
 
+    The id fields that could connect to the outside are 0 -> course_id, 6 -> final_cc_cname,
+    7 -> LoE, 8 -> YoB, 9 -> gender, and 17 -> nforum_posts]
     """
     idFields = [0,6,7,8,9,17]
-    fname = utils.getFileName('data file to test')
-    kanon = utils.getIntVal('Enter value of k to test : ')
-    full = utils.getStringVal('Enter s for summary, f for full report : ', ['s', 'f'])
+    if len(sys.argv) < 4:
+        fname = utils.getFileName('data file to test')
+        kanon = utils.getIntVal('Enter value of k to test : ')
+        full = utils.getStringVal('Enter s for summary, f for full report : ', ['s', 'f'])
+    else:
+        fname = sys.argv[1]
+        kanon = int(sys.argv[2])
+        full = sys.argv[3]
+        
     fin = open(fname, 'rU')
     fread = csv.reader(fin)
     
