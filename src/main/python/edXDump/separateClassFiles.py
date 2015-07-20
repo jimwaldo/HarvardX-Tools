@@ -85,10 +85,11 @@ if __name__ == '__main__':
             moveFiles(c, flist)
             
     convertList = glob.glob('*/*.sql')
+    gzipCompress = True
     for c in convertList:
         print 'Converting file', c
         toBuild = c[:-3] + 'csv'
-        conv.convertFile(c, toBuild)
+        conv.convertFile(c, toBuild, gzipCompress)
         
         
  

@@ -12,10 +12,17 @@ Created on Apr 7, 2013
 
 import sys
 import csv
+import os
+import gzip
 
-def convertFile(fileNameIn, fileNameOut):
+def convertFile(fileNameIn, fileNameOut, gzipCompress=False):
+
     f1 = open(fileNameIn, 'r')
-    f2 = open(fileNameOut, 'w')
+    if gzipCompress:
+       fileNameOut = fileNameOut + ".gz"
+       f2 = gzip.GzipFile(fileNameOut, 'w') 
+    else:
+       f2 = open(fileNameOut, 'w')
     f3 = csv.writer(f2)
     
     for line in f1:
@@ -23,12 +30,19 @@ def convertFile(fileNameIn, fileNameOut):
     
     f1.close()
     f2.close()
+
+def compressFile( fileToCompress ):
+
+    cmd = "gzip %s -9" % fileToCompress
+    os.system(cmd)
     
 if __name__ == '__main__':
-    if (len(sys.argv) < 3):
-        print ('Usage: sqltocsv.py file1 file2 where')
+    if (len(sys.argv) < 4):
+        print ('Usage: sqltocsv.py file1 file2 gzip where')
         print ('file1 is an existing .sql file from edx and')
         print ('file2 is the name of the .csv file to produce')
+        print ('gzip is whether the .csv should be compressed')
     
-    convertFile(sys.argv[1], sys.argv[2])
+    convertFile( sys.argv[1], sys.argv[2], sys.argv[3] )
+
     
