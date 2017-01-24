@@ -46,6 +46,8 @@ def reduceName(flist):
             preSlice = 26
         elif 'HarvardUniversityResearchX-' in f:
             preSlice = 27
+        elif 'HarvardXPLUS-' in f:
+            preSlice = 13
         else:
             preSlice = 0
         cname = f[preSlice:postSlice]
